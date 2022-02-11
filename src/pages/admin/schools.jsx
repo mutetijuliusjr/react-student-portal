@@ -71,12 +71,12 @@ export default () => {
         <List mediaList className={`search-list`}>
             {schools.map( (school) => 
                 <ListItem
-                    link="#"    
+                    link="/school/"    
                     key={school.id}
                     title={school.name}
                     subtitle={`Departments ${school.department_count}`}
                     text={school.description}
-                    popupOpen='#demo'
+                    //popupOpen='#demo'
                 >
                     <Icon size="40px" slot="media" color="purple">
                         <FaBuilding />

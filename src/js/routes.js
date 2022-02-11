@@ -8,6 +8,7 @@ import SettingsPage from '../pages/settings.jsx';
 
 import AdminHomePage from '../pages/admin/home.jsx';
 import SchoolsPage from '../pages/admin/schools.jsx';
+import SchoolPage from '../pages/admin/school.jsx';
 import DepartmentsPage from '../pages/admin/departments.jsx';
 import CoursesPage from '../pages/admin/courses.jsx';
 import SemestersPage from '../pages/admin/semesters.jsx';
@@ -48,6 +49,10 @@ var routes = [
   {
     path: '/admin/',
     component: AdminHomePage,
+  },
+  {
+    path: '/school/',
+    component: SchoolPage,
   },
   {
     path: '/schools/',
