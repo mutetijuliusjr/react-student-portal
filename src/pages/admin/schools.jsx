@@ -1,83 +1,91 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FaSearch, FaBuilding, FaTimesCircle, FaEdit, FaDumpster, FaTag, FaAsterisk, FaEnvelope, FaLink, FaPhoneAlt, FaMale, FaCalendar, FaBirthdayCake, FaClock, FaParagraph } from 'react-icons/fa';
 import {
   f7,
   Page,
   Popup,
-  Navbar,
-  NavLeft,
-  NavTitle,
-  NavTitleLarge,
-  NavRight,
   Menu,
   MenuItem,
-  Toolbar,
+  Navbar,
+  NavRight,
   Block,
+  Button,
   BlockTitle,
   Icon,
   List,
   Link,
   ListItem,
   ListInput,
+  SkeletonBlock,
   Searchbar,
-  Segmented,
   Subnavbar,
   Row,
-  Col,
-  Button,
-  Card,
-  f7ready
+  theme
 } from 'framework7-react';
 
-const schools= [
-    {'id': '1', 'name': 'test school 1', 'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', 'department_count': '2'},
-    {'id': '2', 'name': 'test school 2', 'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', 'department_count': '4'},
-    {'id': '3', 'name': 'test school 3', 'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', 'department_count': '5'},
-    {'id': '4', 'name': 'test school 4', 'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', 'department_count': '2'},
-    {'id': '5', 'name': 'test school 5', 'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', 'department_count': '1'},
-    {'id': '6', 'name': 'test school 6', 'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', 'department_count': '6'},
-];
+export default () => {
+  const [loading, setLoading] = useState(true);
 
-const SchoolsPage = () => (
-  <Page name="schools">
+  const load = () => {
+    if (loading) return
+        setLoading(true)
+        setTimeout(() => {
+        setLoading(false)
+        }, 3000)
+  }
+
+  const schools= [
+    {'id': '1', 'name': 'Test School 1', 'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', 'department_count': '2'},
+    {'id': '2', 'name': 'Test School 2', 'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', 'department_count': '4'},
+    {'id': '3', 'name': 'Test School 3', 'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', 'department_count': '5'},
+    {'id': '4', 'name': 'Test School 4', 'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', 'department_count': '2'},
+    {'id': '5', 'name': 'Test School 5', 'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', 'department_count': '1'},
+    {'id': '6', 'name': 'Test School 6', 'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', 'department_count': '6'},
+  ];
+
+  return (
+    
+      
+    <Page pageAfterIn={setTimeout(() => {setLoading(false)}, 3000)}>
     {/* Top Navbar */}
-    <Navbar backLink="Back" sliding={false} title="Schools">
-        <NavRight>
-            <Link searchbarEnable=".searchbar-demo">
-                <FaSearch />
-            </Link>
-        </NavRight>
-        <Searchbar
-            className="searchbar-demo"
-            expandable
-            searchContainer=".search-list"
-            searchIn=".title"
-        ></Searchbar>
-    </Navbar>
+      <Navbar backLink="Back" sliding={false} title="Schools" />
 
-    {/* Page content */}
+      {loading ? (
+        <List mediaList v-if="loading">
+          {[1, 2, 3, 4, 5, 6, 7].map((n) => (
+            <ListItem
+              key={n}
+              className={`skeleton-text skeleton-effect-wave`}
+              title="Full Name"
+              subtitle="Position"
+              text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lobortis et massa ac interdum. Cras consequat felis at consequat hendrerit. Aliquam vestibulum vitae lorem ac iaculis. Praesent nec pharetra massa, at blandit lectus. Sed tincidunt, lectus eu convallis elementum, nibh nisi aliquet urna, nec imperdiet felis sapien at enim."
+            >
+              <SkeletonBlock
+                style={{ width: '40px', height: '40px', borderRadius: '50%' }}
+                slot="media"
+              />
+            </ListItem>
+          ))}
+        </List>
+      ) : (
+        <List mediaList className={`search-list`}>
+            {schools.map( (school) => 
+                <ListItem
+                    link="#"    
+                    key={school.id}
+                    title={school.name}
+                    subtitle={`Departments ${school.department_count}`}
+                    text={school.description}
+                    popupOpen='#demo'
+                >
+                    <Icon size="40px" slot="media" color="purple">
+                        <FaBuilding />
+                    </Icon>
+                </ListItem>
+            )}
+        </List>
+      )}
 
-    <List className="searchbar-not-found">
-      <ListItem title="Nothing found" />
-    </List>
-    <List className="search-list searchbar-found">
-    
-    {schools.map(school => (
-        <ListItem key={school.id} 
-                  link="#" title={school.name} 
-                  badgeColor="purple" 
-                  badge={school.department_count +' dept(s)'}
-                  style={{textTransform:'capitalize'}}
-                  popupOpen='#demo'
-        >
-            <Icon slot="media" color="purple">
-                <FaBuilding />
-            </Icon>
-        </ListItem>
-    ))}
-
-    </List>
-    
     <Popup id="demo" className="demo-popup-swipe" swipeToClose>
         <Page>
             <Navbar title="Title" style={{textTransform:'capitalize'}}>
@@ -261,6 +269,9 @@ const SchoolsPage = () => (
         </Page>
     </Popup>
     
-  </Page>
-);
-export default SchoolsPage;
+
+    </Page>
+      
+    
+  );
+};
