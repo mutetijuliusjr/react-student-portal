@@ -9,9 +9,13 @@ import SettingsPage from '../pages/settings.jsx';
 import AdminHomePage from '../pages/admin/home.jsx';
 import SchoolsPage from '../pages/admin/schools.jsx';
 import SchoolPage from '../pages/admin/school.jsx';
+import DepartmentPage from '../pages/admin/department.jsx';
 import DepartmentsPage from '../pages/admin/departments.jsx';
+import CoursePage from '../pages/admin/course.jsx';
 import CoursesPage from '../pages/admin/courses.jsx';
+import SemesterPage from '../pages/admin/semester.jsx';
 import SemestersPage from '../pages/admin/semesters.jsx';
+import UnitPage from '../pages/admin/unit.jsx';
 import UnitsPage from '../pages/admin/units.jsx';
 
 import UsersPage from '../pages/admin/users.jsx';
@@ -63,16 +67,36 @@ var routes = [
     component: DepartmentsPage,
   },
   {
+    path: '/department/',
+    component: DepartmentPage,
+  },
+  {
+    path: '/course/',
+    component: CoursePage,
+  },
+  {
     path: '/courses/',
     component: CoursesPage,
+  },
+  {
+    path: '/semester/',
+    component: SemesterPage,
   },
   {
     path: '/semesters/',
     component: SemestersPage,
   },
   {
+    path: '/unit/',
+    component: UnitPage,
+  },
+  {
     path: '/units/',
     component: UnitsPage,
+  },
+  {
+    path: '/user/',
+    component: UserPage,
   },
   {
     path: '/users/',
