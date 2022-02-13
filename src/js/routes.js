@@ -19,6 +19,7 @@ import UnitPage from '../pages/admin/unit.jsx';
 import UnitsPage from '../pages/admin/units.jsx';
 
 import UsersPage from '../pages/admin/users.jsx';
+import UserPage from '../pages/admin/user.jsx';
 import RolesPage from '../pages/admin/roles.jsx';
 
 import TestPage from '../pages/test.jsx';
@@ -55,7 +56,7 @@ var routes = [
     component: AdminHomePage,
   },
   {
-    path: '/school/',
+    path: '/school/:id',
     component: SchoolPage,
   },
   {
