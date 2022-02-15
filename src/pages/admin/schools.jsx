@@ -23,47 +23,16 @@ import {
   theme
 } from 'framework7-react';
 
-//import { async } from 'rxjs';
-
 import { useSelector, useDispatch } from 'react-redux';
 import { getSchoolsAsync } from '../../redux/schoolSlice';
 
 export default () => {
-  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const schools = useSelector((state) => state.schools);
 
   useEffect(() => {
     dispatch(getSchoolsAsync());
   }, [dispatch]);
-
-
-
-  console.log(schools)
-
-/*   useEffect(()=>{
-      fetchSchools()
-  }, [])
-
-
-  const fetchSchools = async () => {
-    setLoading(true)
-    const res = await fetch('http://127.0.0.1:8000/api/schools')
-    const data = await res.json()
-    localStorage.setItem('schools', JSON.stringify(data))
-    setLoading(false)
-    return data
-  }
-
-  const schools = JSON.parse(localStorage.getItem('schools'))
-
-  const load = () => {
-    if (loading) return
-        setLoading(true)
-        setTimeout(() => {
-        setLoading(false)
-        }, 3000)
-  } */
 
   return (
     
@@ -72,7 +41,7 @@ export default () => {
     {/* Top Navbar */}
       <Navbar backLink="Back" sliding={false} title="Schools" bgColor="purple" />
 
-      {loading ? (
+      {schools.length == 0 ? (
         <List mediaList v-if="loading">
           {[1, 2, 3, 4, 5, 6, 7].map((n) => (
             <ListItem
