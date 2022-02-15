@@ -39,7 +39,7 @@ export default () => {
 
 
 
-  console.log(schools='[]')
+  console.log(schools)
 
 /*   useEffect(()=>{
       fetchSchools()
