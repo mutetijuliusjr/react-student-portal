@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FaSearch, FaBuilding, FaTimesCircle, FaEdit, FaDumpster, FaTag, FaAsterisk, FaEnvelope, FaLink, FaPhoneAlt, FaMale, FaCalendar, FaBirthdayCake, FaClock, FaParagraph } from 'react-icons/fa';
+import { FaPlus, FaBuilding, FaTimesCircle, FaTag, FaAsterisk, FaEnvelope, FaLink, FaPhoneAlt, FaMale, FaBirthdayCake, FaClock, FaParagraph } from 'react-icons/fa';
 import {
   f7,
   Page,
@@ -12,6 +12,7 @@ import {
   Button,
   BlockTitle,
   Icon,
+  Fab,
   List,
   Link,
   ListItem,
@@ -40,6 +41,12 @@ export default () => {
     <Page>
     {/* Top Navbar */}
       <Navbar backLink="Back" sliding={false} title="Schools" bgColor="purple" />
+
+      <Fab position="right-bottom" slot="fixed" color="green" tooltip="Add New School">
+        <Icon>
+            <FaPlus />
+        </Icon>
+      </Fab>
 
       {schools.length == 0 ? (
         <List mediaList v-if="loading">

@@ -58,54 +58,93 @@ var routes = [
   {
     path: '/school/:id',
     component: SchoolPage,
+    options: {
+      transition: 'f7-cover-v',
+    },
   },
   {
     path: '/schools/',
     component: SchoolsPage,
+    options: {
+      transition: 'f7-cover',
+    },
   },
   {
     path: '/departments/',
     component: DepartmentsPage,
+    options: {
+      transition: 'f7-cover',
+    },
   },
   {
     path: '/department/',
     component: DepartmentPage,
+    options: {
+      transition: 'f7-cover-v',
+    },
   },
   {
     path: '/course/',
     component: CoursePage,
+    options: {
+      transition: 'f7-cover-v',
+    },
   },
   {
     path: '/courses/',
     component: CoursesPage,
+    options: {
+      transition: 'f7-cover',
+    },
   },
   {
     path: '/semester/',
     component: SemesterPage,
+    options: {
+      transition: 'f7-cover-v',
+    },
   },
   {
     path: '/semesters/',
     component: SemestersPage,
+    options: {
+      transition: 'f7-cover',
+    },
   },
   {
     path: '/unit/',
     component: UnitPage,
+    options: {
+      transition: 'f7-cover-v',
+    },
   },
   {
     path: '/units/',
     component: UnitsPage,
+    options: {
+      transition: 'f7-cover',
+    },
   },
   {
     path: '/user/',
     component: UserPage,
+    options: {
+      transition: 'f7-cover-v',
+    },
   },
   {
     path: '/users/',
     component: UsersPage,
+    options: {
+      transition: 'f7-cover',
+    },
   },
   {
     path: '/roles/',
     component: RolesPage,
+    options: {
+      transition: 'f7-cover',
+    },
   },
   {
     path: '/product/:id/',

@@ -23,7 +23,8 @@ import {
   ListItem,
   ListInput,
   ListButton,
-  BlockFooter
+  BlockFooter,
+  Tabs
 } from 'framework7-react';
 
 import store from '../redux/store';
@@ -129,12 +130,13 @@ const MyApp = () => {
 					</Toolbar>
 
 					{/* Your main view/tab, should have "view-main" class. It also has "tabActive" prop */}
-					<View id="view-home" main tab tabActive url="/" />
-					<View id="view-admin" name="settings" tab url="/admin/" />
-					<View id="view-student" name="settings" tab url="/test/" />
-					<View id="view-teacher" name="settings" tab url="/teacher/" />
-					<View id="view-settings" name="settings" tab url="/settings/" />
-
+					<Tabs animated>
+						<View id="view-home" main tab tabActive url="/" />
+						<View id="view-admin" name="settings" tab url="/admin/" />
+						<View id="view-student" name="settings" tab url="/test/" />
+						<View id="view-teacher" name="settings" tab url="/teacher/" />
+						<View id="view-settings" name="settings" tab url="/settings/" />
+					</Tabs>
 				</Views>
 
 				
