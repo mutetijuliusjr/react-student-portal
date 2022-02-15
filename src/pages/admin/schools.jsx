@@ -22,12 +22,26 @@ import {
   Row,
   theme
 } from 'framework7-react';
-import { async } from 'rxjs';
+
+//import { async } from 'rxjs';
+
+import { useSelector, useDispatch } from 'react-redux';
+import { getSchoolsAsync } from '../../redux/schoolSlice';
 
 export default () => {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+  const schools = useSelector((state) => state.schools);
 
-  useEffect(()=>{
+  useEffect(() => {
+    dispatch(getSchoolsAsync());
+  }, [dispatch]);
+
+
+
+  console.log(schools='[]')
+
+/*   useEffect(()=>{
       fetchSchools()
   }, [])
 
@@ -41,9 +55,9 @@ export default () => {
     return data
   }
 
-const schools = JSON.parse(localStorage.getItem('schools'))
+  const schools = JSON.parse(localStorage.getItem('schools'))
 
- /*  const load = () => {
+  const load = () => {
     if (loading) return
         setLoading(true)
         setTimeout(() => {

@@ -1,7 +1,7 @@
 {
-  "name": "Student Portal - Admin",
-  "short_name": "S.P. - Admin",
-  "description": "Student Portal - Admin",
+  "name": "Student Portal",
+  "short_name": "S.P",
+  "description": "Student Portal",
   "lang": "en-US",
   "start_url": "/",
   "display": "standalone",

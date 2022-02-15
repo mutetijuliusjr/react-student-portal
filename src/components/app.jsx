@@ -26,6 +26,9 @@ import {
   BlockFooter
 } from 'framework7-react';
 
+import store from '../redux/store';
+import { Provider } from 'react-redux';
+
 import routes from '../js/routes';
 
 const MyApp = () => {
@@ -48,7 +51,7 @@ const MyApp = () => {
 
 
   return (
-		<>
+		<Provider store={store}>
 			<App { ...f7params } themeDark>
 
 				{/* Left panel with cover effect*/}
@@ -164,7 +167,7 @@ const MyApp = () => {
 				</Popup>
 
 			</App>
-		</>
+		</Provider>
   )
 }
 export default MyApp;
