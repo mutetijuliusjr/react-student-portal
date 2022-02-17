@@ -8,6 +8,7 @@ export const getSchoolsAsync = createAsyncThunk(
             const schools = await resp.json();
             return { schools };
         }
+        
     }
 );
 
@@ -23,6 +24,10 @@ export const addSchoolAsync = createAsyncThunk(
         if (resp.ok) {
             const school = await resp.json();
             return { school };
+        }
+        else{
+            throw new Error(resp.status);
+            return resp;
         }
     }
 );

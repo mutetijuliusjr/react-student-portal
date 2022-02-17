@@ -19,7 +19,7 @@ import {
 } from 'framework7-react';
 
 export default (props) => {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   
   useEffect(()=>{
     fetchSchool()
@@ -41,6 +41,7 @@ export default (props) => {
     <Page>
         <Navbar title="School Details" backLink="Back" sliding={false} />
         {console.log(school)}
+        
         {loading ? (
             <div className="d-flex align-content-center">
                 <Preloader color="white" />

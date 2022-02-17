@@ -21,19 +21,21 @@ import {
   Searchbar,
   Subnavbar,
   Row,
-  theme
+  theme,
+  PageContent,
+  Preloader
 } from 'framework7-react';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { getSchoolsAsync } from '../../redux/schoolSlice';
 
 export default () => {
-  const dispatch = useDispatch();
-  const schools = useSelector((state) => state.schools);
+  const dispatch = useDispatch()
+  const schools = useSelector((state) => state.schools)
 
   useEffect(() => {
-    dispatch(getSchoolsAsync());
-  }, [dispatch]);
+    dispatch(getSchoolsAsync())
+  }, [dispatch])
 
   return (
     
@@ -42,30 +44,13 @@ export default () => {
     {/* Top Navbar */}
       <Navbar backLink="Back" sliding={false} title="Schools" bgColor="purple" />
 
-      <Fab position="right-bottom" slot="fixed" color="green" tooltip="Add New School">
+      <Fab link="#" position="right-bottom" slot="fixed" color="green" tooltip="Add New School">
         <Icon>
             <FaPlus />
         </Icon>
       </Fab>
-
-      {schools.length == 0 ? (
-        <List mediaList v-if="loading">
-          {[1, 2, 3, 4, 5, 6, 7].map((n) => (
-            <ListItem
-              key={n}
-              className={`skeleton-text skeleton-effect-pulse`}
-              title="Full Name"
-              subtitle="Position"
-              text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lobortis et massa ac interdum. Cras consequat felis at consequat hendrerit. Aliquam vestibulum vitae lorem ac iaculis. Praesent nec pharetra massa, at blandit lectus. Sed tincidunt, lectus eu convallis elementum, nibh nisi aliquet urna, nec imperdiet felis sapien at enim."
-            >
-              <SkeletonBlock
-                style={{ width: '40px', height: '40px', borderRadius: '50%' }}
-                slot="media"
-              />
-            </ListItem>
-          ))}
-        </List>
-      ) : (
+    
+    {schools.length > 0 ? (
         <List mediaList className={`search-list`}>
             {schools.map( (school) => 
                 <ListItem
@@ -73,6 +58,7 @@ export default () => {
                     key={school.id}
                     title={school.name}
                     text={school.description}
+                    popupOpen='#demo'
                 >
                     <Icon size="40px" slot="media" color="purple">
                         <FaBuilding />
@@ -80,11 +66,29 @@ export default () => {
                 </ListItem>
             )}
         </List>
-      )}
+        ) : (
+        
+        <List mediaList v-if="loading">
+            {[1, 2, 3, 4, 5, 6, 7].map((n) => (
+            <ListItem
+                key={n}
+                className={`skeleton-text skeleton-effect-wave`}
+                title="Full Name"
+                subtitle="Position"
+                text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lobortis et massa ac interdum. Cras consequat felis at consequat hendrerit. Aliquam vestibulum vitae lorem ac iaculis. Praesent nec pharetra massa, at blandit lectus. Sed tincidunt, lectus eu convallis elementum, nibh nisi aliquet urna, nec imperdiet felis sapien at enim."
+            >
+                <SkeletonBlock
+                style={{ width: '40px', height: '40px', borderRadius: '50%' }}
+                slot="media"
+                />
+            </ListItem>
+            ))}
+        </List>
+    )}   
 
-    <Popup className="demo-popup-swipe" id="edit_school" swipeToClose>
+    <Popup className="demo-popup-swipe" id="demo" swipeToClose>
         <Page>
-            <Navbar title="Edit School">
+            <Navbar title="Add School">
                 <NavRight>
                     <Link popupClose tooltip="Close">
                         <FaTimesCircle />
