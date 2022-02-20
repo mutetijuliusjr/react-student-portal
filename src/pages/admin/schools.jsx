@@ -21,6 +21,7 @@ import {
   Searchbar,
   Subnavbar,
   Row,
+  Col,
   theme,
   PageContent,
   Preloader
@@ -30,9 +31,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getSchoolsAsync } from '../../redux/schoolSlice';
 
 export default () => {
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch()
   const schools = useSelector((state) => state.schools)
 
+  {/* Find out how to check a promise state */}
   useEffect(() => {
     dispatch(getSchoolsAsync())
   }, [dispatch])
@@ -42,13 +45,13 @@ export default () => {
       
     <Page>
     {/* Top Navbar */}
-      <Navbar backLink="Back" sliding={false} title="Schools" bgColor="purple" />
-
-      <Fab link="#" position="right-bottom" slot="fixed" color="green" tooltip="Add New School">
-        <Icon>
-            <FaPlus />
-        </Icon>
-      </Fab>
+      <Navbar backLink="Back" sliding={false} title="Schools">
+        <NavRight>
+            <Menu>
+                <MenuItem text="New School" popupOpen='#newSchool' bgColor="green" />
+            </Menu>
+        </NavRight>
+      </Navbar>      
     
     {schools.length > 0 ? (
         <List mediaList className={`search-list`}>
@@ -58,7 +61,6 @@ export default () => {
                     key={school.id}
                     title={school.name}
                     text={school.description}
-                    popupOpen='#demo'
                 >
                     <Icon size="40px" slot="media" color="purple">
                         <FaBuilding />
@@ -86,7 +88,7 @@ export default () => {
         </List>
     )}   
 
-    <Popup className="demo-popup-swipe" id="demo" swipeToClose>
+    <Popup className="demo-popup-swipe" id="newSchool" swipeToClose>
         <Page>
             <Navbar title="Add School">
                 <NavRight>
@@ -96,108 +98,36 @@ export default () => {
                 </NavRight>
             </Navbar>
 
-            <List inlineLabels noHairlines>
-                <ListInput
-                    label="Name"
-                    type="text"
-                    placeholder="Your name"
-                    clearButton
-                >
-                    <Icon color="blue" slot="media">
-                        <FaTag />
-                    </Icon>
-                </ListInput>
-                <ListInput
-                    label="Password"
-                    type="password"
-                    placeholder="Your password"
-                    clearButton
-                >
-                    <Icon color="blue" slot="media">
-                        <FaAsterisk />
-                    </Icon>
-                </ListInput>
-                <ListInput
-                    label="E-mail"
-                    type="email"
-                    placeholder="Your e-mail"
-                    clearButton
-                >
-                    <Icon color="blue" slot="media">
-                        <FaEnvelope />
-                    </Icon>
-                </ListInput>
-                <ListInput
-                    label="URL"
-                    type="url"
-                    placeholder="URL"
-                    clearButton
-                >
-                    <Icon color="blue" slot="media">
-                        <FaLink />
-                    </Icon>
-                </ListInput>
-                <ListInput
-                    label="Phone"
-                    type="tel"
-                    placeholder="Your phone number"
-                    clearButton
-                >
-                    <Icon color="blue" slot="media">
-                        <FaPhoneAlt />
-                    </Icon>
-                </ListInput>
-                <ListInput
-                    label="Gender"
-                    type="select"
-                    defaultValue="Male"
-                    placeholder="Please choose..."
-                >
-                    <Icon color="blue" slot="media">
-                        <FaMale />
-                    </Icon>
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
-                </ListInput>
-                <ListInput
-                    label="Birthday"
-                    type="date"
-                    defaultValue="2014-04-30"
-                    placeholder="Please choose..."
-                >
-                    <Icon color="blue" slot="media">
-                        <FaBirthdayCake />
-                    </Icon>
-                </ListInput>
-                <ListInput
-                    label="Date time"
-                    type="datetime-local"
-                    placeholder="Please choose..."
-                >
-                    <Icon color="blue" slot="media">
-                        <FaClock />
-                    </Icon>
-                </ListInput>
-                <ListInput
-                    label="Textarea"
-                    type="textarea"
-                    placeholder="Bio"
-                >
-                    <Icon color="blue" slot="media">
-                        <FaParagraph />
-                    </Icon>
-                </ListInput>
-                <ListInput
-                    label="Resizable"
-                    type="textarea"
-                    resizable
-                    placeholder="Bio"
-                >
-                    <Icon color="blue" slot="media">
-                        <FaParagraph />
-                    </Icon>
-                </ListInput>
-            </List>
+            <form>
+                <List inlineLabels noHairlines>
+                    <ListInput
+                        label="Name"
+                        type="text"
+                        name="name"
+                        placeholder="School name"
+                        clearButton
+                    >
+                        <Icon color="blue" slot="media">
+                            <FaTag />
+                        </Icon>
+                    </ListInput>
+                    <ListInput
+                        label="Description"
+                        type="textarea"
+                        placeholder="School Description"
+                        name="description"
+                        resizable
+                    >
+                        <Icon color="blue" slot="media">
+                            <FaParagraph />
+                        </Icon>
+                    </ListInput>
+                </List>
+                <Row>
+                    <Col><Button outline color="red" text="Clear" type="reset" /></Col>
+                    <Col><Button outline color="green" text="Save" type="submit" /></Col>
+                </Row>
+            </form>
 
         </Page>
     </Popup>
