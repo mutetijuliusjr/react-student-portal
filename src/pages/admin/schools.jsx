@@ -31,11 +31,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getSchoolsAsync } from '../../redux/schoolSlice';
 
 export default () => {
-  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch()
   const schools = useSelector((state) => state.schools)
 
-  {/* Find out how to check a promise state */}
   useEffect(() => {
     dispatch(getSchoolsAsync())
   }, [dispatch])
@@ -53,40 +51,22 @@ export default () => {
         </NavRight>
       </Navbar>      
     
-    {schools.length > 0 ? (
-        <List mediaList className={`search-list`}>
-            {schools.map( (school) => 
-                <ListItem
-                    link={`/school/${school.id}`}    
-                    key={school.id}
-                    title={school.name}
-                    text={school.description}
-                >
-                    <Icon size="40px" slot="media" color="purple">
-                        <FaBuilding />
-                    </Icon>
-                </ListItem>
-            )}
-        </List>
-        ) : (
-        
-        <List mediaList v-if="loading">
-            {[1, 2, 3, 4, 5, 6, 7].map((n) => (
+    
+    <List mediaList className={`search-list`}>
+        {schools.map( (school) => 
             <ListItem
-                key={n}
-                className={`skeleton-text skeleton-effect-wave`}
-                title="Full Name"
-                subtitle="Position"
-                text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lobortis et massa ac interdum. Cras consequat felis at consequat hendrerit. Aliquam vestibulum vitae lorem ac iaculis. Praesent nec pharetra massa, at blandit lectus. Sed tincidunt, lectus eu convallis elementum, nibh nisi aliquet urna, nec imperdiet felis sapien at enim."
+                link={`/school/${school.id}`}    
+                key={school.id}
+                title={school.name}
+                text={school.description}
             >
-                <SkeletonBlock
-                style={{ width: '40px', height: '40px', borderRadius: '50%' }}
-                slot="media"
-                />
+                <Icon size="40px" slot="media" color="purple">
+                    <FaBuilding />
+                </Icon>
             </ListItem>
-            ))}
-        </List>
-    )}   
+        )}
+    </List>
+       
 
     <Popup className="demo-popup-swipe" id="newSchool" swipeToClose>
         <Page>

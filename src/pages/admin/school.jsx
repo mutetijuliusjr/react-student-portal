@@ -17,12 +17,27 @@ import {
   f7,
   View,
 } from 'framework7-react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector,useDispatch } from 'react-redux';
 import { getSchoolAsync } from '../../redux/schoolSlice';
 
 export default (props) => {
-  const [loading, setLoading] = useState(true);
-  
+
+const getSchool = async () => {
+    const resp = await fetch(`http://localhost:8000/api/schools/${props.id}`);
+    if (resp.ok) {
+        const schl = await resp.json();
+        console.log(schl)
+        return { schl };
+    }
+    
+}
+
+useEffect(() => {
+    const school = getSchool()
+    console.log(school)
+  }, [])
+
+
 
 
   return (
