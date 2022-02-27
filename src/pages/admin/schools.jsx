@@ -51,7 +51,6 @@ export default () => {
         </NavRight>
       </Navbar>      
     
-    
     <List mediaList className={`search-list`}>
         {schools.map( (school) => 
             <ListItem
@@ -66,7 +65,6 @@ export default () => {
             </ListItem>
         )}
     </List>
-       
 
     <Popup className="demo-popup-swipe" id="newSchool" swipeToClose>
         <Page>

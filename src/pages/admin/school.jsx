@@ -20,7 +20,7 @@ import {
 
 export default (props) => {
 const [loading, setLoading] = useState(true)
-const [school, setSchool] = useState([])
+const [res, setSchool] = useState([])
 
 const getSchool = async () => {
     const resp = await fetch(`http://localhost:8000/api/schools/${props.id}`)
@@ -44,7 +44,7 @@ useEffect(() => {
     <Page>
         <Navbar title="School Details" backLink="Back" sliding={false} />
 
-        {loading ? (
+{/*         {loading ? (
             <div className="display-flex justify-content-center padding-top">
                 <Preloader color="gray" size="40px"></Preloader>
             </div>
@@ -59,13 +59,13 @@ useEffect(() => {
                             <MenuItem href="#" text="Delete" bgColor="red" onClick={()=>{ f7.dialog.confirm('Do You Want To Delete School and Related Entities?', 'Delete School') }} />
                         </Menu>
                     </Block>
-                    <BlockTitle>School Of {school.school.name}</BlockTitle>
+                    <BlockTitle>School Of {res.school.name}</BlockTitle>
                     <BlockTitle>Description</BlockTitle>
-                    <Block>{school.school.description}</Block>
+                    <Block>{res.school.description}</Block>
                     <BlockTitle>Department(s)</BlockTitle>
-                        {school.departments != '' ? (
+                        {res.departments != '' ? (
                             <List>
-                                {school.departments.map((dept)=>{
+                                {res.departments.map((dept)=>{
                                     <ListItem link="/department/">
                                         Department #1
                                     </ListItem>
@@ -80,7 +80,44 @@ useEffect(() => {
                 </div>
             )}
         </div> 
-        )}      
+        )}  */}
+
+        {loading ? (
+            <div className="display-flex justify-content-center padding-vertical">
+                <Preloader color="gray" size="40px"></Preloader>
+            </div>
+        ):
+            <>
+                {res.school != undefined && 
+                    <>
+                        <Block >
+                            <Menu>
+                                <MenuItem href="#" text="Edit" bgColor="blue" popupOpen="#edit_school" />
+                                <MenuItem href="#" text="Delete" bgColor="red" onClick={()=>{ f7.dialog.confirm('Do You Want To Delete School and Related Entities?', 'Delete School') }} />
+                            </Menu>
+                        </Block>
+                        <BlockTitle>School Of {res.school.name}</BlockTitle>
+                        <BlockTitle>Description</BlockTitle>
+                        <Block>{res.school.description}</Block>
+                        {res.departments != '' ? 
+                            <>
+                                <BlockTitle>Department(s)</BlockTitle>
+                                <List>
+                                {res.departments.map((dept)=>
+                                    <ListItem link={`/departments/${dept.id}`} key={dept.id} title={dept.name} />
+                                )}
+                                </List>
+                            </>
+                            :
+                            <>
+                                <Block>There are no departments listed under this school</Block>
+                                <Button outline color="green" text="Add The First Department" />
+                            </>
+                        }
+                    </>
+                }
+            </>
+        }     
         
     </Page>   
   );
