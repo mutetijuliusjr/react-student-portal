@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FaPlus, FaBuilding, FaTimesCircle, FaTag, FaAsterisk, FaEnvelope, FaLink, FaPhoneAlt, FaMale, FaBirthdayCake, FaClock, FaParagraph } from 'react-icons/fa';
+import { FaPlus, FaBuilding, FaTimesCircle, FaTag, FaAsterisk, FaEnvelope, FaLink, FaPhoneAlt, FaMale, FaBirthdayCake, FaClock, FaParagraph, FaExclamationTriangle } from 'react-icons/fa';
 import {
   f7,
   Page,
@@ -34,9 +34,12 @@ export default () => {
   const dispatch = useDispatch()
   const schools = useSelector((state) => state.schools)
 
-  useEffect(() => {
-    dispatch(getSchoolsAsync())
+  useEffect(() => { 
+    dispatch(getSchoolsAsync());
   }, [dispatch])
+
+
+  console.log(schools == null)
 
   return (
     
@@ -51,7 +54,43 @@ export default () => {
         </NavRight>
       </Navbar>      
     
-    <List mediaList className={`search-list`}>
+    {schools == null ? 
+        <PageContent className="display-flex flex-direction-column justify-content-center text-align-center">
+            <div><Preloader className="color-multi" size="40px" /></div>
+        </PageContent>
+    :
+        <>
+            {schools.length == 0 ? 
+            <PageContent className="display-flex flex-direction-column justify-content-center text-align-center">
+                <div>
+                    <Icon size="48px">
+                        <FaExclamationTriangle />
+                    </Icon>
+                    <p>There are no schools listed yet.</p>
+                </div>
+            </PageContent>
+            :
+            <List mediaList className={`search-list`}>
+                {schools.map( (school) => 
+                    <ListItem
+                        link={`/school/${school.id}`}    
+                        key={school.id}
+                        title={school.name}
+                        text={school.description}
+                    >
+                        <Icon size="40px" slot="media" color="purple">
+                            <FaBuilding />
+                        </Icon>
+                    </ListItem>
+                )}
+            </List> 
+            } 
+        </>
+    }
+
+    
+
+    {/* <List mediaList className={`search-list`}>
         {schools.map( (school) => 
             <ListItem
                 link={`/school/${school.id}`}    
@@ -64,7 +103,7 @@ export default () => {
                 </Icon>
             </ListItem>
         )}
-    </List>
+    </List> */}
 
     <Popup className="demo-popup-swipe" id="newSchool" swipeToClose>
         <Page>

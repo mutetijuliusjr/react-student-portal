@@ -72,7 +72,7 @@ export const deleteSchoolAsync = createAsyncThunk(
 
 export const schoolSlice = createSlice({
     name: 'schools',
-    initialState: [],
+    initialState: null,
     reducers:   {
                     addSchool: (state, action) => 
                                 {
