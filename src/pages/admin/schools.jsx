@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FaPlus, FaBuilding, FaTimesCircle, FaTag, FaAsterisk, FaEnvelope, FaLink, FaPhoneAlt, FaMale, FaBirthdayCake, FaClock, FaParagraph, FaExclamationTriangle } from 'react-icons/fa';
+import { FaPlus, FaBuilding, FaTimesCircle, FaTag, FaAsterisk, FaEnvelope, FaLink, FaPhoneAlt, FaMale, FaBirthdayCake, FaClock, FaParagraph, FaExclamationTriangle, FaSearch } from 'react-icons/fa';
 import {
   f7,
   Page,
@@ -38,72 +38,84 @@ export default () => {
     dispatch(getSchoolsAsync());
   }, [dispatch])
 
-
-  console.log(schools == null)
-
   return (
     
       
     <Page>
     {/* Top Navbar */}
-      <Navbar backLink="Back" sliding={false} title="Schools">
-        <NavRight>
-            <Menu>
-                <MenuItem text="New School" popupOpen='#newSchool' bgColor="green" />
-            </Menu>
-        </NavRight>
-      </Navbar>      
-    
+
     {schools == null ? 
+    <>
         <PageContent className="display-flex flex-direction-column justify-content-center text-align-center">
             <div><Preloader className="color-multi" size="40px" /></div>
         </PageContent>
+    </>
     :
         <>
             {schools.length == 0 ? 
-            <PageContent className="display-flex flex-direction-column justify-content-center text-align-center">
-                <div>
-                    <Icon size="48px">
-                        <FaExclamationTriangle />
-                    </Icon>
-                    <p>There are no schools listed yet.</p>
-                </div>
-            </PageContent>
-            :
-            <List mediaList className={`search-list`}>
-                {schools.map( (school) => 
-                    <ListItem
-                        link={`/school/${school.id}`}    
-                        key={school.id}
-                        title={school.name}
-                        text={school.description}
-                    >
-                        <Icon size="40px" slot="media" color="purple">
-                            <FaBuilding />
+            <>
+                <Navbar backLink="Back" sliding={false} title="Schools">
+                    <NavRight>
+                        <Menu>
+                            <MenuItem text="New School" popupOpen='#newSchool' bgColor="green" />
+                        </Menu>
+                    </NavRight>
+                </Navbar>
+                <PageContent className="display-flex flex-direction-column justify-content-center text-align-center">
+                    <div>
+                        <Icon size="48px">
+                            <FaExclamationTriangle />
                         </Icon>
-                    </ListItem>
-                )}
-            </List> 
+                        <p>Hmm...</p>
+                        <p>There are no schools listed.</p>
+                        <p>Yet.</p>
+                    </div>
+                </PageContent>
+            </>
+            :
+            <>
+                <Navbar backLink="Back" sliding title="Schools">
+                    {/* 
+                    <NavRight>
+                        <Menu>
+                            <MenuItem text="New School" popupOpen='#newSchool' bgColor="green" />
+                        </Menu> 
+                        
+                    </NavRight>
+                    */}
+                    <Subnavbar>
+                        <Searchbar
+                            style={{position: "static"}}
+                            searchContainer=".search-list"
+                            searchIn=".item-title"
+                            disableButton={!theme.aurora}
+                        ></Searchbar>
+                    </Subnavbar>
+                </Navbar>
+                <PageContent>
+                    <List className="searchbar-not-found">
+                        <ListItem title="Nothing found"></ListItem>
+                    </List>
+
+                    <List mediaList  className="search-list searchbar-found">
+                        {schools.map( (school) => 
+                            <ListItem
+                                link={`/school/${school.id}`}    
+                                key={school.id}
+                                title={school.name}
+                                text={school.description}
+                            >
+                                <Icon size="40px" slot="media" color="purple">
+                                    <FaBuilding />
+                                </Icon>
+                            </ListItem>
+                        )}
+                    </List>    
+                </PageContent> 
+            </>
             } 
         </>
     }
-
-    
-
-    {/* <List mediaList className={`search-list`}>
-        {schools.map( (school) => 
-            <ListItem
-                link={`/school/${school.id}`}    
-                key={school.id}
-                title={school.name}
-                text={school.description}
-            >
-                <Icon size="40px" slot="media" color="purple">
-                    <FaBuilding />
-                </Icon>
-            </ListItem>
-        )}
-    </List> */}
 
     <Popup className="demo-popup-swipe" id="newSchool" swipeToClose>
         <Page>
