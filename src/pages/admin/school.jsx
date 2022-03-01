@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {
   Col,
   Page,
+  PageContent,
   Preloader,
   Navbar,
   Block,
@@ -44,48 +45,10 @@ useEffect(() => {
     <Page>
         <Navbar title="School Details" backLink="Back" sliding={false} />
 
-{/*         {loading ? (
-            <div className="display-flex justify-content-center padding-top">
-                <Preloader color="gray" size="40px"></Preloader>
-            </div>
-        ):(
-        <div>
-            
-            {school.school != undefined && (
-                <div>
-                    <Block >
-                        <Menu>
-                            <MenuItem href="#" text="Edit" bgColor="blue" popupOpen="#edit_school" />
-                            <MenuItem href="#" text="Delete" bgColor="red" onClick={()=>{ f7.dialog.confirm('Do You Want To Delete School and Related Entities?', 'Delete School') }} />
-                        </Menu>
-                    </Block>
-                    <BlockTitle>School Of {res.school.name}</BlockTitle>
-                    <BlockTitle>Description</BlockTitle>
-                    <Block>{res.school.description}</Block>
-                    <BlockTitle>Department(s)</BlockTitle>
-                        {res.departments != '' ? (
-                            <List>
-                                {res.departments.map((dept)=>{
-                                    <ListItem link="/department/">
-                                        Department #1
-                                    </ListItem>
-                                })}
-                            </List>
-                        ):(
-                           <div>
-                               <Block>There are no departments listed under this school</Block>
-                                <Button outline color="green" text="Add The First Department" />
-                           </div>
-                        )}
-                </div>
-            )}
-        </div> 
-        )}  */}
-
         {loading ? (
-            <div className="display-flex justify-content-center padding-vertical">
-                <Preloader color="gray" size="40px"></Preloader>
-            </div>
+            <PageContent className="display-flex flex-direction-column justify-content-center text-align-center">
+                <div><Preloader className="color-multi" size="40px" /></div>
+            </PageContent>
         ):
             <>
                 {res.school != undefined && 
