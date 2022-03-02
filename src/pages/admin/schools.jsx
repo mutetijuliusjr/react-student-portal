@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { FaPlus, FaBuilding, FaTimesCircle, FaTag, FaAsterisk, FaEnvelope, FaLink, FaPhoneAlt, FaMale, FaBirthdayCake, FaClock, FaParagraph, FaExclamationTriangle, FaSearch } from 'react-icons/fa';
+import { FaPlus, FaBuilding, FaTimesCircle, FaTag, FaAsterisk, FaEnvelope, FaLink, FaPhoneAlt, FaMale, FaBirthdayCake, FaClock, FaParagraph, FaExclamationTriangle, FaSearch, FaEllipsisV } from 'react-icons/fa';
 import {
   f7,
   Page,
   Popup,
+  Popover,
   Menu,
   MenuItem,
   Navbar,
@@ -75,14 +76,13 @@ export default () => {
             :
             <>
                 <Navbar backLink="Back" sliding title="Schools">
-                    {/* 
                     <NavRight>
-                        <Menu>
-                            <MenuItem text="New School" popupOpen='#newSchool' bgColor="green" />
-                        </Menu> 
-                        
+                        <Link popoverOpen=".popover-menu">
+                            <Icon>
+                                <FaEllipsisV />
+                            </Icon>
+                        </Link>
                     </NavRight>
-                    */}
                     <Subnavbar>
                         <Searchbar
                             style={{position: "static"}}
@@ -92,6 +92,11 @@ export default () => {
                         ></Searchbar>
                     </Subnavbar>
                 </Navbar>
+                <Popover className="popover-menu">
+                    <List>
+                        <ListItem link="#" popoverClose title="New School" popupOpen="#newSchool" />
+                    </List>
+                </Popover>
                 <PageContent>
                     <List className="searchbar-not-found">
                         <ListItem title="Nothing found"></ListItem>
