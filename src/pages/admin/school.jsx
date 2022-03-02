@@ -1,13 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import {
+    FaEllipsisV,
+} from 'react-icons/fa';
+
+import {
   Col,
   Page,
   PageContent,
   Preloader,
+  Popover,
   Navbar,
   Block,
   Button,
-  Popup,
+  Icon,
   Menu,
   MenuItem,
   NavRight,
@@ -29,7 +34,6 @@ const getSchool = async () => {
         const schl = await resp.json()
         setLoading(false)
         setSchool(schl)
-        //return { schl }
     }
     
 }
@@ -43,8 +47,21 @@ useEffect(() => {
   return (
     
     <Page>
-        <Navbar title="School Details" backLink="Back" sliding={false} />
-
+        <Navbar title="School Details" backLink="Back" sliding={false} >
+            <NavRight>
+                <Link popoverOpen=".popover-menu">
+                    <Icon>
+                        <FaEllipsisV />
+                    </Icon>
+                </Link>
+            </NavRight>
+        </Navbar>
+        <Popover className="popover-menu">
+            <List noChevron noHairlines>
+                <ListItem link="#" popoverClose title="Edit School" />
+                <ListItem link="#" popoverClose title="Delete School" onClick={()=>{ f7.dialog.confirm('Do You Want To Delete School and Related Entities?', 'Delete School') }} />
+            </List>
+        </Popover>
         {loading ? (
             <PageContent className="display-flex flex-direction-column justify-content-center text-align-center">
                 <div><Preloader className="color-multi" size="40px" /></div>
@@ -53,12 +70,6 @@ useEffect(() => {
             <>
                 {res.school != undefined && 
                     <>
-                        <Block >
-                            <Menu>
-                                <MenuItem href="#" text="Edit" bgColor="blue" popupOpen="#edit_school" />
-                                <MenuItem href="#" text="Delete" bgColor="red" onClick={()=>{ f7.dialog.confirm('Do You Want To Delete School and Related Entities?', 'Delete School') }} />
-                            </Menu>
-                        </Block>
                         <BlockTitle>School Of {res.school.name}</BlockTitle>
                         <BlockTitle>Description</BlockTitle>
                         <Block>{res.school.description}</Block>

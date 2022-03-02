@@ -1,5 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { FaPlus, FaBuilding, FaTimesCircle, FaTag, FaAsterisk, FaEnvelope, FaLink, FaPhoneAlt, FaMale, FaBirthdayCake, FaClock, FaParagraph, FaExclamationTriangle, FaSearch, FaEllipsisV } from 'react-icons/fa';
+import { 
+    FaPlus, 
+    FaBuilding, 
+    FaTimesCircle, 
+    FaTag, 
+    FaAsterisk, 
+    FaEnvelope, 
+    FaLink, 
+    FaPhoneAlt, 
+    FaMale, 
+    FaBirthdayCake, 
+    FaClock, 
+    FaParagraph, 
+    FaExclamationTriangle, 
+    FaSearch, 
+    FaEllipsisV 
+} from 'react-icons/fa';
 import {
   f7,
   Page,
@@ -93,7 +109,7 @@ export default () => {
                     </Subnavbar>
                 </Navbar>
                 <Popover className="popover-menu">
-                    <List>
+                    <List noChevron noHairlines="true">
                         <ListItem link="#" popoverClose title="New School" popupOpen="#newSchool" />
                     </List>
                 </Popover>
