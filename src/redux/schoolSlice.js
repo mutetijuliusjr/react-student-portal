@@ -12,18 +12,6 @@ export const getSchoolsAsync = createAsyncThunk(
     }
 );
 
-export const getSchoolAsync = createAsyncThunk(
-    'schools/getSchool',
-    async (payload) => {
-        const resp = await fetch(`http://localhost:8000/api/schools/${payload.id}`);
-        if (resp.ok) {
-            const school = await resp.json();
-            return { school };
-        }
-        
-    }
-);
-
 export const addSchoolAsync = createAsyncThunk(
     'schools/addSchool',
     async (payload) => {
@@ -83,8 +71,6 @@ export const schoolSlice = createSlice({
                                         name: action.payload.name,
                                         description: payload.description
                                     };
-
-                                    console.table(newSchool);
                                     
                                     return state.push(newSchool);
                                 },
@@ -103,9 +89,6 @@ export const schoolSlice = createSlice({
     extraReducers: {
                     [getSchoolsAsync.fulfilled]: (state, action) => {
                         return action.payload.schools;
-                    },
-                    [getSchoolAsync.fulfilled]: (state, action) => {
-                        return action.payload.school;
                     },
                     [addSchoolAsync.fulfilled]: (state, action) => {
                         state.push(action.payload.school);

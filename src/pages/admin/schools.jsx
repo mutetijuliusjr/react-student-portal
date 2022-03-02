@@ -45,11 +45,26 @@ import {
 } from 'framework7-react';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { getSchoolsAsync } from '../../redux/schoolSlice';
+import { getSchoolsAsync, addSchoolAsync } from '../../redux/schoolSlice';
 
 export default () => {
+  const [name, setName] = useState('');
+  const [desc, setDesc] = useState('');
   const dispatch = useDispatch()
   const schools = useSelector((state) => state.schools)
+ 
+  const onSubmit = (event) => {
+    event.preventDefault();
+    if (name) {
+        console.log(name)
+        /* dispatch(
+            addSchoolAsync({
+                name: name,
+                description: desc
+            })
+        ); */
+    }
+  };
 
   useEffect(() => { 
     dispatch(getSchoolsAsync());
@@ -148,7 +163,7 @@ export default () => {
                 </NavRight>
             </Navbar>
 
-            <form>
+            <form onSubmit={onSubmit}>
                 <List inlineLabels noHairlines>
                     <ListInput
                         label="Name"
@@ -156,6 +171,7 @@ export default () => {
                         name="name"
                         placeholder="School name"
                         clearButton
+
                     >
                         <Icon color="blue" slot="media">
                             <FaTag />
