@@ -59,8 +59,6 @@ export default () => {
     
       
     <Page>
-    {/* Top Navbar */}
-
     {schools == null ? 
     <>
         <PageContent className="display-flex flex-direction-column justify-content-center text-align-center">
@@ -73,9 +71,11 @@ export default () => {
             <>
                 <Navbar backLink="Back" sliding={false} title="Schools">
                     <NavRight>
-                        <Menu>
-                            <MenuItem text="New School" popupOpen='#newSchool' bgColor="green" />
-                        </Menu>
+                        <Link popoverOpen=".popover-menu">
+                            <Icon>
+                                <FaEllipsisV />
+                            </Icon>
+                        </Link>
                     </NavRight>
                 </Navbar>
                 <PageContent className="display-flex flex-direction-column justify-content-center text-align-center">
@@ -110,7 +110,7 @@ export default () => {
                 </Navbar>
                 <Popover className="popover-menu">
                     <List noChevron noHairlines="true">
-                        <ListItem link="#" popoverClose title="New School" popupOpen="#newSchool" />
+                        <ListItem link="#" popupOpen="#newSchool" popoverClose title="New School" />
                     </List>
                 </Popover>
                 <PageContent>
