@@ -48,26 +48,32 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getSchoolsAsync, addSchoolAsync } from '../../redux/schoolSlice';
 
 export default () => {
-  const [name, setName] = useState('');
-  const [desc, setDesc] = useState('');
+  const [schoolName, setSchoolName] = useState('')
+  const [schoolDesc, setSchoolDesc] = useState('')
+
   const dispatch = useDispatch()
   const schools = useSelector((state) => state.schools)
  
+  const clearForm = ()=>{
+      setSchoolName('')
+      setSchoolDesc('')
+  }
+
   const onSubmit = (event) => {
     event.preventDefault();
-    if (name) {
-        console.log(name)
-        /* dispatch(
+        f7.dialog.preloader('Loading', 'multi')
+        dispatch(
             addSchoolAsync({
-                name: name,
-                description: desc
+                name: schoolName,
+                description: schoolDesc
             })
-        ); */
-    }
-  };
+        )
+        f7.dialog.close()
+        f7.dialog.alert('Great!')
+    };
 
   useEffect(() => { 
-    dispatch(getSchoolsAsync());
+    dispatch(getSchoolsAsync())
   }, [dispatch])
 
   return (
@@ -168,10 +174,12 @@ export default () => {
                     <ListInput
                         label="Name"
                         type="text"
-                        name="name"
                         placeholder="School name"
-                        clearButton
-
+                        clearButton={false}
+                        required
+                        validateOnBlur
+                        value={schoolName}
+				        onChange={(event) => setSchoolName(event.target.value)}
                     >
                         <Icon color="blue" slot="media">
                             <FaTag />
@@ -182,7 +190,10 @@ export default () => {
                         type="textarea"
                         placeholder="School Description"
                         name="description"
+                        clearButton={false}
                         resizable
+                        value={schoolDesc}
+				        onChange={(event) => setSchoolDesc(event.target.value)}
                     >
                         <Icon color="blue" slot="media">
                             <FaParagraph />
@@ -190,7 +201,7 @@ export default () => {
                     </ListInput>
                 </List>
                 <Row>
-                    <Col><Button outline color="red" text="Clear" type="reset" /></Col>
+                    <Col><Button outline color="red" text="Clear" onClick={clearForm} /></Col>
                     <Col><Button outline color="green" text="Save" type="submit" /></Col>
                 </Row>
             </form>

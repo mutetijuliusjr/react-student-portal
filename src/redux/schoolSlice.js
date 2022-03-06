@@ -18,7 +18,10 @@ export const addSchoolAsync = createAsyncThunk(
         const resp = await fetch('http://localhost:8000/api/schools',{
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({name: payload.name})
+            body: JSON.stringify({
+                name: payload.name,
+                description: payload.description
+            })
         });
 
         if (resp.ok) {
