@@ -1,0 +1,31 @@
+        {loading ? (
+            <PageContent className="display-flex flex-direction-column justify-content-center text-align-center">
+                <div><Preloader className="color-multi" size="40px" /></div>
+            </PageContent>
+        ):
+            <>
+                {res.school != undefined && 
+                    <>
+                        <BlockTitle>School Of {res.school.name}</BlockTitle>
+                        <BlockTitle>Description</BlockTitle>
+                        <Block>{res.school.description}</Block>
+                        {res.departments != '' ? 
+                            <>
+                                <BlockTitle>Department(s)</BlockTitle>
+                                <List>
+                                {res.departments.map((dept)=>
+                                    <ListItem link={`/departments/${dept.id}`} key={dept.id} title={dept.name} />
+                                )}
+                                </List>
+                            </>
+                            :
+                            <>
+                                <Block>There are no departments listed under this school</Block>
+                                <Button outline color="green" text="Add The First Department" />
+                            </>
+                        }
+                    </>
+                }
+            </>
+        }     
+        
