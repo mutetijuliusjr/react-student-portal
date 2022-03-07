@@ -9,7 +9,6 @@ import SettingsPage from '../pages/settings.jsx';
 import AdminHomePage from '../pages/admin/home.jsx';
 import SchoolsPage from '../pages/admin/schools.jsx';
 import SchoolPage from '../pages/admin/school.jsx';
-import NewSchoolPage from '../pages/admin/new-school.jsx';
 import DepartmentPage from '../pages/admin/department.jsx';
 import DepartmentsPage from '../pages/admin/departments.jsx';
 import CoursePage from '../pages/admin/course.jsx';
@@ -62,10 +61,6 @@ var routes = [
     options: {
       transition: 'f7-cover-v',
     },
-  },
-  {
-    path: '/new-school/',
-    component: NewSchoolPage,
   },
   {
     path: '/schools/',
