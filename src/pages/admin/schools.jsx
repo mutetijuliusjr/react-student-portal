@@ -134,7 +134,7 @@ export default () => {
                         <ListItem link="#" popupOpen="#newSchool" popoverClose title="New School" />
                     </List>
                 </Popover>
-                <PageContent>
+                <PageContent className="padding-vertical">
                     <List className="searchbar-not-found">
                         <ListItem title="Nothing found"></ListItem>
                     </List>
