@@ -51,7 +51,6 @@ const [schoolDesc, setSchoolDesc] = useState(schDesc)
 const onSubmit = (event) => {
     event.preventDefault();
     f7.dialog.preloader('Loading', 'multi')
-    //console.table({'Name':schoolName, 'Desc':schoolDesc})
     dispatch(
         editSchoolAsync({
             id: props.id,
