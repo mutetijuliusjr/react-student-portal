@@ -35,7 +35,6 @@ export const addSchoolAsync = createAsyncThunk(
 export const editSchoolAsync = createAsyncThunk(
     'schools/editSchool',
     async (payload) => {
-        console.table(payload)
         const resp = await fetch(`http://localhost:8000/api/schools/${payload.id}`,{
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
