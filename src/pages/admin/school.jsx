@@ -25,12 +25,14 @@ import {
   f7,
   Row,
   Popup,
+  App,
   View,
   Views,
 } from 'framework7-react';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { editSchoolAsync, deleteSchoolAsync } from '../../redux/schoolSlice';
+import MyApp from '../../components/app.jsx';
 
 export default (props, {router}) => {
 
@@ -63,15 +65,16 @@ const onSubmit = (event) => {
 const deleteSchool = () => {
     f7.dialog.close()
     f7.dialog.preloader('Loading', 'multi')
-    //dispatch(deleteSchoolAsync({id: props.id}))
+    //route back to schools
+    dispatch(deleteSchoolAsync({id: props.id}))
     f7.dialog.close()
-    f7.dialog.alert('Deleted!')
+    
 }
 
 
   return (
     
-    <Page>
+    <Page name="school">
         <Navbar title="School Details" backLink="Back" sliding={false} >
             <NavRight>
                 <Link popoverOpen=".popover-menu">

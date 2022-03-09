@@ -79,7 +79,7 @@ export default () => {
   return (
     
       
-    <Page>
+    <Page name="schools">
     {schools == null ? 
     <>
         <PageContent className="display-flex flex-direction-column justify-content-center text-align-center">
