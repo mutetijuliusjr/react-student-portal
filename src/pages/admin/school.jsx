@@ -16,8 +16,6 @@ import {
   Block,
   Button,
   Icon,
-  Menu,
-  MenuItem,
   NavRight,
   Link,
   List,
@@ -26,14 +24,15 @@ import {
   BlockTitle,
   f7,
   Row,
-  View,
   Popup,
+  View,
+  Views,
 } from 'framework7-react';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { editSchoolAsync } from '../../redux/schoolSlice';
+import { editSchoolAsync, deleteSchoolAsync } from '../../redux/schoolSlice';
 
-export default (props) => {
+export default (props, {router}) => {
 
 const dispatch = useDispatch()
 const schools = useSelector((state) => state.schools)
@@ -47,7 +46,6 @@ if(school.description != null){
 const [schoolName, setSchoolName] = useState(school.name)
 const [schoolDesc, setSchoolDesc] = useState(schDesc)
 
-
 const onSubmit = (event) => {
     event.preventDefault();
     f7.dialog.preloader('Loading', 'multi')
@@ -60,7 +58,16 @@ const onSubmit = (event) => {
     )
     f7.dialog.close()
     f7.dialog.alert('Saved!')
-};
+}
+
+const deleteSchool = () => {
+    f7.dialog.close()
+    f7.dialog.preloader('Loading', 'multi')
+    //dispatch(deleteSchoolAsync({id: props.id}))
+    f7.dialog.close()
+    f7.dialog.alert('Deleted!')
+}
+
 
   return (
     
@@ -77,7 +84,9 @@ const onSubmit = (event) => {
         <Popover className="popover-menu">
             <List noChevron noHairlines>
                 <ListItem link="#" popupOpen="#editSchool" popoverClose title="Edit School" />
-                <ListItem link="#" popoverClose title="Delete School" onClick={()=>{ f7.dialog.confirm('Do You Want To Delete School and Related Entities?', 'Delete School') }} />
+                <ListItem link="#" popoverClose title="Delete School" onClick={()=>{ f7.dialog.confirm('Do You Want To Delete School and Related Entities?',
+                                                                                                        'Delete School',
+                                                                                                        ()=>{deleteSchool()}) }} />
             </List>
         </Popover>
         <BlockTitle>School Of {school.name}</BlockTitle>
