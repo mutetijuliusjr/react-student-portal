@@ -79,9 +79,9 @@ export const schoolSlice = createSlice({
                                 },
                     editSchool: (state, action) => 
                                 {
-                                    const index = state.findIndex((school) => {school.id === action.payload.id});
-                                    state[index].name = action.payload.name;
-                                    state[index].description = action.payload.description;
+                                    const index = state.findIndex(school => school.id === action.payload.school.id);
+                                    state[index].name = action.payload.school.name;
+                                    state[index].description = action.payload.school.description;
 
                                 },
                     deleteSchool: (state, action) => 
@@ -97,9 +97,9 @@ export const schoolSlice = createSlice({
                         state.push(action.payload.school);
                     },
                     [editSchoolAsync.fulfilled]: (state, action) => {
-                        const index = state.findIndex((school) => {school.id === action.payload.id});
-                        state[index].name = action.payload.name;
-                        state[index].description = action.payload.description;
+                        const index = state.findIndex(school => school.id === action.payload.school.id);
+                        state[index].name = action.payload.school.name;
+                        state[index].description = action.payload.school.description;
                     },
                     [deleteSchoolAsync]:  (state, action) => {
                         return state.filter((school) => school.id !== action.payload.id);
