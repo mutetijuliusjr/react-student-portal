@@ -86,7 +86,7 @@ export const schoolSlice = createSlice({
                                 },
                     deleteSchool: (state, action) => 
                                 {
-                                    return state.filter((school) => school.id !== action.payload.school.id);
+                                    return state.filter(school => school.id !== action.payload.school.id);
                                 }
                 },
     extraReducers: {
@@ -102,7 +102,7 @@ export const schoolSlice = createSlice({
                         state[index].description = action.payload.school.description;
                     },
                     [deleteSchoolAsync]:  (state, action) => {
-                        return state.filter((school) => school.id !== action.payload.school.id);
+                        return state.filter(school => school.id !== action.payload.school.id);
                     }
                 }
     
