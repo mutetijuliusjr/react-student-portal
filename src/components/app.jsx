@@ -46,8 +46,11 @@ const MyApp = () => {
 	} : {},
   };
 
+
+
   f7ready(() => {
 	// Call F7 APIs here
+	
   });
 
 

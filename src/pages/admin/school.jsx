@@ -34,8 +34,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import { editSchoolAsync, deleteSchoolAsync } from '../../redux/schoolSlice';
 import MyApp from '../../components/app.jsx';
 
-export default (props, {router}) => {
+export default (props) => {
 
+const { f7router } = props
 const dispatch = useDispatch()
 const schools = useSelector((state) => state.schools)
 const school = schools.find(sch => sch.id == props.id) 
@@ -47,6 +48,12 @@ if(school.description != null){
 
 const [schoolName, setSchoolName] = useState(school.name)
 const [schoolDesc, setSchoolDesc] = useState(schDesc)
+
+const deleteToast = f7.toast.create({
+    closeTimeout: 5000,
+    text: 'School Deleted',
+    position: 'bottom',
+  })
 
 const onSubmit = (event) => {
     event.preventDefault();
@@ -63,12 +70,14 @@ const onSubmit = (event) => {
 }
 
 const deleteSchool = () => {
+    f7router.back()
     f7.dialog.close()
-    f7.dialog.preloader('Loading', 'multi')
-    //route back to schools
+    f7.dialog.preloader('Loading')
     dispatch(deleteSchoolAsync({id: props.id}))
-    f7.dialog.close()
-    
+    setTimeout(() => {
+        f7.dialog.close()
+        deleteToast.open()
+    } ,3000)
 }
 
 
@@ -92,9 +101,10 @@ const deleteSchool = () => {
                                                                                                         ()=>{deleteSchool()}) }} />
             </List>
         </Popover>
-        <BlockTitle>School Of {school.name}</BlockTitle>
+        <BlockTitle>Name</BlockTitle>
+        <Block strong>School of {school.name}</Block>
         <BlockTitle>Description</BlockTitle>
-        <Block>{school.description}</Block>
+        <Block strong>{school.description}</Block>
         
         <Popup className="demo-popup-swipe" id="editSchool" swipeToClose>
             <Page>

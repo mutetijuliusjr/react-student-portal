@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 export const getSchoolsAsync = createAsyncThunk(
-    'schools/getSchools',
+    'schools/getSchoolsAsync',
     async () => {
         const resp = await fetch('http://localhost:8000/api/schools');
         if (resp.ok) {
@@ -13,7 +13,7 @@ export const getSchoolsAsync = createAsyncThunk(
 );
 
 export const addSchoolAsync = createAsyncThunk(
-    'schools/addSchool',
+    'schools/addSchoolAsync',
     async (payload) => {
         const resp = await fetch('http://localhost:8000/api/schools',{
             method: 'POST',
@@ -33,7 +33,7 @@ export const addSchoolAsync = createAsyncThunk(
 );
 
 export const editSchoolAsync = createAsyncThunk(
-    'schools/editSchool',
+    'schools/editSchoolAsync',
     async (payload) => {
         const resp = await fetch(`http://localhost:8000/api/schools/${payload.id}`,{
             method: 'PATCH',
@@ -49,7 +49,7 @@ export const editSchoolAsync = createAsyncThunk(
 ); 
 
 export const deleteSchoolAsync = createAsyncThunk(
-    'schools/deleteSchool',
+    'schools/deleteSchoolAsync',
     async (payload) => {
         const resp = await fetch(`http://localhost:8000/api/schools/${payload.id}`,{
             method: 'DELETE'
@@ -86,7 +86,7 @@ export const schoolSlice = createSlice({
                                 },
                     deleteSchool: (state, action) => 
                                 {
-                                    return state.filter(school => school.id !== action.payload.school.id);
+                                    return state.filter((school) => school.id != action.payload.id);
                                 }
                 },
     extraReducers: {
@@ -101,8 +101,9 @@ export const schoolSlice = createSlice({
                         state[index].name = action.payload.school.name;
                         state[index].description = action.payload.school.description;
                     },
-                    [deleteSchoolAsync]:  (state, action) => {
-                        return state.filter(school => school.id !== action.payload.school.id);
+                    [deleteSchoolAsync.fulfilled]:  (state, action) => {
+                        console.table(state)
+                        return state.filter((school) => school.id != action.payload.id);
                     }
                 }
     
