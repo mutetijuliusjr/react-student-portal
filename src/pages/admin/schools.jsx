@@ -21,15 +21,10 @@ import {
   Page,
   Popup,
   Popover,
-  Menu,
-  MenuItem,
   Navbar,
   NavRight,
-  Block,
   Button,
-  BlockTitle,
   Icon,
-  Fab,
   List,
   Link,
   ListItem,
@@ -41,7 +36,6 @@ import {
   Col,
   theme,
   PageContent,
-  Preloader
 } from 'framework7-react';
 
 import { useSelector, useDispatch } from 'react-redux';
