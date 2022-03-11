@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { 
     FaPlus, 
     FaBuilding, 
-    FaTimesCircle, 
+    FaTimes, 
     FaTag, 
     FaAsterisk, 
     FaEnvelope, 
@@ -53,7 +53,14 @@ export default () => {
 
   const dispatch = useDispatch()
   const schools = useSelector((state) => state.schools)
- 
+
+  const schoolCreatedToast = f7.toast.create({
+    text: 'School created!',
+    position: 'bottom',
+    horizontalPosition: 'center',
+    closeTimeout: 3000,
+  })
+
   const clearForm = ()=>{
       setSchoolName('')
       setSchoolDesc('')
@@ -69,7 +76,7 @@ export default () => {
             })
         )
         f7.dialog.close()
-        f7.dialog.alert('Great!')
+        schoolCreatedToast.open()
     };
 
   useEffect(() => { 
@@ -217,7 +224,7 @@ export default () => {
             <Navbar title="Add School">
                 <NavRight>
                     <Link popupClose tooltip="Close">
-                        <FaTimesCircle />
+                        <FaTimes />
                     </Link>
                 </NavRight>
             </Navbar>
