@@ -73,14 +73,14 @@ const deleteSchool = () => {
 }
 
 var schDesc = ""
-var schlDepts = null
+var schDepts = null
 
 if(school.description != null){
    schDesc = school.description
 }
 
 if (departments != null) {
-    schlDepts = departments.filter((schlDept)=> schlDept.school_id == school.id)   
+    schDepts = departments.filter((schlDept)=> schlDept.school_id == school.id)   
 }
 
 useEffect(() => { 
@@ -102,9 +102,17 @@ useEffect(() => {
         <Popover className="popover-menu">
             <List noChevron noHairlines>
                 <ListItem link="#" popupOpen="#editSchool" popoverClose title="Edit School" />
-                <ListItem link="#" popoverClose title="Delete School" onClick={()=>{ f7.dialog.confirm('Do You Want To Delete School and Related Entities?',
-                                                                                                        'Delete School',
-                                                                                                        ()=>{deleteSchool()}) }} />
+                <ListItem link="#" popoverClose title="Add Department" />
+                <ListItem 
+                link="#" 
+                popoverClose
+                textColor="red" 
+                title="Delete School" 
+                onClick={()=>{ f7.dialog.confirm(
+                    'Do You Want To Delete School and Related Entities?',
+                    'Delete School',
+                    ()=>{deleteSchool()}) 
+                    }} />
             </List>
         </Popover>
         <BlockTitle>Name</BlockTitle>
@@ -119,14 +127,14 @@ useEffect(() => {
         </Block>
         :
         <>
-            {schlDepts.length == 0 ? 
+            {schDepts.length == 0 ? 
                 <Block>
                     <p>There are no departments for this school</p>
                     <Button text="Add Department" outline color="green" link="#" />
                 </Block>
                 :
                 <List>
-                    {schlDepts.map((dept)=>
+                    {schDepts.map((dept)=>
                     <ListItem key={dept.id} title={`Department of ${dept.name}`} link="#"></ListItem>   
                     )}
                 </List>
