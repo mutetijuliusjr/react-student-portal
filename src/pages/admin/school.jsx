@@ -10,6 +10,7 @@ import {
   Col,
   Page,
   Popover,
+  Preloader,
   Navbar,
   Block,
   Button,
@@ -37,14 +38,6 @@ const dispatch = useDispatch()
 const schools = useSelector((state) => state.schools)
 const departments = useSelector((state) => state.departments)
 const school = schools.find(sch => sch.id == props.id) 
-var schDesc = ""
-
-console.table(departments)
-
-if(school.description != null){
-   schDesc = school.description
-}
-
 const [schoolName, setSchoolName] = useState(school.name)
 const [schoolDesc, setSchoolDesc] = useState(schDesc)
 
@@ -52,7 +45,7 @@ const deleteToast = f7.toast.create({
     closeTimeout: 5000,
     text: 'School Deleted',
     position: 'bottom',
-  })
+})
 
 const onSubmit = (event) => {
     event.preventDefault();
@@ -77,6 +70,17 @@ const deleteSchool = () => {
         f7.dialog.close()
         deleteToast.open()
     } ,3000)    
+}
+
+var schDesc = ""
+var schlDepts = null
+
+if(school.description != null){
+   schDesc = school.description
+}
+
+if (departments != null) {
+    schlDepts = departments.filter((schlDept)=> schlDept.school_id == school.id)   
 }
 
 useEffect(() => { 
@@ -107,6 +111,30 @@ useEffect(() => {
         <Block strong>School of {school.name}</Block>
         <BlockTitle>Description</BlockTitle>
         <Block strong>{school.description}</Block>
+        
+        <BlockTitle>Departments</BlockTitle>
+        {departments == null ? 
+        <Block className="display-flex flex-direction-column justify-content-center text-align-center">
+            <div><Preloader className="color-multi" size="24px" text="Loading" /></div>
+        </Block>
+        :
+        <>
+            {schlDepts.length == 0 ? 
+                <Block>
+                    <p>There are no departments for this school</p>
+                    <Button text="Add Department" outline color="green" link="#" />
+                </Block>
+                :
+                <List>
+                    {schlDepts.map((dept)=>
+                    <ListItem key={dept.id} title={`Department of ${dept.name}`} link="#"></ListItem>   
+                    )}
+                </List>
+            } 
+        </>
+        }
+        
+               
         
         <Popup className="demo-popup-swipe" id="editSchool" swipeToClose>
             <Page>
