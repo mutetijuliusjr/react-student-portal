@@ -1,19 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { 
-    FaPlus, 
+import {  
     FaBuilding, 
     FaTimes, 
-    FaTag, 
-    FaAsterisk, 
-    FaEnvelope, 
-    FaLink, 
-    FaPhoneAlt, 
-    FaMale, 
-    FaBirthdayCake, 
-    FaClock, 
+    FaTag,  
     FaParagraph, 
-    FaExclamationTriangle, 
-    FaSearch, 
+    FaExclamationTriangle,
     FaEllipsisV 
 } from 'react-icons/fa';
 import {
