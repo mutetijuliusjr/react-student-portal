@@ -80,25 +80,92 @@ export default () => {
     
       
     <Page name="schools">
+        <Navbar backLink="Back" sliding title="Schools">
+            <NavRight>
+                <Link popoverOpen=".popover-menu">
+                    <Icon>
+                        <FaEllipsisV />
+                    </Icon>
+                </Link>
+            </NavRight>
+            <Subnavbar>
+                <Searchbar
+                    style={{position: "static"}}
+                    searchContainer=".search-list"
+                    searchIn=".item-title"
+                    disableButton={!theme.aurora}
+                ></Searchbar>
+            </Subnavbar>
+        </Navbar>
     {schools == null ? 
     <>
-        <PageContent className="display-flex flex-direction-column justify-content-center text-align-center">
-            <div><Preloader className="color-multi" size="40px" /></div>
-        </PageContent>
+        <List mediaList className="skeleton-text skeleton-effect-fade">
+            <ListItem
+            title="Title"
+            subtitle="Subtitle"
+            text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lobortis et massa ac interdum."
+            >
+            <SkeletonBlock
+                style={{ width: '40px', height: '40px', borderRadius: '50%' }}
+                slot="media"
+            />
+            </ListItem>
+            <ListItem
+            title="Title"
+            subtitle="Subtitle"
+            text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lobortis et massa ac interdum."
+            >
+            <SkeletonBlock
+                style={{ width: '40px', height: '40px', borderRadius: '50%' }}
+                slot="media"
+            />
+            </ListItem>
+            <ListItem
+            title="Title"
+            subtitle="Subtitle"
+            text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lobortis et massa ac interdum."
+            >
+            <SkeletonBlock
+                style={{ width: '40px', height: '40px', borderRadius: '50%' }}
+                slot="media"
+            />
+            </ListItem>
+            <ListItem
+            title="Title"
+            subtitle="Subtitle"
+            text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lobortis et massa ac interdum."
+            >
+            <SkeletonBlock
+                style={{ width: '40px', height: '40px', borderRadius: '50%' }}
+                slot="media"
+            />
+            </ListItem>
+            <ListItem
+            title="Title"
+            subtitle="Subtitle"
+            text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lobortis et massa ac interdum."
+            >
+            <SkeletonBlock
+                style={{ width: '40px', height: '40px', borderRadius: '50%' }}
+                slot="media"
+            />
+            </ListItem>
+            <ListItem
+            title="Title"
+            subtitle="Subtitle"
+            text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lobortis et massa ac interdum."
+            >
+            <SkeletonBlock
+                style={{ width: '40px', height: '40px', borderRadius: '50%' }}
+                slot="media"
+            />
+            </ListItem>
+        </List>
     </>
     :
         <>
             {schools.length == 0 ? 
             <>
-                <Navbar backLink="Back" sliding={false} title="Schools">
-                    <NavRight>
-                        <Link popoverOpen=".popover-menu">
-                            <Icon>
-                                <FaEllipsisV />
-                            </Icon>
-                        </Link>
-                    </NavRight>
-                </Navbar>
                 <PageContent className="display-flex flex-direction-column justify-content-center text-align-center">
                     <div>
                         <Icon size="48px">
@@ -112,28 +179,8 @@ export default () => {
             </>
             :
             <>
-                <Navbar backLink="Back" sliding title="Schools">
-                    <NavRight>
-                        <Link popoverOpen=".popover-menu">
-                            <Icon>
-                                <FaEllipsisV />
-                            </Icon>
-                        </Link>
-                    </NavRight>
-                    <Subnavbar>
-                        <Searchbar
-                            style={{position: "static"}}
-                            searchContainer=".search-list"
-                            searchIn=".item-title"
-                            disableButton={!theme.aurora}
-                        ></Searchbar>
-                    </Subnavbar>
-                </Navbar>
-                <Popover className="popover-menu">
-                    <List noChevron noHairlines="true">
-                        <ListItem link="#" popupOpen="#newSchool" popoverClose title="New School" />
-                    </List>
-                </Popover>
+                
+                
                 <PageContent className="padding-vertical">
                     <List className="searchbar-not-found">
                         <ListItem title="Nothing found"></ListItem>
@@ -158,6 +205,12 @@ export default () => {
             } 
         </>
     }
+
+    <Popover className="popover-menu">
+        <List noChevron noHairlines="true">
+            <ListItem link="#" popupOpen="#newSchool" popoverClose title="New School" />
+        </List>
+    </Popover>
 
     <Popup className="demo-popup-swipe" id="newSchool" swipeToClose>
         <Page>
