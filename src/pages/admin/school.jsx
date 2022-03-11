@@ -9,8 +9,6 @@ import {
 import {
   Col,
   Page,
-  PageContent,
-  Preloader,
   Popover,
   Navbar,
   Block,
@@ -25,22 +23,23 @@ import {
   f7,
   Row,
   Popup,
-  App,
-  View,
-  Views,
 } from 'framework7-react';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { editSchoolAsync, deleteSchoolAsync } from '../../redux/schoolSlice';
-import MyApp from '../../components/app.jsx';
+import { getDepartmentsAsync } from '../../redux/departmentSlice';
 
 export default (props) => {
 
 const { f7router } = props
+
 const dispatch = useDispatch()
 const schools = useSelector((state) => state.schools)
+const departments = useSelector((state) => state.departments)
 const school = schools.find(sch => sch.id == props.id) 
 var schDesc = ""
+
+console.table(departments)
 
 if(school.description != null){
    schDesc = school.description
@@ -77,9 +76,12 @@ const deleteSchool = () => {
     setTimeout(() => {
         f7.dialog.close()
         deleteToast.open()
-    } ,3000)
+    } ,3000)    
 }
 
+useEffect(() => { 
+    dispatch(getDepartmentsAsync())
+}, [dispatch])
 
   return (
     
