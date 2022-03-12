@@ -124,80 +124,85 @@ const AdminHomePage = () => (
     </Block>
     
     <BlockTitle>User Management</BlockTitle>
-    <Link href="/users/">
-        <Card style={{width: "80px", height: "80px"}} bgColor="teal">
-            <CardContent className="display-flex justify-content-center">
-                <Icon size="24px" color="white">
-                    <FaUsers />
-                </Icon>
-            </CardContent>
-            <span className="display-flex justify-content-center">
-                <Chip bgColor="deeppurple" textColor="white" outline>Users</Chip>
-            </span>
-        </Card>
-    </Link>
-    <Link href="/roles/">
-        <Card style={{width: "80px", height: "80px"}} bgColor="gray">
-            <CardContent className="display-flex justify-content-center">
-                <Icon size="24px" color="white">
-                    <FaClipboardCheck />
-                </Icon>
-            </CardContent>
-            <span className="display-flex justify-content-center">
-                <Chip bgColor="deeppurple" textColor="white" outline>Roles</Chip>
-            </span>
-        </Card>
-    </Link>
-    <Link href="#">
-        <Card style={{width: "80px", height: "80px"}} bgColor="yellow">
-            <CardContent className="display-flex justify-content-center">
-                <Icon size="24px" color="white">
-                    <FaPenFancy />
-                </Icon>
-            </CardContent>
-            <span className="display-flex justify-content-center">
-                <Chip bgColor="deeppurple" textColor="white" outline>Others</Chip>
-            </span>
-        </Card>
-    </Link>
-    
+    <Block strong>
+        <Link href="/users/">
+            <Card style={{width: "80px", height: "80px"}} bgColor="teal">
+                <CardContent className="display-flex justify-content-center">
+                    <Icon size="24px" color="white">
+                        <FaUsers />
+                    </Icon>
+                </CardContent>
+                <span className="display-flex justify-content-center">
+                    <Chip bgColor="deeppurple" textColor="white" outline>Users</Chip>
+                </span>
+            </Card>
+        </Link>
+        <Link href="/roles/">
+            <Card style={{width: "80px", height: "80px"}} bgColor="gray">
+                <CardContent className="display-flex justify-content-center">
+                    <Icon size="24px" color="white">
+                        <FaClipboardCheck />
+                    </Icon>
+                </CardContent>
+                <span className="display-flex justify-content-center">
+                    <Chip bgColor="deeppurple" textColor="white" outline>Roles</Chip>
+                </span>
+            </Card>
+        </Link>
+        <Link href="#">
+            <Card style={{width: "80px", height: "80px"}} bgColor="yellow">
+                <CardContent className="display-flex justify-content-center">
+                    <Icon size="24px" color="white">
+                        <FaPenFancy />
+                    </Icon>
+                </CardContent>
+                <span className="display-flex justify-content-center">
+                    <Chip bgColor="deeppurple" textColor="white" outline>Others</Chip>
+                </span>
+            </Card>
+        </Link>
+    </Block>
+        
     <BlockTitle>Student Management</BlockTitle>
-    <Link href="#">
-        <Card style={{width: "80px", height: "80px"}} bgColor="teal">
-            <CardContent className="display-flex justify-content-center">
-                <Icon size="24px" color="white">
-                    <FaGraduationCap />
-                </Icon>
-            </CardContent>
-            <span className="display-flex justify-content-center">
-                <Chip bgColor="deeppurple" textColor="white" outline>All Students</Chip>
-            </span>
-        </Card>
-    </Link>
-    <Link href="#">
-        <Card style={{width: "80px", height: "80px"}} bgColor="teal">
-            <CardContent className="display-flex justify-content-center">
-                <Icon size="24px" color="white">
-                    <FaGraduationCap />
-                </Icon>
-            </CardContent>
-            <span className="display-flex justify-content-center">
-                <Chip bgColor="deeppurple" textColor="white" outline>Something</Chip>
-            </span>
-        </Card>
-    </Link>
-    <Link href="#">
-        <Card style={{width: "80px", height: "80px"}} bgColor="teal">
-            <CardContent className="display-flex justify-content-center">
-                <Icon size="24px" color="white">
-                    <FaGraduationCap />
-                </Icon>
-            </CardContent>
-            <span className="display-flex justify-content-center">
-                <Chip bgColor="deeppurple" textColor="white" outline>Something</Chip>
-            </span>
-        </Card>
-    </Link>
+    <Block strong>
+        <Link href="#">
+            <Card style={{width: "80px", height: "80px"}} bgColor="teal">
+                <CardContent className="display-flex justify-content-center">
+                    <Icon size="24px" color="white">
+                        <FaGraduationCap />
+                    </Icon>
+                </CardContent>
+                <span className="display-flex justify-content-center">
+                    <Chip bgColor="deeppurple" textColor="white" outline>All Students</Chip>
+                </span>
+            </Card>
+        </Link>
+        <Link href="#">
+            <Card style={{width: "80px", height: "80px"}} bgColor="teal">
+                <CardContent className="display-flex justify-content-center">
+                    <Icon size="24px" color="white">
+                        <FaGraduationCap />
+                    </Icon>
+                </CardContent>
+                <span className="display-flex justify-content-center">
+                    <Chip bgColor="deeppurple" textColor="white" outline>Something</Chip>
+                </span>
+            </Card>
+        </Link>
+        <Link href="#">
+            <Card style={{width: "80px", height: "80px"}} bgColor="teal">
+                <CardContent className="display-flex justify-content-center">
+                    <Icon size="24px" color="white">
+                        <FaGraduationCap />
+                    </Icon>
+                </CardContent>
+                <span className="display-flex justify-content-center">
+                    <Chip bgColor="deeppurple" textColor="white" outline>Something</Chip>
+                </span>
+            </Card>
+        </Link>
+    </Block>
+    
 
     <Popup className="poppy" swipeToClose>
         <Page>
