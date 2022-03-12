@@ -60,66 +60,68 @@ const AdminHomePage = () => (
     </Navbar>
     
     <BlockTitle>School Management</BlockTitle>
-    <Link href="/schools/">
-        <Card style={{width: "80px", height: "80px"}} bgColor="purple">
-            <CardContent className="display-flex justify-content-center">
-                <Icon size="24px" color="white">
-                    <FaBuilding />
-                </Icon>
-            </CardContent>
-            <span className="display-flex justify-content-center">
-                <Chip bgColor="deeppurple" textColor="white" outline>Schools</Chip>
-            </span>
-        </Card>
-    </Link>
-    <Link href="/departments/">
-        <Card style={{width: "80px", height: "80px"}} bgColor="orange">
-            <CardContent className="display-flex justify-content-center">
-                <Icon size="24px" color="white">
-                    <FaRegBuilding />
-                </Icon>
-            </CardContent>
-            <span className="display-flex justify-content-center">
-                <Chip bgColor="deeppurple" textColor="white" outline>Departments</Chip>
-            </span>
-        </Card>
-    </Link>
-    <Link href="/courses/">
-        <Card style={{width: "80px", height: "80px"}} bgColor="red">
-            <CardContent className="display-flex justify-content-center">
-                <Icon size="24px" color="white">
-                    <FaGraduationCap />
-                </Icon>
-            </CardContent>
-            <span className="display-flex justify-content-center">
-                <Chip bgColor="deeppurple" textColor="white" outline>Courses</Chip>
-            </span>
-        </Card>
-    </Link>
-    <Link href="/semesters/">
-        <Card style={{width: "80px", height: "80px"}} bgColor="green">
-            <CardContent className="display-flex justify-content-center">
-                <Icon size="24px" color="white">
-                    <FaClipboard />
-                </Icon>
-            </CardContent>
-            <span className="display-flex justify-content-center">
-                <Chip bgColor="deeppurple" textColor="white" outline>Semesters</Chip>
-            </span>
-        </Card>
-    </Link>
-    <Link href="/units/">
-        <Card style={{width: "80px", height: "80px"}} bgColor="blue">
-            <CardContent className="display-flex justify-content-center">
-                <Icon size="24px" color="white">
-                    <FaBookOpen />
-                </Icon>
-            </CardContent>
-            <span className="display-flex justify-content-center">
-                <Chip bgColor="deeppurple" textColor="white" outline>Units</Chip>
-            </span>
-        </Card>
-    </Link>
+    <Block strong>
+        <Link href="/schools/">
+            <Card style={{width: "80px", height: "80px"}} bgColor="purple">
+                <CardContent className="display-flex justify-content-center">
+                    <Icon size="24px" color="white">
+                        <FaBuilding />
+                    </Icon>
+                </CardContent>
+                <span className="display-flex justify-content-center">
+                    <Chip bgColor="deeppurple" textColor="white" outline>Schools</Chip>
+                </span>
+            </Card>
+        </Link>
+        <Link href="/departments/">
+            <Card style={{width: "80px", height: "80px"}} bgColor="orange">
+                <CardContent className="display-flex justify-content-center">
+                    <Icon size="24px" color="white">
+                        <FaRegBuilding />
+                    </Icon>
+                </CardContent>
+                <span className="display-flex justify-content-center">
+                    <Chip bgColor="deeppurple" textColor="white" outline>Departments</Chip>
+                </span>
+            </Card>
+        </Link>
+        <Link href="/courses/">
+            <Card style={{width: "80px", height: "80px"}} bgColor="red">
+                <CardContent className="display-flex justify-content-center">
+                    <Icon size="24px" color="white">
+                        <FaGraduationCap />
+                    </Icon>
+                </CardContent>
+                <span className="display-flex justify-content-center">
+                    <Chip bgColor="deeppurple" textColor="white" outline>Courses</Chip>
+                </span>
+            </Card>
+        </Link>
+        <Link href="/semesters/">
+            <Card style={{width: "80px", height: "80px"}} bgColor="green">
+                <CardContent className="display-flex justify-content-center">
+                    <Icon size="24px" color="white">
+                        <FaClipboard />
+                    </Icon>
+                </CardContent>
+                <span className="display-flex justify-content-center">
+                    <Chip bgColor="deeppurple" textColor="white" outline>Semesters</Chip>
+                </span>
+            </Card>
+        </Link>
+        <Link href="/units/">
+            <Card style={{width: "80px", height: "80px"}} bgColor="blue">
+                <CardContent className="display-flex justify-content-center">
+                    <Icon size="24px" color="white">
+                        <FaBookOpen />
+                    </Icon>
+                </CardContent>
+                <span className="display-flex justify-content-center">
+                    <Chip bgColor="deeppurple" textColor="white" outline>Units</Chip>
+                </span>
+            </Card>
+        </Link>
+    </Block>
     
     <BlockTitle>User Management</BlockTitle>
     <Link href="/users/">
