@@ -1,16 +1,20 @@
-import React, { useState } from 'react';
-import { FaSearch, FaRegBuilding, FaTimesCircle, FaEdit, FaDumpster, FaTag, FaAsterisk, FaEnvelope, FaLink, FaPhoneAlt, FaMale, FaCalendar, FaBirthdayCake, FaClock, FaParagraph } from 'react-icons/fa';
+import React, { useState, useEffect } from 'react';
+import {  
+    FaBuilding, 
+    FaTimes, 
+    FaTag,  
+    FaParagraph, 
+    FaExclamationTriangle,
+    FaEllipsisV 
+} from 'react-icons/fa';
 import {
   f7,
   Page,
   Popup,
-  Menu,
-  MenuItem,
+  Popover,
   Navbar,
   NavRight,
-  Block,
   Button,
-  BlockTitle,
   Icon,
   List,
   Link,
@@ -18,253 +22,232 @@ import {
   ListInput,
   SkeletonBlock,
   Searchbar,
+  Subnavbar,
   Row,
+  Col,
+  theme,
+  PageContent,
 } from 'framework7-react';
 
-export default () => {
-  const [loading, setLoading] = useState(true);
+import { useSelector, useDispatch } from 'react-redux';
+import { getDepartmentsAsync, addDepartmentAsync } from '../../redux/departmentSlice';
 
-  const load = () => {
-    if (loading) return
-        setLoading(true)
-        setTimeout(() => {
-        setLoading(false)
-        }, 3000)
+export default () => {
+  const [departmentName, setDepartmentName] = useState('')
+  const [departmentDesc, setDepartmentDesc] = useState('')
+
+  const dispatch = useDispatch()
+  const departments = useSelector((state) => state.departments)
+
+  const departmentCreatedToast = f7.toast.create({
+    text: 'Department created!',
+    position: 'bottom',
+    horizontalPosition: 'center',
+    closeTimeout: 3000,
+  })
+
+  const clearForm = ()=>{
+      setDepartmentName('')
+      setDepartmentDesc('')
   }
 
-  const departments= [
-    {'id': '1', 'school':'School 1', 'name': 'Test Department 1', 'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', 'course_count': '2'},
-    {'id': '2', 'school':'School 1', 'name': 'Test Department 2', 'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', 'course_count': '4'},
-    {'id': '3', 'school':'School 3', 'name': 'Test Department 3', 'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', 'course_count': '5'},
-    {'id': '4', 'school':'School 1', 'name': 'Test Department 4', 'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', 'course_count': '2'},
-    {'id': '5', 'school':'School 2', 'name': 'Test Department 5', 'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', 'course_count': '1'},
-    {'id': '6', 'school':'School 4', 'name': 'Test Department 6', 'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', 'course_count': '6'},
-  ];
+  const onSubmit = (event) => {
+    event.preventDefault();
+        f7.dialog.preloader('Loading', 'multi')
+        dispatch(
+            addDepartmentAsync({
+                name: departmentName,
+                description: departmentDesc
+            })
+        )
+        f7.dialog.close()
+        departmentCreatedToast.open()
+    };
+
+  useEffect(() => {
+    dispatch(getDepartmentsAsync())
+  }, [dispatch])
 
   return (
     
       
-    <Page pageAfterIn={setTimeout(() => {setLoading(false)}, 3000)}>
-    {/* Top Navbar */}
-      <Navbar backLink="Back" sliding={false} title="Departments" />
-
-      {loading ? (
-        <List mediaList v-if="loading">
-          {[1, 2, 3, 4, 5, 6, 7].map((n) => (
+    <Page name="departments">
+        <Navbar backLink="Back" sliding title="Departments">
+            <NavRight>
+                <Link popoverOpen=".popover-menu">
+                    <Icon>
+                        <FaEllipsisV />
+                    </Icon>
+                </Link>
+            </NavRight>
+            <Subnavbar>
+                <Searchbar
+                    style={{position: "static"}}
+                    searchContainer=".search-list"
+                    searchIn=".item-title"
+                    disableButton={!theme.aurora}
+                ></Searchbar>
+            </Subnavbar>
+        </Navbar>
+    {departments == null ? 
+    <>
+        <List mediaList className="skeleton-text skeleton-effect-fade">
             <ListItem
-              key={n}
-              className={`skeleton-text skeleton-effect-wave`}
-              title="Full Name"
-              subtitle="Position"
-              text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lobortis et massa ac interdum. Cras consequat felis at consequat hendrerit. Aliquam vestibulum vitae lorem ac iaculis. Praesent nec pharetra massa, at blandit lectus. Sed tincidunt, lectus eu convallis elementum, nibh nisi aliquet urna, nec imperdiet felis sapien at enim."
+            title="Title"
+            subtitle="Subtitle"
+            text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lobortis et massa ac interdum."
             >
-              <SkeletonBlock
+            <SkeletonBlock
                 style={{ width: '40px', height: '40px', borderRadius: '50%' }}
                 slot="media"
-              />
+            />
             </ListItem>
-          ))}
+            <ListItem
+            title="Title"
+            subtitle="Subtitle"
+            text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lobortis et massa ac interdum."
+            >
+            <SkeletonBlock
+                style={{ width: '40px', height: '40px', borderRadius: '50%' }}
+                slot="media"
+            />
+            </ListItem>
+            <ListItem
+            title="Title"
+            subtitle="Subtitle"
+            text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lobortis et massa ac interdum."
+            >
+            <SkeletonBlock
+                style={{ width: '40px', height: '40px', borderRadius: '50%' }}
+                slot="media"
+            />
+            </ListItem>
+            <ListItem
+            title="Title"
+            subtitle="Subtitle"
+            text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lobortis et massa ac interdum."
+            >
+            <SkeletonBlock
+                style={{ width: '40px', height: '40px', borderRadius: '50%' }}
+                slot="media"
+            />
+            </ListItem>
+            <ListItem
+            title="Title"
+            subtitle="Subtitle"
+            text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lobortis et massa ac interdum."
+            >
+            <SkeletonBlock
+                style={{ width: '40px', height: '40px', borderRadius: '50%' }}
+                slot="media"
+            />
+            </ListItem>
+            <ListItem
+            title="Title"
+            subtitle="Subtitle"
+            text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lobortis et massa ac interdum."
+            >
+            <SkeletonBlock
+                style={{ width: '40px', height: '40px', borderRadius: '50%' }}
+                slot="media"
+            />
+            </ListItem>
         </List>
-      ) : (
-        <List mediaList id="search-list">
-            {departments.map( (department) => 
-                <ListItem
-                    className={`schl`}
-                    link="#"    
-                    key={department.id}
-                    title={department.name}
-                    subtitle={`Course(s) ${department.course_count}`}
-                    text={department.school}
-                    popupOpen='#demo'
-                >
-                    <Icon size="40px" slot="media" color="orange">
-                        <FaRegBuilding />
-                    </Icon>
-                </ListItem>
-            )}
-
-        </List>
-      )}
-
-    <Popup id="demo" className="demo-popup-swipe" swipeToClose>
-        <Page>
-            <Navbar title="Title" style={{textTransform:'capitalize'}}>
-                <NavRight>
-                    <Link popupClose tooltip="Close">
-                        <FaTimesCircle />
-                    </Link>
-                </NavRight>
-            </Navbar>
-
-            <div
-                style={{ height: '100%' }}
-                className="display-flex justify-content-center"
-                >
-                <Block>
-                    <Menu>
-                        <MenuItem href="#" text="Edit" bgColor="blue" popupOpen="#edit_school" />
-                        <MenuItem href="#" text="Delete" bgColor="red" onClick={()=>{ f7.dialog.confirm('Do You Want To Delete Department and Related Entities?', 'Delete Department') }} />
-                    </Menu>
-                    <h3>Description</h3>
-                    <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    </p>
-                
-                    <h3>Course(s)</h3>
-                    <List>
-                        <ListItem link="#">
-                            Course #1
-                        </ListItem>
-                        <ListItem link="#">
-                            Course #1
-                        </ListItem>
-                        <ListItem link="#">
-                            Course #1
-                        </ListItem>
-                        <ListItem link="#">
-                            Course #1
-                        </ListItem>
-                        <ListItem link="#">
-                            Course #1
-                        </ListItem>
-                        <ListItem link="#">
-                            Course #1
-                        </ListItem>
-                        <ListItem link="#">
-                            Course #1
-                        </ListItem>
-                        <ListItem link="#">
-                            Course #1
-                        </ListItem>
-                        <ListItem link="#">
-                            Course #1
-                        </ListItem>
-                        <ListItem link="#">
-                            Course #1
-                        </ListItem>
-                        <ListItem link="#">
-                            Course #1
-                        </ListItem>
+    </>
+    :
+        <>
+            {departments.length == 0 ? 
+            <>
+                <PageContent className="display-flex flex-direction-column justify-content-center text-align-center">
+                    <div>
+                        <Icon size="48px">
+                            <FaExclamationTriangle />
+                        </Icon>
+                        <p>Hmm...</p>
+                        <p>There are no departments listed.</p>
+                        <p>Yet.</p>
+                    </div>
+                </PageContent>
+            </>
+            :
+            <>
+                <PageContent className="padding-vertical">
+                    <List className="searchbar-not-found">
+                        <ListItem title="Nothing found"></ListItem>
                     </List>
-                </Block>
-            </div>
-        </Page>
-    </Popup>
+                    
+                    <List mediaList  className="search-list searchbar-found">
+                        {departments.map( (department) => 
+                            <ListItem
+                                link={`/department/${department.id}`}    
+                                key={department.id}
+                                title={department.name}
+                                text={department.description}
+                            >
+                                <Icon size="40px" slot="media" color="orange">
+                                    <FaBuilding />
+                                </Icon>
+                            </ListItem>
+                        )}
+                    </List>    
+                </PageContent> 
+            </>
+            } 
+        </>
+    }
 
-    <Popup className="demo-popup-swipe" id="edit_school" swipeToClose>
+    <Popover className="popover-menu">
+        <List noChevron noHairlines="true">
+            <ListItem link="#" popupOpen="#newDepartment" popoverClose title="New Department" />
+        </List>
+    </Popover>
+
+    <Popup className="demo-popup-swipe" id="newDepartment" swipeToClose>
         <Page>
-            <Navbar title="Edit Department">
+            <Navbar title="Add Department">
                 <NavRight>
                     <Link popupClose tooltip="Close">
-                        <FaTimesCircle />
+                        <FaTimes />
                     </Link>
                 </NavRight>
             </Navbar>
 
-            <List inlineLabels noHairlines>
-                <ListInput
-                    label="Name"
-                    type="text"
-                    placeholder="Your name"
-                    clearButton
-                >
-                    <Icon color="blue" slot="media">
-                        <FaTag />
-                    </Icon>
-                </ListInput>
-                <ListInput
-                    label="Password"
-                    type="password"
-                    placeholder="Your password"
-                    clearButton
-                >
-                    <Icon color="blue" slot="media">
-                        <FaAsterisk />
-                    </Icon>
-                </ListInput>
-                <ListInput
-                    label="E-mail"
-                    type="email"
-                    placeholder="Your e-mail"
-                    clearButton
-                >
-                    <Icon color="blue" slot="media">
-                        <FaEnvelope />
-                    </Icon>
-                </ListInput>
-                <ListInput
-                    label="URL"
-                    type="url"
-                    placeholder="URL"
-                    clearButton
-                >
-                    <Icon color="blue" slot="media">
-                        <FaLink />
-                    </Icon>
-                </ListInput>
-                <ListInput
-                    label="Phone"
-                    type="tel"
-                    placeholder="Your phone number"
-                    clearButton
-                >
-                    <Icon color="blue" slot="media">
-                        <FaPhoneAlt />
-                    </Icon>
-                </ListInput>
-                <ListInput
-                    label="Gender"
-                    type="select"
-                    defaultValue="Male"
-                    placeholder="Please choose..."
-                >
-                    <Icon color="blue" slot="media">
-                        <FaMale />
-                    </Icon>
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
-                </ListInput>
-                <ListInput
-                    label="Birthday"
-                    type="date"
-                    defaultValue="2014-04-30"
-                    placeholder="Please choose..."
-                >
-                    <Icon color="blue" slot="media">
-                        <FaBirthdayCake />
-                    </Icon>
-                </ListInput>
-                <ListInput
-                    label="Date time"
-                    type="datetime-local"
-                    placeholder="Please choose..."
-                >
-                    <Icon color="blue" slot="media">
-                        <FaClock />
-                    </Icon>
-                </ListInput>
-                <ListInput
-                    label="Textarea"
-                    type="textarea"
-                    placeholder="Bio"
-                >
-                    <Icon color="blue" slot="media">
-                        <FaParagraph />
-                    </Icon>
-                </ListInput>
-                <ListInput
-                    label="Resizable"
-                    type="textarea"
-                    resizable
-                    placeholder="Bio"
-                >
-                    <Icon color="blue" slot="media">
-                        <FaParagraph />
-                    </Icon>
-                </ListInput>
-            </List>
+            <form onSubmit={onSubmit}>
+                <List inlineLabels noHairlines>
+                    <ListInput
+                        label="Name"
+                        type="text"
+                        placeholder="Department name"
+                        clearButton={false}
+                        required
+                        validateOnBlur
+                        value={departmentName}
+				        onChange={(event) => setDepartmentName(event.target.value)}
+                    >
+                        <Icon color="blue" slot="media">
+                            <FaTag />
+                        </Icon>
+                    </ListInput>
+                    <ListInput
+                        label="Description"
+                        type="textarea"
+                        placeholder="Department Description"
+                        name="description"
+                        clearButton={false}
+                        resizable
+                        value={departmentDesc}
+				        onChange={(event) => setDepartmentDesc(event.target.value)}
+                    >
+                        <Icon color="blue" slot="media">
+                            <FaParagraph />
+                        </Icon>
+                    </ListInput>
+                </List>
+                <Row>
+                    <Col><Button outline color="red" text="Clear" onClick={clearForm} /></Col>
+                    <Col><Button outline color="green" text="Save" type="submit" /></Col>
+                </Row>
+            </form>
 
         </Page>
     </Popup>
