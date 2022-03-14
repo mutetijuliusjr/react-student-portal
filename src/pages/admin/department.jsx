@@ -26,10 +26,15 @@ import {
   Popup,
 } from 'framework7-react';
 
+import { useSelector, useDispatch } from 'react-redux';
+
 export default (props) => {
 
 const { f7router } = props
 
+const dispatch = useDispatch()
+const departments = useSelector((state) => state.departments)
+const department = departments.find(dept => dept.id == props.id)
 
   return (
     
@@ -73,7 +78,7 @@ const { f7router } = props
                     </NavRight>
                 </Navbar>
 
-                <form onSubmit={onSubmit}>
+                <form >
                     <List inlineLabels noHairlines>
                         <ListInput
                             label="Name"
