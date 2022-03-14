@@ -31,6 +31,7 @@ import {
 
 import { useSelector, useDispatch } from 'react-redux';
 import { getDepartmentsAsync, addDepartmentAsync } from '../../redux/departmentSlice';
+import { getSchoolsAsync } from '../../redux/schoolSlice';
 
 export default () => {
   const [departmentName, setDepartmentName] = useState('')
@@ -38,6 +39,17 @@ export default () => {
 
   const dispatch = useDispatch()
   const departments = useSelector((state) => state.departments)
+  const schools = useSelector((state) => state.schools)
+
+  const schoolName = (id)=>{
+      if (schools != null) {
+          var schl = schools.find((schl) => schl.id == id)
+          return `School of ${schl.name}`
+      }
+      else
+      {return 'loading...'}
+  }
+
 
   const departmentCreatedToast = f7.toast.create({
     text: 'Department created!',
@@ -66,6 +78,7 @@ export default () => {
 
   useEffect(() => {
     dispatch(getDepartmentsAsync())
+    dispatch(getSchoolsAsync())
   }, [dispatch])
 
   return (
@@ -181,7 +194,8 @@ export default () => {
                             <ListItem
                                 link={`/department/${department.id}`}    
                                 key={department.id}
-                                title={department.name}
+                                title={`Department of ${department.name}`}
+                                subtitle={schoolName(department.school_id)}
                                 text={department.description}
                             >
                                 <Icon size="40px" slot="media" color="orange">
