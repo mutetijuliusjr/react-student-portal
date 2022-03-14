@@ -77,7 +77,7 @@ var routes = [
     },
   },
   {
-    path: '/department/',
+    path: '/department/:id',
     component: DepartmentPage,
     options: {
       transition: 'f7-cover-v',
