@@ -27,6 +27,8 @@ import {
   Col,
   theme,
   PageContent,
+  BlockTitle,
+  Block,
 } from 'framework7-react';
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -36,6 +38,7 @@ import { getSchoolsAsync } from '../../redux/schoolSlice';
 export default () => {
   const [departmentName, setDepartmentName] = useState('')
   const [departmentDesc, setDepartmentDesc] = useState('')
+  const [departmentSchl, setDepartmentSchl] = useState('')
 
   const dispatch = useDispatch()
   const departments = useSelector((state) => state.departments)
@@ -47,7 +50,7 @@ export default () => {
           return `School of ${schl.name}`
       }
       else
-      {return 'loading...'}
+      {return '...'}
   }
 
 
@@ -65,13 +68,14 @@ export default () => {
 
   const onSubmit = (event) => {
     event.preventDefault();
-        f7.dialog.preloader('Loading', 'multi')
+        f7.dialog.preloader('Loading', 'multi') 
         dispatch(
             addDepartmentAsync({
                 name: departmentName,
-                description: departmentDesc
+                description: departmentDesc,
+                school_id: departmentSchl
             })
-        )
+        ) 
         f7.dialog.close()
         departmentCreatedToast.open()
     };
@@ -256,6 +260,30 @@ export default () => {
                             <FaParagraph />
                         </Icon>
                     </ListInput>
+                    <BlockTitle>School</BlockTitle>
+                    {schools != null && 
+                        <Block className="no-padding">
+                           <List mediaList>
+                           <ListInput
+                               label="Name"
+                               name="school_id"
+                               type="select"
+                               value={departmentSchl}
+                               onChange={(event) => setDepartmentSchl(event.target.value)}
+                           >
+                               <Icon color="blue" slot="media">
+                                   <FaBuilding />
+                               </Icon>
+                               <option>Choose a School</option>
+                               {schools.map((school)=>
+                                   <option key={school.id} value={school.id}>{`School of ${school.name}`}</option>
+                               )}
+                               
+                               
+                           </ListInput>
+                           </List>
+                       </Block>     
+                    }
                 </List>
                 <Row>
                     <Col><Button outline color="red" text="Clear" onClick={clearForm} /></Col>
