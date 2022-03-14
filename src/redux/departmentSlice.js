@@ -20,13 +20,18 @@ export const addDepartmentAsync = createAsyncThunk(
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 name: payload.name,
-                description: payload.description
+                description: payload.description,
+                school_id: payload.school_id
             })
         });
 
         if (resp.ok) {
             const department = await resp.json();
             return { department };
+        }
+        else
+        {
+            throw new Error(resp)
         }
         
     }
