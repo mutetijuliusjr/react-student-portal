@@ -27,14 +27,28 @@ import {
 } from 'framework7-react';
 
 import { useSelector, useDispatch } from 'react-redux';
+import { getCoursesAsync } from '../../redux/courseSlice';
 
 export default (props) => {
 
 const { f7router } = props
 
 const dispatch = useDispatch()
+
 const departments = useSelector((state) => state.departments)
 const department = departments.find(dept => dept.id == props.id)
+
+const courses = useSelector((state) => state.courses)
+
+var departmentCourses = ''
+
+if(courses != null) {
+    departmentCourses = courses.filter(course => course.department_id == props.id)
+}
+
+useEffect(() => { 
+    dispatch(getCoursesAsync())
+}, [dispatch])
 
   return (
     
@@ -66,8 +80,29 @@ const department = departments.find(dept => dept.id == props.id)
         <Block strong>Department of {department.name}</Block>
         <BlockTitle>Description</BlockTitle>
         <Block strong>{department.description}</Block>        
-               
-        
+        <BlockTitle>Courses</BlockTitle>     
+        {courses == null ? 
+        <Block className="display-flex flex-direction-column justify-content-center text-align-center">
+            <div><Preloader className="color-multi" size="24px" text="Loading" /></div>
+        </Block>
+        :
+        <Block className="no-padding">
+            {departmentCourses.length == 0 ? 
+                <Block>
+                    <p>There are no Courses for this Department</p>
+                    <Button text="Add Course" outline color="green" link="#" />
+                </Block>
+                :
+                <List>
+                    {departmentCourses.map((course)=>
+                    <ListItem key={course.id} title={course.name} link={`/course/${course.id}`}></ListItem>   
+                    )}
+                </List>
+            }
+        </Block>
+        }
+
+
         <Popup className="demo-popup-swipe" id="editDepartment" swipeToClose>
             <Page>
                 <Navbar title="Edit Department">
