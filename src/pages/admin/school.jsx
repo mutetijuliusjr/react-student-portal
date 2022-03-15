@@ -35,11 +35,17 @@ export default (props) => {
 const { f7router } = props
 
 const dispatch = useDispatch()
+
 const schools = useSelector((state) => state.schools)
-const departments = useSelector((state) => state.departments)
 const school = schools.find(sch => sch.id == props.id) 
+
 const [schoolName, setSchoolName] = useState(school.name)
 const [schoolDesc, setSchoolDesc] = useState(schDesc)
+
+const departments = useSelector((state) => state.departments)
+
+var schDesc = ""
+var schDepts = null
 
 const deleteToast = f7.toast.create({
     closeTimeout: 5000,
@@ -72,8 +78,6 @@ const deleteSchool = () => {
     } ,3000)    
 }
 
-var schDesc = ""
-var schDepts = null
 
 if(school.description != null){
    schDesc = school.description
@@ -135,7 +139,7 @@ useEffect(() => {
                 :
                 <List>
                     {schDepts.map((dept)=>
-                    <ListItem key={dept.id} title={`Department of ${dept.name}`} link="#"></ListItem>   
+                    <ListItem key={dept.id} title={`Department of ${dept.name}`} link={`/department/${dept.id}`}></ListItem>   
                     )}
                 </List>
             } 
