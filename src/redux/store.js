@@ -1,4 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
+
 import schoolReducer from './schoolSlice';
 import departmentReducer from './departmentSlice';
 import courseReducer from './courseSlice';
