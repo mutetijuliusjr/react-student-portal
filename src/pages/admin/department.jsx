@@ -28,6 +28,7 @@ import {
 
 import { useSelector, useDispatch } from 'react-redux';
 import { getCoursesAsync } from '../../redux/courseSlice';
+import { editDepartmentAsync } from '../../redux/departmentSlice';
 
 export default (props) => {
 
@@ -38,12 +39,37 @@ const dispatch = useDispatch()
 const departments = useSelector((state) => state.departments)
 const department = departments.find(dept => dept.id == props.id)
 
+const school = (useSelector((state) => state.schools)).find((school)=>school.id == department.school_id)
 const courses = useSelector((state) => state.courses)
 
+var newDeptDesc = ''
+if(department.description != null) {
+    newDeptDesc = department.description
+} 
+ 
 var departmentCourses = ''
+
+const [departmentName, setDepartmentName] = useState(department.name)
+const [departmentDesc, setDepartmentDesc] = useState(newDeptDesc)
+
 
 if(courses != null) {
     departmentCourses = courses.filter(course => course.department_id == props.id)
+}
+
+const onSubmit = (event) => {
+    event.preventDefault();
+    f7.dialog.preloader('Loading', 'multi')
+    dispatch(
+        editDepartmentAsync({
+            id: props.id,
+            name: departmentName,
+            description: departmentDesc,
+            school_id: department.school_id
+        })
+    )
+    f7.dialog.close()
+    f7.dialog.alert('Saved!')
 }
 
 useEffect(() => { 
@@ -64,7 +90,7 @@ useEffect(() => {
         </Navbar>
         <Popover className="popover-menu">
             <List noChevron noHairlines>
-                <ListItem link="#" popupOpen="#editDepartment" popoverClose title="Edit Department" />
+                <ListItem link="#" popupOpen="#editDepartment" popoverClose title="Edit Department" />\
                 <ListItem 
                 link="#" 
                 popoverClose
@@ -78,15 +104,29 @@ useEffect(() => {
         </Popover>
         <BlockTitle>Name</BlockTitle>
         <Block strong>Department of {department.name}</Block>
+        
+        <BlockTitle>School</BlockTitle>
+        <Block strong>
+            <Row>
+                <Col>
+                    School of {school.name}
+                </Col>
+                <Col>
+                    <Button fill raised round color="yellow" textColor="black" text="Change" link="#" />
+                </Col>
+            </Row>
+        </Block>
+
         <BlockTitle>Description</BlockTitle>
-        <Block strong>{department.description}</Block>        
+        <Block strong ><p>{department.description}</p></Block>   
+
         <BlockTitle>Courses</BlockTitle>     
         {courses == null ? 
-        <Block className="display-flex flex-direction-column justify-content-center text-align-center">
+        <Block strong className="display-flex flex-direction-column justify-content-center text-align-center">
             <div><Preloader className="color-multi" size="24px" text="Loading" /></div>
         </Block>
         :
-        <Block className="no-padding">
+        <Block strong>
             {departmentCourses.length == 0 ? 
                 <Block>
                     <p>There are no Courses for this Department</p>
@@ -113,7 +153,7 @@ useEffect(() => {
                     </NavRight>
                 </Navbar>
 
-                <form >
+                <form onSubmit={onSubmit}>
                     <List inlineLabels noHairlines>
                         <ListInput
                             label="Name"
@@ -122,6 +162,8 @@ useEffect(() => {
                             clearButton={false}
                             required
                             validateOnBlur
+                            value={departmentName}
+                            onChange={(event) => setDepartmentName(event.target.value)}
                         >
                             <Icon color="blue" slot="media">
                                 <FaTag />
@@ -134,6 +176,8 @@ useEffect(() => {
                             name="description"
                             clearButton={false}
                             resizable
+                            value={departmentDesc}
+                            onChange={(event) => setDepartmentDesc(event.target.value)}
                         >
                             <Icon color="blue" slot="media">
                                 <FaParagraph />
