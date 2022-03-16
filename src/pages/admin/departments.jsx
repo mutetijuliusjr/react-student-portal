@@ -106,7 +106,7 @@ export default () => {
                 ></Searchbar>
             </Subnavbar>
         </Navbar>
-    {departments == null ? 
+    {departments == null && schools == null ? 
     <>
         <List mediaList className="skeleton-text skeleton-effect-fade">
             <ListItem
