@@ -3,7 +3,8 @@ import {
     FaEllipsisV,
     FaTimesCircle,
     FaTag,
-    FaParagraph
+    FaParagraph,
+    FaBuilding
 } from 'react-icons/fa';
 
 import {
@@ -107,14 +108,7 @@ useEffect(() => {
         
         <BlockTitle>School</BlockTitle>
         <Block strong>
-            <Row>
-                <Col>
-                    School of {school.name}
-                </Col>
-                <Col>
-                    <Button fill raised round color="yellow" textColor="black" text="Change" link="#" />
-                </Col>
-            </Row>
+            School of {school.name}
         </Block>
 
         <BlockTitle>Description</BlockTitle>
@@ -183,6 +177,25 @@ useEffect(() => {
                                 <FaParagraph />
                             </Icon>
                         </ListInput>
+                        <ListItem
+                            title="Fruit"
+                            smartSelect
+                            smartSelectParams={{
+                                openIn: 'page',
+                            }}>
+                                <select name="fruits" defaultValue="apple">
+                                <option value="apple">Apple</option>
+                                <option value="pineapple">Pineapple</option>
+                                <option value="pear">Pear</option>
+                                <option value="orange">Orange</option>
+                                <option value="melon">Melon</option>
+                                <option value="peach">Peach</option>
+                                <option value="banana">Banana</option>
+                                </select>
+                                <Icon color="blue" slot="media">
+                                    <FaBuilding />
+                                </Icon>
+                        </ListItem>
                     </List>
                     <Row>
                         <Col><Button outline color="green" text="Save" type="submit" /></Col>
