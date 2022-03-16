@@ -40,7 +40,8 @@ const dispatch = useDispatch()
 const departments = useSelector((state) => state.departments)
 const department = departments.find(dept => dept.id == props.id)
 
-const school = (useSelector((state) => state.schools)).find((school)=>school.id == department.school_id)
+const schools = useSelector((state) => state.schools)
+const school = schools.find((school)=>school.id == department.school_id)
 const courses = useSelector((state) => state.courses)
 
 var newDeptDesc = ''
@@ -52,6 +53,7 @@ var departmentCourses = ''
 
 const [departmentName, setDepartmentName] = useState(department.name)
 const [departmentDesc, setDepartmentDesc] = useState(newDeptDesc)
+const [departmentSchl, setDepartmentSchl] = useState(department.school_id)
 
 
 if(courses != null) {
@@ -66,7 +68,7 @@ const onSubmit = (event) => {
             id: props.id,
             name: departmentName,
             description: departmentDesc,
-            school_id: department.school_id
+            school_id: departmentSchl
         })
     )
     f7.dialog.close()
@@ -178,19 +180,17 @@ useEffect(() => {
                             </Icon>
                         </ListInput>
                         <ListItem
-                            title="Fruit"
+                            title="Schools"
                             smartSelect
                             smartSelectParams={{
-                                openIn: 'page',
-                            }}>
-                                <select name="fruits" defaultValue="apple">
-                                <option value="apple">Apple</option>
-                                <option value="pineapple">Pineapple</option>
-                                <option value="pear">Pear</option>
-                                <option value="orange">Orange</option>
-                                <option value="melon">Melon</option>
-                                <option value="peach">Peach</option>
-                                <option value="banana">Banana</option>
+                                openIn: 'popup',
+                            }}
+                            value={departmentSchl}
+                            onChange={(event) => setDepartmentSchl(event.target.value)}>
+                                <select name="school_id" defaultValue={department.school_id}>
+                                    {schools.map((school)=>
+                                        <option key={school.id} value={school.id}>School of {school.name}</option>  
+                                    )}
                                 </select>
                                 <Icon color="blue" slot="media">
                                     <FaBuilding />
