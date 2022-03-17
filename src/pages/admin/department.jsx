@@ -41,8 +41,8 @@ const departments = useSelector((state) => state.departments)
 const department = departments.find(dept => dept.id == props.id)
 
 const schools = useSelector((state) => state.schools)
-const school = schools.find((school)=>school.id == department.school_id)
 const courses = useSelector((state) => state.courses)
+var school = '' 
 
 var newDeptDesc = ''
 if(department.description != null) {
@@ -53,8 +53,10 @@ var departmentCourses = ''
 
 const [departmentName, setDepartmentName] = useState(department.name)
 const [departmentDesc, setDepartmentDesc] = useState(newDeptDesc)
-const [departmentSchl, setDepartmentSchl] = useState(department.school_id)
 
+if(schools != null) {
+    school = schools.find((school)=>school.id == department.school_id)
+}
 
 if(courses != null) {
     departmentCourses = courses.filter(course => course.department_id == props.id)
@@ -110,9 +112,11 @@ useEffect(() => {
         <Block strong>Department of {department.name}</Block>
         
         <BlockTitle>School</BlockTitle>
+        {schools != null && 
         <Block strong>
             School of {school.name}
         </Block>
+        }
 
         <BlockTitle>Description</BlockTitle>
         <Block strong ><p>{department.description}</p></Block>   
