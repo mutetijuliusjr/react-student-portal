@@ -63,12 +63,13 @@ if(courses != null) {
 const onSubmit = (event) => {
     event.preventDefault();
     f7.dialog.preloader('Loading', 'multi')
+    console.log(departmentSchl)
     dispatch(
         editDepartmentAsync({
             id: props.id,
             name: departmentName,
             description: departmentDesc,
-            school_id: departmentSchl
+            school_id: department.school_id
         })
     )
     f7.dialog.close()
@@ -179,23 +180,6 @@ useEffect(() => {
                                 <FaParagraph />
                             </Icon>
                         </ListInput>
-                        <ListItem
-                            title="Schools"
-                            smartSelect
-                            smartSelectParams={{
-                                openIn: 'popup',
-                            }}
-                            value={departmentSchl}
-                            onChange={(event) => setDepartmentSchl(event.target.value)}>
-                                <select name="school_id" defaultValue={department.school_id}>
-                                    {schools.map((school)=>
-                                        <option key={school.id} value={school.id}>School of {school.name}</option>  
-                                    )}
-                                </select>
-                                <Icon color="blue" slot="media">
-                                    <FaBuilding />
-                                </Icon>
-                        </ListItem>
                     </List>
                     <Row>
                         <Col><Button outline color="green" text="Save" type="submit" /></Col>
