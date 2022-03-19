@@ -7,8 +7,11 @@ import ProductPage from '../pages/product.jsx';
 import SettingsPage from '../pages/settings.jsx';
 
 import AdminHomePage from '../pages/admin/home.jsx';
-import SchoolsPage from '../pages/admin/schools.jsx';
-import SchoolPage from '../pages/admin/school.jsx';
+
+import SchoolsPage from '../pages/admin/schools/all-schools.jsx';
+import SchoolPage from '../pages/admin/schools/school.jsx';
+import NewSchoolPage from '../pages/admin/schools/new-school.jsx';
+
 import DepartmentPage from '../pages/admin/department.jsx';
 import DepartmentsPage from '../pages/admin/departments.jsx';
 import CoursePage from '../pages/admin/course.jsx';
@@ -65,6 +68,13 @@ var routes = [
   {
     path: '/schools/',
     component: SchoolsPage,
+    options: {
+      transition: 'f7-cover',
+    },
+  },
+  {
+    path: '/new-school/',
+    component: NewSchoolPage,
     options: {
       transition: 'f7-cover',
     },
