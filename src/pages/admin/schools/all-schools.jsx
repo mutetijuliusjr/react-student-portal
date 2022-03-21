@@ -67,22 +67,26 @@ export default (props) => {
       
         <Page name="schools">
             <Navbar backLink="Back" sliding title="Schools">
-                <NavRight>
-                    <Link
-                    searchbarEnable=".searchbar-demo"
-                    >
-                        <Icon>
-                            <FaSearch />
-                        </Icon>
-                    </Link>
-                </NavRight>
-                <Searchbar
-                    className="searchbar-demo"
-                    expandable
-                    searchContainer=".search-list"
-                    searchIn=".item-title"
-                    disableButton={!theme.aurora}
-                ></Searchbar>
+                {schools != null && schools.length != 0 && 
+                    <>
+                        <NavRight>
+                            <Link
+                            searchbarEnable=".searchbar-demo"
+                            >
+                                <Icon>
+                                    <FaSearch />
+                                </Icon>
+                            </Link>
+                        </NavRight>
+                        <Searchbar
+                            className="searchbar-demo"
+                            expandable
+                            searchContainer=".search-list"
+                            searchIn=".item-title"
+                            disableButton={!theme.aurora}
+                        ></Searchbar>
+                    </>
+                }
             </Navbar>
             
             <Fab position="right-bottom" slot="fixed" text="Create" color="green" href="/new-school/" />
@@ -223,7 +227,7 @@ export default (props) => {
                         <p>Yet.</p>
                     </PageContent>
                     :
-                    <List className="search-list searchbar-found" mediaList>
+                    <List mediaList className="search-list searchbar-found">
                         {schools.map((school)=>
                             <ListItem 
                             swipeout 
