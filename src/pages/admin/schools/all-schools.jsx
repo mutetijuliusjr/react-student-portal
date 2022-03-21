@@ -7,7 +7,8 @@ import {
     FaExclamationTriangle,
     FaEllipsisV, 
     FaClipboard,
-    FaTrashAlt
+    FaTrashAlt,
+    FaSearch
 } from 'react-icons/fa';
 import {
   f7,
@@ -36,11 +37,14 @@ import {
   Subnavbar,
   Row,
   Col,
-  theme
+  theme,
+  Card,
+  CardHeader,
+  CardContent
 } from 'framework7-react';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { getSchoolsAsync } from '../../../redux/schoolSlice';
+import { getSchoolsAsync, deleteSchoolAsync } from '../../../redux/schoolSlice';
 
 export default (props) => {
     const {f7route, f7router} = props
@@ -63,73 +67,126 @@ export default (props) => {
       
         <Page name="schools">
             <Navbar backLink="Back" sliding title="Schools">
+                <NavRight>
+                    <Link
+                    searchbarEnable=".searchbar-demo"
+                    >
+                        <Icon>
+                            <FaSearch />
+                        </Icon>
+                    </Link>
+                </NavRight>
+                <Searchbar
+                    className="searchbar-demo"
+                    expandable
+                    searchContainer=".search-list"
+                    searchIn=".item-title"
+                    disableButton={!theme.aurora}
+                ></Searchbar>
             </Navbar>
             
             <Fab position="right-bottom" slot="fixed" text="Create" color="green" href="/new-school/" />
 
+            <List className="searchbar-not-found">
+                <ListItem title="Nothing found"></ListItem>
+            </List>
+
             {schools == null ? 
                 <List mediaList className="skeleton-text skeleton-effect-wave">
-                    <ListItem title="School of fffffffffffff fffffffff">
+                    <ListItem 
+                    title="xxxx xxx xxxx xxxxxxx xxxxxxxxx xxxxxx xxxxxxxx"
+                    subtitle="xx xxxxxxxxxx x x xxxxxxxxxxxxxxxx x x xxxxxxxxxxxxx"
+                    >
                         <SkeletonBlock
                             style={{ width: '29px', height: '29px'}}
                             slot="media"
                         />
                     </ListItem>
-                    <ListItem title="School of fffffffffffff fffffffff">
+                    <ListItem 
+                    title="xxxx xxx xxxx xxxxxxx xxxxxxxxx xxxxxx xxxxxxxx"
+                    subtitle="xx xxxxxxxxxx x x xxxxxxxxxxxxxxxx x x xxxxxxxxxxxxx"
+                    >
                         <SkeletonBlock
                             style={{ width: '29px', height: '29px'}}
                             slot="media"
                         />
                     </ListItem>
-                    <ListItem title="School of fffffffffffff fffffffff">
+                    <ListItem 
+                    title="xxxx xxx xxxx xxxxxxx xxxxxxxxx xxxxxx xxxxxxxx"
+                    subtitle="xx xxxxxxxxxx x x xxxxxxxxxxxxxxxx x x xxxxxxxxxxxxx"
+                    >
                         <SkeletonBlock
                             style={{ width: '29px', height: '29px'}}
                             slot="media"
                         />
                     </ListItem>
-                    <ListItem title="School of fffffffffffff fffffffff">
+                    <ListItem 
+                    title="xxxx xxx xxxx xxxxxxx xxxxxxxxx xxxxxx xxxxxxxx"
+                    subtitle="xx xxxxxxxxxx x x xxxxxxxxxxxxxxxx x x xxxxxxxxxxxxx"
+                    >
                         <SkeletonBlock
                             style={{ width: '29px', height: '29px'}}
                             slot="media"
                         />
                     </ListItem>
-                    <ListItem title="School of fffffffffffff fffffffff">
+                    <ListItem 
+                    title="xxxx xxx xxxx xxxxxxx xxxxxxxxx xxxxxx xxxxxxxx"
+                    subtitle="xx xxxxxxxxxx x x xxxxxxxxxxxxxxxx x x xxxxxxxxxxxxx"
+                    >
                         <SkeletonBlock
                             style={{ width: '29px', height: '29px'}}
                             slot="media"
                         />
                     </ListItem>
-                    <ListItem title="School of fffffffffffff fffffffff">
+                    <ListItem 
+                    title="xxxx xxx xxxx xxxxxxx xxxxxxxxx xxxxxx xxxxxxxx"
+                    subtitle="xx xxxxxxxxxx x x xxxxxxxxxxxxxxxx x x xxxxxxxxxxxxx"
+                    >
                         <SkeletonBlock
                             style={{ width: '29px', height: '29px'}}
                             slot="media"
                         />
                     </ListItem>
-                    <ListItem title="School of fffffffffffff fffffffff">
+                    <ListItem 
+                    title="xxxx xxx xxxx xxxxxxx xxxxxxxxx xxxxxx xxxxxxxx"
+                    subtitle="xx xxxxxxxxxx x x xxxxxxxxxxxxxxxx x x xxxxxxxxxxxxx"
+                    >
                         <SkeletonBlock
                             style={{ width: '29px', height: '29px'}}
                             slot="media"
                         />
                     </ListItem>
-                    <ListItem title="School of fffffffffffff fffffffff">
+                    <ListItem 
+                    title="xxxx xxx xxxx xxxxxxx xxxxxxxxx xxxxxx xxxxxxxx"
+                    subtitle="xx xxxxxxxxxx x x xxxxxxxxxxxxxxxx x x xxxxxxxxxxxxx"
+                    >
                         <SkeletonBlock
                             style={{ width: '29px', height: '29px'}}
                             slot="media"
                         />
                     </ListItem>
-                    <ListItem title="School of fffffffffffff fffffffff">
+                    <ListItem 
+                    title="xxxx xxx xxxx xxxxxxx xxxxxxxxx xxxxxx xxxxxxxx"
+                    subtitle="xx xxxxxxxxxx x x xxxxxxxxxxxxxxxx x x xxxxxxxxxxxxx"
+                    >
                         <SkeletonBlock
                             style={{ width: '29px', height: '29px'}}
                             slot="media"
                         />
                     </ListItem>
-                    <ListItem title="School of fffffffffffff fffffffff">
+                    <ListItem 
+                    title="xxxx xxx xxxx xxxxxxx xxxxxxxxx xxxxxx xxxxxxxx"
+                    subtitle="xx xxxxxxxxxx x x xxxxxxxxxxxxxxxx x x xxxxxxxxxxxxx"
+                    >
                         <SkeletonBlock
                             style={{ width: '29px', height: '29px'}}
                             slot="media"
                         />
                     </ListItem>
-                    <ListItem title="School of fffffffffffff fffffffff">
+                    <ListItem 
+                    title="xxxx xxx xxxx xxxxxxx xxxxxxxxx xxxxxx xxxxxxxx"
+                    subtitle="xx xxxxxxxxxx x x xxxxxxxxxxxxxxxx x x xxxxxxxxxxxxx"
+                    >
                         <SkeletonBlock
                             style={{ width: '29px', height: '29px'}}
                             slot="media"
@@ -137,37 +194,70 @@ export default (props) => {
                     </ListItem>
                 </List>
                 :
-                <List mediaList>
-                    {schools.map((school)=>
-                        <ListItem swipeout title={`School of ${school.name}`} key={school.id}>
-                            <SwipeoutActions right>
-                                <SwipeoutButton color="blue" href={`/school/${school.id}`}>
-                                    <Icon>
-                                        <FaClipboard />
-                                    </Icon>
-                                </SwipeoutButton>
-                                <SwipeoutButton
-                                delete
-                                confirmTitle="Delete School"
-                                confirmText="Are you sure you want to delete this school?"
-                                >
-                                    <Icon>
-                                        <FaTrashAlt />
-                                    </Icon>
-                                </SwipeoutButton>
-                            </SwipeoutActions>
-                            <Icon slot="media" size="29px" color="purple">
-                                <FaBuilding />
-                            </Icon>
-                        </ListItem> 
-                        )
+                <>
+                {schools == 'error' ?
+                <PageContent className="display-flex flex-direction-column justify-content-center text-align-center">
+                    <div>
+                        <Icon size="48px" color="red">
+                            <FaExclamationTriangle />
+                        </Icon>
+                        <Card>
+                            <CardHeader text="Error" />
+                            <CardContent>
+                                <p>Tr again later.</p>
+                            </CardContent>
+                        </Card>
+                        <p>Error</p>
+                        <p>jigbbk</p>
+                    </div>
+                </PageContent>
+                :
+                <>
+                {schools.length == 0 ? 
+                    <PageContent className="display-flex flex-direction-column justify-content-center text-align-center">
+                        <Icon size="48px">
+                            <FaExclamationTriangle />
+                        </Icon>
+                        <p>Hmm...</p>
+                        <p>There are no schools listed.</p>
+                        <p>Yet.</p>
+                    </PageContent>
+                    :
+                    <List className="search-list searchbar-found" mediaList>
+                        {schools.map((school)=>
+                            <ListItem 
+                            swipeout 
+                            key={school.id}
+                            title={`School of ${school.name}`} 
+                            subtitle={school.description}
+                            link={`/school/${school.id}`}
+                            >
+                                <SwipeoutActions right>
+                                    <SwipeoutButton
+                                    delete
+                                    confirmTitle="Delete School"
+                                    confirmText="Are you sure you want to delete this school?"
+                                    text="Delete"
+                                    >
+                                        <Icon>
+                                            <FaTrashAlt />
+                                        </Icon>
+                                    </SwipeoutButton>
+                                </SwipeoutActions>
+                                <Icon slot="media" size="29px" color="purple">
+                                    <FaBuilding />
+                                </Icon>
+                            </ListItem> 
+                            )
+                        }
+                        
+                    </List>
                     }
-                    
-                </List>
-            }
-
-            
-            
+                </>
+                }
+                </>
+                
+            }  
         </Page>
       
     
