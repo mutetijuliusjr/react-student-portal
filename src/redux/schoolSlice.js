@@ -3,13 +3,15 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 export const getSchoolsAsync = createAsyncThunk(
     'schools/getSchoolsAsync',
     async () => {
-        const resp = await fetch('http://localhost:8000/api/schools');
-        if (resp.ok) {
+        try {
+            const resp = await fetch('http://localhost:8000/api/schools');
             const schools = await resp.json();
-            return { schools };
+            return { schools }; 
+        } 
+        catch (error) {
+            const schools = 'error';
+            return { schools }
         }
-        
-        return "error";
     }
 );
 
