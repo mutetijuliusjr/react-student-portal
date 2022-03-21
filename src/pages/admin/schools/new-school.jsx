@@ -24,53 +24,71 @@ import {
   Searchbar,
   Subnavbar,
   Row,
+  Range,
   Col,
   theme,
   Views,
   View,
   PageContent,
 } from 'framework7-react';
+import { useSelector, useDispatch } from 'react-redux';
+import { addSchoolAsync } from '../../../redux/schoolSlice';
 
 export default () => {
-  console.log('NewSchool is opening')
 
-  return (
-    <Page name="new-school">
-        <Navbar backLink="Back" sliding  title="Add School" />
+    const dispatch = useDispatch()
 
-        <form>
-            <List inlineLabels noHairlines>
-                <ListInput
-                    label="Name"
-                    type="text"
-                    placeholder="School name"
-                    clearButton={false}
-                    required
-                    validateOnBlur
-                >
-                    <Icon color="blue" slot="media">
-                        <FaTag />
-                    </Icon>
-                </ListInput>
-                <ListInput
-                    label="Description"
-                    type="textarea"
-                    placeholder="School Description"
-                    name="description"
-                    clearButton={false}
-                    resizable
-                >
-                    <Icon color="blue" slot="media">
-                        <FaParagraph />
-                    </Icon>
-                </ListInput>
-            </List>
-            <Row>
-                <Col><Button outline color="red" text="Clear" /></Col>
-                <Col><Button outline color="green" text="Save" type="submit" /></Col>
-            </Row>
-        </form>
+    const [schoolName, setSchoolName] = useState('')
+    const [schoolDesc, setSchoolDesc] = useState('')
 
-    </Page>
-  );
+    const onSubmit = (event) => {
+        event.preventDefault();
+        f7.dialog.preloader('Loading', 'multi')
+        dispatch(
+            addSchoolAsync({
+                name: schoolName,
+                description: schoolDesc
+            })
+        )
+        f7.dialog.close()
+        f7.dialog.alert('Saved!')
+    }
+
+    return (
+        <Page name="new-school">
+            <Navbar backLink="Back" sliding  title="Add School" />
+
+            <form onSubmit={onSubmit}>
+                <List noHairlinesMd>
+                    <ListInput
+                        outline
+                        label="Name"
+                        floatingLabel
+                        type="text"
+                        placeholder="School name"
+                        clearButton
+                        required
+                        validateOnBlur
+                        value={schoolName}
+                        onChange={(event) => setSchoolName(event.target.value)}
+                    >
+                    </ListInput>
+                    <ListInput
+                        outline
+                        label="Description"
+                        floatingLabel
+                        type="textarea"
+                        resizable
+                        placeholder="Description"
+                        clearButton
+                        value={schoolDesc}
+                        onChange={(event) => setSchoolDesc(event.target.value)}
+                    >
+                    </ListInput>
+                </List>
+                <Button outline color="green" text="Save" type="submit" />
+            </form>
+
+        </Page>
+    );
 };
