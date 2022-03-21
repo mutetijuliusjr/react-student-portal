@@ -51,7 +51,7 @@ export default () => {
             })
         )
         f7.dialog.close()
-        f7.dialog.alert('Saved!')
+        f7.dialog.alert('New School has been saved.', 'Saved!')
     }
 
     return (
