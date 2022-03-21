@@ -51,9 +51,6 @@ export default (props) => {
     const dispatch = useDispatch()
     const schools = useSelector((state) => state.schools)
 
-    const openSchool = (id) => {
-        f7router.navigate(`/school/${id}`);
-    };
     const onDeleted = () => {
         f7.dialog.alert('Thanks, item removed!');
     };
@@ -67,7 +64,7 @@ export default (props) => {
       
         <Page name="schools">
             <Navbar backLink="Back" sliding title="Schools">
-                {schools != null && schools.length != 0 && 
+                {schools != null && schools != 'error' && schools.length != 0 && 
                     <>
                         <NavRight>
                             <Link
@@ -89,8 +86,10 @@ export default (props) => {
                 }
             </Navbar>
             
+            {schools != null && schools != 'error' && schools.length != 0 &&
             <Fab position="right-bottom" slot="fixed" text="Create" color="green" href="/new-school/" />
-
+            }
+            
             <List className="searchbar-not-found">
                 <ListItem title="Nothing found"></ListItem>
             </List>
@@ -200,19 +199,14 @@ export default (props) => {
                 :
                 <>
                 {schools == 'error' ?
-                <PageContent className="display-flex flex-direction-column justify-content-center text-align-center">
+                <PageContent className="display-flex justify-content-center text-align-center">
                     <div>
-                        <Icon size="48px" color="red">
+                        <h3>Error!</h3>
+                        <Icon size="100px" color="red">
                             <FaExclamationTriangle />
                         </Icon>
-                        <Card>
-                            <CardHeader text="Error" />
-                            <CardContent>
-                                <p>Tr again later.</p>
-                            </CardContent>
-                        </Card>
-                        <p>Error</p>
-                        <p>jigbbk</p>
+                        <p>Something happened.</p>
+                        <p>Try again later.</p>
                     </div>
                 </PageContent>
                 :
