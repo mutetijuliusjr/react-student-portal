@@ -9,6 +9,7 @@ export const getSchoolsAsync = createAsyncThunk(
             return { schools };
         }
         
+        return "error";
     }
 );
 
