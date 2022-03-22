@@ -41,10 +41,8 @@ export default (props) => {
     const school = schools.find(sch => sch.id == props.id)
 
     const [schoolName, setSchoolName] = useState(school.name)
-    const [schoolDesc, setSchoolDesc] = useState(initialschoolDesc)
+    const [schoolDesc, setSchoolDesc] = useState(school.description)
 
-    var initialschoolDesc = ""
-    
     const deleteToast = f7.toast.create({
         closeTimeout: 5000,
         text: 'School Deleted',
@@ -65,9 +63,6 @@ export default (props) => {
         f7.dialog.alert('New School has been saved.', 'Saved!')
     }
 
-    if(school.description != null){
-        initialschoolDesc = school.description
-    }
 
     return (
         <Page name="edit-school">
