@@ -3,12 +3,15 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 export const getDepartmentsAsync = createAsyncThunk(
     'departments/getDepartmentsAsync',
     async () => {
-        const resp = await fetch('http://localhost:8000/api/departments');
-        if (resp.ok) {
+        try {
+            const resp = await fetch('http://localhost:8000/api/departments');
             const departments = await resp.json();
-            return { departments };
+            return { departments }; 
+        } 
+        catch (error) {
+            const departments = 'error';
+            return { departments }
         }
-        
     }
 );
 

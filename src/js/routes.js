@@ -13,8 +13,10 @@ import SchoolPage from '../pages/admin/schools/school.jsx';
 import NewSchoolPage from '../pages/admin/schools/new-school.jsx';
 import EditSchoolPage from '../pages/admin/schools/edit-school.jsx';
 
-import DepartmentPage from '../pages/admin/department.jsx';
-import DepartmentsPage from '../pages/admin/departments.jsx';
+import DepartmentsPage from '../pages/admin/departments/all-departments.jsx';
+import DepartmentPage from '../pages/admin/departments/department.jsx';
+import EditDepartmentPage from '../pages/admin/departments/edit-department.jsx';
+
 import CoursePage from '../pages/admin/course.jsx';
 import CoursesPage from '../pages/admin/courses.jsx';
 import SemesterPage from '../pages/admin/semester.jsx';
@@ -97,6 +99,13 @@ var routes = [
   {
     path: '/department/:id',
     component: DepartmentPage,
+    options: {
+      transition: 'f7-cover-v',
+    },
+  },
+  {
+    path: '/edit-department/:id',
+    component: EditDepartmentPage,
     options: {
       transition: 'f7-cover-v',
     },
