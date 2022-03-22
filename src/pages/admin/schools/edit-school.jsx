@@ -43,12 +43,6 @@ export default (props) => {
     const [schoolName, setSchoolName] = useState(school.name)
     const [schoolDesc, setSchoolDesc] = useState(school.description)
 
-    const deleteToast = f7.toast.create({
-        closeTimeout: 5000,
-        text: 'School Deleted',
-        position: 'bottom',
-    })
-
     const onSubmit = (event) => {
         event.preventDefault();
         f7.dialog.preloader('Loading', 'multi')
