@@ -12,6 +12,7 @@ import {
   PageContent,
   Navbar,
   NavRight,
+  Icon,
   List,
   Link,
   ListItem,
@@ -81,107 +82,68 @@ export default () => {
             </List>
 
             {schools == null ? 
-                <List mediaList className="skeleton-text skeleton-effect-wave">
-                    <ListItem 
-                    title="xxxx xxx xxxx xxxxxxx xxxxxxxxx xxxxxx xxxxxxxx"
-                    subtitle="xx xxxxxxxxxx x x xxxxxxxxxxxxxxxx x x xxxxxxxxxxxxx"
-                    >
+                    <List mediaList className="skeleton-text skeleton-effect-fade">
+                        <ListItem
+                        title="Title"
+                        subtitle="Subtitle"
+                        text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lobortis et massa ac interdum."
+                        >
                         <SkeletonBlock
-                            style={{ width: '29px', height: '29px'}}
+                            style={{ width: '40px', height: '40px', borderRadius: '50%' }}
                             slot="media"
                         />
-                    </ListItem>
-                    <ListItem 
-                    title="xxxx xxx xxxx xxxxxxx xxxxxxxxx xxxxxx xxxxxxxx"
-                    subtitle="xx xxxxxxxxxx x x xxxxxxxxxxxxxxxx x x xxxxxxxxxxxxx"
-                    >
+                        </ListItem>
+                        <ListItem
+                        title="Title"
+                        subtitle="Subtitle"
+                        text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lobortis et massa ac interdum."
+                        >
                         <SkeletonBlock
-                            style={{ width: '29px', height: '29px'}}
+                            style={{ width: '40px', height: '40px', borderRadius: '50%' }}
                             slot="media"
                         />
-                    </ListItem>
-                    <ListItem 
-                    title="xxxx xxx xxxx xxxxxxx xxxxxxxxx xxxxxx xxxxxxxx"
-                    subtitle="xx xxxxxxxxxx x x xxxxxxxxxxxxxxxx x x xxxxxxxxxxxxx"
-                    >
+                        </ListItem>
+                        <ListItem
+                        title="Title"
+                        subtitle="Subtitle"
+                        text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lobortis et massa ac interdum."
+                        >
                         <SkeletonBlock
-                            style={{ width: '29px', height: '29px'}}
+                            style={{ width: '40px', height: '40px', borderRadius: '50%' }}
                             slot="media"
                         />
-                    </ListItem>
-                    <ListItem 
-                    title="xxxx xxx xxxx xxxxxxx xxxxxxxxx xxxxxx xxxxxxxx"
-                    subtitle="xx xxxxxxxxxx x x xxxxxxxxxxxxxxxx x x xxxxxxxxxxxxx"
-                    >
+                        </ListItem>
+                        <ListItem
+                        title="Title"
+                        subtitle="Subtitle"
+                        text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lobortis et massa ac interdum."
+                        >
                         <SkeletonBlock
-                            style={{ width: '29px', height: '29px'}}
+                            style={{ width: '40px', height: '40px', borderRadius: '50%' }}
                             slot="media"
                         />
-                    </ListItem>
-                    <ListItem 
-                    title="xxxx xxx xxxx xxxxxxx xxxxxxxxx xxxxxx xxxxxxxx"
-                    subtitle="xx xxxxxxxxxx x x xxxxxxxxxxxxxxxx x x xxxxxxxxxxxxx"
-                    >
+                        </ListItem>
+                        <ListItem
+                        title="Title"
+                        subtitle="Subtitle"
+                        text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lobortis et massa ac interdum."
+                        >
                         <SkeletonBlock
-                            style={{ width: '29px', height: '29px'}}
+                            style={{ width: '40px', height: '40px', borderRadius: '50%' }}
                             slot="media"
                         />
-                    </ListItem>
-                    <ListItem 
-                    title="xxxx xxx xxxx xxxxxxx xxxxxxxxx xxxxxx xxxxxxxx"
-                    subtitle="xx xxxxxxxxxx x x xxxxxxxxxxxxxxxx x x xxxxxxxxxxxxx"
-                    >
+                        </ListItem>
+                        <ListItem
+                        title="Title"
+                        subtitle="Subtitle"
+                        text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lobortis et massa ac interdum."
+                        >
                         <SkeletonBlock
-                            style={{ width: '29px', height: '29px'}}
+                            style={{ width: '40px', height: '40px', borderRadius: '50%' }}
                             slot="media"
                         />
-                    </ListItem>
-                    <ListItem 
-                    title="xxxx xxx xxxx xxxxxxx xxxxxxxxx xxxxxx xxxxxxxx"
-                    subtitle="xx xxxxxxxxxx x x xxxxxxxxxxxxxxxx x x xxxxxxxxxxxxx"
-                    >
-                        <SkeletonBlock
-                            style={{ width: '29px', height: '29px'}}
-                            slot="media"
-                        />
-                    </ListItem>
-                    <ListItem 
-                    title="xxxx xxx xxxx xxxxxxx xxxxxxxxx xxxxxx xxxxxxxx"
-                    subtitle="xx xxxxxxxxxx x x xxxxxxxxxxxxxxxx x x xxxxxxxxxxxxx"
-                    >
-                        <SkeletonBlock
-                            style={{ width: '29px', height: '29px'}}
-                            slot="media"
-                        />
-                    </ListItem>
-                    <ListItem 
-                    title="xxxx xxx xxxx xxxxxxx xxxxxxxxx xxxxxx xxxxxxxx"
-                    subtitle="xx xxxxxxxxxx x x xxxxxxxxxxxxxxxx x x xxxxxxxxxxxxx"
-                    >
-                        <SkeletonBlock
-                            style={{ width: '29px', height: '29px'}}
-                            slot="media"
-                        />
-                    </ListItem>
-                    <ListItem 
-                    title="xxxx xxx xxxx xxxxxxx xxxxxxxxx xxxxxx xxxxxxxx"
-                    subtitle="xx xxxxxxxxxx x x xxxxxxxxxxxxxxxx x x xxxxxxxxxxxxx"
-                    >
-                        <SkeletonBlock
-                            style={{ width: '29px', height: '29px'}}
-                            slot="media"
-                        />
-                    </ListItem>
-                    <ListItem 
-                    title="xxxx xxx xxxx xxxxxxx xxxxxxxxx xxxxxx xxxxxxxx"
-                    subtitle="xx xxxxxxxxxx x x xxxxxxxxxxxxxxxx x x xxxxxxxxxxxxx"
-                    >
-                        <SkeletonBlock
-                            style={{ width: '29px', height: '29px'}}
-                            slot="media"
-                        />
-                    </ListItem>
-                </List>
+                        </ListItem>
+                    </List>
                 :
                 <>
                 {schools == 'error' ?
