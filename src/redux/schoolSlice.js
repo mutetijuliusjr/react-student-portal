@@ -105,7 +105,6 @@ export const schoolSlice = createSlice({
                         state[index].description = action.payload.school.description;
                     },
                     [deleteSchoolAsync.fulfilled]:  (state, action) => {
-                        console.table(state)
                         return state.filter((school) => school.id != action.payload.id);
                     }
                 }
