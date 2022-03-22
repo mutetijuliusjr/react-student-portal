@@ -54,20 +54,6 @@ export default (props) => {
         position: 'bottom',
     })
     
-    const onSubmit = (event) => {
-        event.preventDefault();
-        f7.dialog.preloader('Loading', 'multi')
-        dispatch(
-            editSchoolAsync({
-                id: props.id,
-                name: schoolName,
-                description: schoolDesc
-            })
-        )
-        f7.dialog.close()
-        f7.dialog.alert('Saved!')
-    }
-    
     const deleteSchool = () => {
         f7router.back()
         f7.dialog.close()
@@ -106,7 +92,7 @@ export default (props) => {
                 textColor="red" 
                 title="Delete School" 
                 onClick={()=>{ f7.dialog.confirm(
-                    'Do You Want To Delete School and Related Entities?',
+                    "Do You Want To Delete This School and It's Related Entities?",
                     'Delete School',
                     ()=>{deleteSchool()}
                     )}} />
