@@ -1,12 +1,7 @@
-import React, {useState, useRef, useEffect} from 'react';
+import React, { useEffect } from 'react';
 import {  
-    FaBuilding, 
-    FaTimes, 
-    FaTag,  
-    FaParagraph, 
+    FaBuilding,
     FaExclamationTriangle,
-    FaEllipsisV, 
-    FaClipboard,
     FaTrashAlt,
     FaSearch
 } from 'react-icons/fa';
@@ -14,46 +9,37 @@ import {
   f7,
   Fab,
   Page,
-  Popup,
-  Popover,
   PageContent,
   Navbar,
   NavRight,
-  Treeview,
-  TreeviewItem,
-  Checkbox,
-  Block,
-  Button,
-  BlockTitle,
-  Icon,
   List,
   Link,
   ListItem,
-  ListInput,
   SwipeoutActions,
   SwipeoutButton,
   SkeletonBlock,
   Searchbar,
-  Subnavbar,
-  Row,
-  Col,
   theme,
-  Card,
-  CardHeader,
-  CardContent
 } from 'framework7-react';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { getSchoolsAsync, deleteSchoolAsync } from '../../../redux/schoolSlice';
 
-export default (props) => {
-    const {f7route, f7router} = props
+export default () => {
+
     const dispatch = useDispatch()
     const schools = useSelector((state) => state.schools)
 
-    const onDeleted = () => {
-        f7.dialog.alert('Thanks, item removed!');
-    };
+    const deleteToast = f7.toast.create({
+        closeTimeout: 5000,
+        text: 'School Deleted',
+        position: 'bottom',
+    })
+
+    const deleteSchool = (schoolId) => {
+        deleteToast.open()
+        dispatch(deleteSchoolAsync({id: schoolId}))
+    }
 
     useEffect(() => { 
         dispatch(getSchoolsAsync())
@@ -224,7 +210,7 @@ export default (props) => {
                     <List mediaList className="search-list searchbar-found">
                         {schools.map((school)=>
                             <ListItem 
-                            swipeout 
+                            swipeout
                             key={school.id}
                             title={`School of ${school.name}`} 
                             subtitle={school.description}
@@ -232,9 +218,13 @@ export default (props) => {
                             >
                                 <SwipeoutActions right>
                                     <SwipeoutButton
-                                    delete
-                                    confirmTitle="Delete School"
-                                    confirmText="Are you sure you want to delete this school?"
+                                    onClick={()=>{ f7.dialog.confirm(
+                                        "Do You Want To Delete This School and It's Related Entities?",
+                                        'Delete School',
+                                        ()=>{deleteSchool(school.id)}
+                                        )}}
+                                    overswipe
+                                    color="red"
                                     text="Delete"
                                     >
                                         <Icon>
@@ -246,9 +236,7 @@ export default (props) => {
                                     <FaBuilding />
                                 </Icon>
                             </ListItem> 
-                            )
-                        }
-                        
+                        )}
                     </List>
                     }
                 </>
