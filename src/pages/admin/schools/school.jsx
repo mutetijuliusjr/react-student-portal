@@ -4,7 +4,8 @@ import {
     FaTimesCircle,
     FaTag,
     FaParagraph,
-    FaList
+    FaList,
+    FaBuilding
 } from 'react-icons/fa';
 
 import {
@@ -41,12 +42,12 @@ export default (props) => {
     const school = schools.find(sch => sch.id == props.id) 
     
     const [schoolName, setSchoolName] = useState(school.name)
-    const [schoolDesc, setSchoolDesc] = useState(schDesc)
+    const [schoolDesc, setSchoolDesc] = useState(schoolDescription)
     
     const departments = useSelector((state) => state.departments)
     
-    var schDesc = ""
-    var schDepts = null
+    var schoolDescription = ""
+    var schoolDepts = null
     
     const deleteToast = f7.toast.create({
         closeTimeout: 5000,
@@ -81,11 +82,11 @@ export default (props) => {
     
     
     if(school.description != null){
-       schDesc = school.description
+       schoolDescription = school.description
     }
     
     if (departments != null) {
-        schDepts = departments.filter((schlDept)=> schlDept.school_id == school.id)   
+        schoolDepts = departments.filter((schlDept)=> schlDept.school_id == school.id)   
     }
     
     useEffect(() => { 
@@ -106,7 +107,7 @@ export default (props) => {
         </Navbar>
         <Popover className="popover-menu">
             <List noChevron noHairlines>
-                <ListItem link="#" popupOpen="#editSchool" popoverClose title="Edit School" onClick={f7router.navigate(`/edit-school/${school.id}`)} />
+                <ListItem link="#" popoverClose title="Edit School" onClick={()=>f7router.navigate(`/edit-school/${school.id}`)} />
                 <ListItem link="#" popoverClose title="Add Department" />
                 <ListItem 
                 link="#" 
@@ -122,48 +123,42 @@ export default (props) => {
 
         <Row noGap>
             <Col width="100" medium="50">
-                <Card title="Details">
-                    <List mediaList>
-                        <ListItem title="Name">
-                            <p>{school.name}</p>
-                            <Icon slot="media" size="29px" color="purple">
-                                <FaTag />
-                            </Icon>
-                        </ListItem>
-                        <ListItem title="Description">
-                            <p>{school.description}</p>
-                            <Icon slot="media" size="29px" color="purple">
-                                <FaList />
-                            </Icon>
-                        </ListItem>
-                    </List>
-                </Card>
+                <BlockTitle>Name</BlockTitle>
+                <Card outline padding content={school.name} />
+                <BlockTitle>Description</BlockTitle>
+                <Card outline padding content={school.description} />
             </Col>
             <Col width="100" medium="50">
-            {departments == null ?
-                <Block className="display-flex flex-direction-column justify-content-center text-align-center">
-                    <div><Preloader className="color-multi" size="24px" text="Loading" /></div>
-                </Block>
-                :
-                <>
-                    {schDepts.length == 0 ? 
-                        <Block>
-                            <p>There are no departments for this school</p>
-                            <Button text="Add Department" outline color="green" link="#" />
-                        </Block>
-                        :
-                        <Card title="Department(s)">
-                            <List>
-                                {schDepts.map((dept)=>
-                                <ListItem key={dept.id} title={`Department of ${dept.name}`} link={`/department/${dept.id}`}></ListItem>   
+                <BlockTitle>Departments</BlockTitle>
+                {departments == null ?
+                    <Block className="display-flex flex-direction-column justify-content-center text-align-center">
+                        <div><Preloader className="color-multi" size="24px" text="Loading" /></div>
+                    </Block>
+                    :
+                    <>
+                        {schoolDepts.length == 0 ? 
+                            <Block>
+                                <p>There are no departments for this school</p>
+                                <Button text="Add Department" outline color="green" link="#" />
+                            </Block>
+                            :
+                            <List inset noHairlines noChevron>
+                                {schoolDepts.map((dept)=>
+                                    <ListItem 
+                                        key={dept.id} 
+                                        title={`Department of ${dept.name}`} 
+                                        link={`/department/${dept.id}`} 
+                                    >
+                                        <Icon color="orange" slot="media">
+                                            <FaBuilding />
+                                        </Icon>
+                                    </ListItem>
                                 )}
                             </List>
-                        </Card>
-                        
-                    } 
-                </>
-                
-            }
+                        } 
+                    </>
+                    
+                }
             </Col>
         </Row>
 
