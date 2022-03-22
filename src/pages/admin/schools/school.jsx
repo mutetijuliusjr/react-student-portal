@@ -40,15 +40,14 @@ export default (props) => {
     
     const schools = useSelector((state) => state.schools)
     const school = schools.find(sch => sch.id == props.id) 
-    
-    const [schoolName, setSchoolName] = useState(school.name)
-    const [schoolDesc, setSchoolDesc] = useState(schoolDescription)
-    
     const departments = useSelector((state) => state.departments)
     
-    var schoolDescription = ""
     var schoolDepts = null
     
+    if (departments != null) {
+        schoolDepts = departments.filter((schlDept)=> schlDept.school_id == school.id)   
+    }
+
     const deleteToast = f7.toast.create({
         closeTimeout: 5000,
         text: 'School Deleted',
@@ -79,15 +78,7 @@ export default (props) => {
             deleteToast.open()
         } ,3000)    
     }
-    
-    
-    if(school.description != null){
-       schoolDescription = school.description
-    }
-    
-    if (departments != null) {
-        schoolDepts = departments.filter((schlDept)=> schlDept.school_id == school.id)   
-    }
+
     
     useEffect(() => { 
         dispatch(getDepartmentsAsync())
@@ -117,6 +108,7 @@ export default (props) => {
                 onClick={()=>{ f7.dialog.confirm(
                     'Do You Want To Delete School and Related Entities?',
                     'Delete School',
+                    ()=>{deleteSchool()}
                     )}} />
             </List>
         </Popover>
