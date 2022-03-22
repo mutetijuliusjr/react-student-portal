@@ -11,6 +11,7 @@ import AdminHomePage from '../pages/admin/home.jsx';
 import SchoolsPage from '../pages/admin/schools/all-schools.jsx';
 import SchoolPage from '../pages/admin/schools/school.jsx';
 import NewSchoolPage from '../pages/admin/schools/new-school.jsx';
+import EditSchoolPage from '../pages/admin/schools/edit-school.jsx';
 
 import DepartmentPage from '../pages/admin/department.jsx';
 import DepartmentsPage from '../pages/admin/departments.jsx';
@@ -59,13 +60,6 @@ var routes = [
     component: AdminHomePage,
   },
   {
-    path: '/school/:id',
-    component: SchoolPage,
-    options: {
-      transition: 'f7-cover-v',
-    },
-  },
-  {
     path: '/schools/',
     component: SchoolsPage,
     options: {
@@ -77,6 +71,20 @@ var routes = [
     component: NewSchoolPage,
     options: {
       transition: 'f7-cover',
+    },
+  },
+  {
+    path: '/school/:id',
+    component: SchoolPage,
+    options: {
+      transition: 'f7-cover-v',
+    },
+  },
+  {
+    path: '/edit-school/:id',
+    component: EditSchoolPage,
+    options: {
+      transition: 'f7-cover-v',
     },
   },
   {
