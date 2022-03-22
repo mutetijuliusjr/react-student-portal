@@ -106,7 +106,7 @@ export default (props) => {
         </Navbar>
         <Popover className="popover-menu">
             <List noChevron noHairlines>
-                <ListItem link="#" popupOpen="#editSchool" popoverClose title="Edit School" />
+                <ListItem link="#" popupOpen="#editSchool" popoverClose title="Edit School" onClick={f7router.navigate(`/edit-school/${school.id}`)} />
                 <ListItem link="#" popoverClose title="Add Department" />
                 <ListItem 
                 link="#" 
