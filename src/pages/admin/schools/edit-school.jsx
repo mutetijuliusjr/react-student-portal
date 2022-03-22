@@ -34,7 +34,7 @@ import {
 import { useSelector, useDispatch } from 'react-redux';
 import { editSchoolAsync } from '../../../redux/schoolSlice';
 
-export default () => {
+export default (props) => {
 
     const dispatch = useDispatch()
     const schools = useSelector((state) => state.schools)
@@ -51,22 +51,11 @@ export default () => {
         position: 'bottom',
     })
 
-    const deleteSchool = () => {
-        f7router.back()
-        f7.dialog.close()
-        f7.dialog.preloader('Loading')
-        dispatch(deleteSchoolAsync({id: props.id}))
-        setTimeout(() => {
-            f7.dialog.close()
-            deleteToast.open()
-        } ,3000)    
-    }
-
     const onSubmit = (event) => {
         event.preventDefault();
         f7.dialog.preloader('Loading', 'multi')
         dispatch(
-            addSchoolAsync({
+            editSchoolAsync({
                 id: props.id,
                 name: schoolName,
                 description: schoolDesc
@@ -82,7 +71,7 @@ export default () => {
 
     return (
         <Page name="edit-school">
-            <Navbar backLink="Back" sliding  title="edit School" />
+            <Navbar backLink="Back" sliding  title="Edit School" />
 
             <form onSubmit={onSubmit}>
                 <List noHairlinesMd>
