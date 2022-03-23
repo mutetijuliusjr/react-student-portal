@@ -32,18 +32,18 @@ import {
   PageContent,
 } from 'framework7-react';
 import { useSelector, useDispatch } from 'react-redux';
-import { editDepartmentAsync } from '../../../redux/departmentSlice';
+import { editCourseAsync } from '../../../redux/courseSlice';
 
 export default (props) => {
 
     const dispatch = useDispatch()
+    const courses = useSelector((state) => state.courses)
     const departments = useSelector((state) => state.departments)
-    const schools = useSelector((state) => state.schools)
-    const department = departments.find(dept=> dept.id == props.id)
+    const course = courses.find(dept=> dept.id == props.id)
 
-    const [departmentName, setDepartmentName] = useState(department.name)
-    const [departmentDesc, setDepartmentDesc] = useState(department.description)
-    const [departmentSchl, setDepartmentSchl] = useState(department.school_id)
+    const [courseName, setCourseName] = useState(course.name)
+    const [courseDesc, setCourseDesc] = useState(course.description)
+    const [courseDept, setCourseDept] = useState(course.department_id)
 
     const successToast = f7.toast.create({
         position: "center",
@@ -56,11 +56,11 @@ export default (props) => {
         event.preventDefault();
         f7.dialog.preloader('Loading', 'multi')
         dispatch(
-            editDepartmentAsync({
+            editCourseAsync({
                 id: props.id,
-                name: departmentName,
-                description: departmentDesc,
-                school_id: departmentSchl
+                name: courseName,
+                description: courseDesc,
+                department_id: courseDept
             })
         )
         f7.dialog.close()
@@ -69,8 +69,8 @@ export default (props) => {
 
 
     return (
-        <Page name="edit-department">
-            <Navbar backLink="Back" sliding  title="Edit Department" />
+        <Page name="edit-course">
+            <Navbar backLink="Back" sliding  title="Edit Course" />
 
             <form onSubmit={onSubmit}>
                 <List noHairlinesMd>
@@ -79,12 +79,12 @@ export default (props) => {
                         label="Name"
                         floatingLabel
                         type="text"
-                        placeholder="Department name"
+                        placeholder="Course name"
                         clearButton
                         required
                         validateOnBlur
-                        value={departmentName}
-                        onChange={(event) => setDepartmentName(event.target.value)}
+                        value={courseName}
+                        onChange={(event) => setCourseName(event.target.value)}
                     >
                     </ListInput>
                     <ListInput
@@ -95,18 +95,18 @@ export default (props) => {
                         resizable
                         placeholder="Description"
                         clearButton
-                        value={departmentDesc}
-                        onChange={(event) => setDepartmentDesc(event.target.value)}
+                        value={courseDesc}
+                        onChange={(event) => setCourseDesc(event.target.value)}
                     >
                     </ListInput>
                     <ListInput
-                        label="School"
+                        label="Department"
                         type="select"
-                        value={departmentSchl}
-                        onChange={(event) => setDepartmentSchl(event.target.value)}
+                        value={courseDept}
+                        onChange={(event) => setCourseDept(event.target.value)}
                         >
-                        {schools.map(school=>
-                            <option key={school.id} value={school.id}>{school.name}</option>
+                        {departments.map(department=>
+                            <option key={department.id} value={department.id}>{department.name}</option>
                             )
                         }
                         
