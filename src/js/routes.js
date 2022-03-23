@@ -15,6 +15,7 @@ import EditSchoolPage from '../pages/admin/schools/edit-school.jsx';
 
 import DepartmentsPage from '../pages/admin/departments/all-departments.jsx';
 import DepartmentPage from '../pages/admin/departments/department.jsx';
+import NewDepartmentPage from '../pages/admin/departments/new-department.jsx';
 import EditDepartmentPage from '../pages/admin/departments/edit-department.jsx';
 
 import CoursePage from '../pages/admin/course.jsx';
@@ -101,6 +102,13 @@ var routes = [
     component: DepartmentPage,
     options: {
       transition: 'f7-cover-v',
+    },
+  },
+  {
+    path: '/new-department/',
+    component: NewDepartmentPage,
+    options: {
+      transition: 'f7-cover',
     },
   },
   {
