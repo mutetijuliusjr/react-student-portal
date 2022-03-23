@@ -88,8 +88,12 @@ export default (props) => {
         </Navbar>
         <Popover className="popover-menu">
             <List noChevron noHairlines>
-                <ListItem link="#" popoverClose title="Edit Department" onClick={()=>f7router.navigate(`/edit-department/${department.id}`)} />
-                <ListItem link="#" popoverClose title="Add Course" />
+                <ListItem link="#" popoverClose 
+                title="Edit Department" 
+                onClick={()=>f7router.navigate(`/edit-department/${department.id}`)} />
+                <ListItem link="#" popoverClose 
+                title="Add Course" 
+                onClick={()=>f7router.navigate('/new-course/')} />
                 <ListItem 
                 link="#" 
                 popoverClose
@@ -125,7 +129,7 @@ export default (props) => {
                 </Card>
             </Col>
             <Col width="100" medium="50">
-                <BlockTitle>Departments</BlockTitle>
+                <BlockTitle>Courses</BlockTitle>
                 {courses == null ?
                     <Block className="display-flex flex-direction-column justify-content-center text-align-center">
                         <div><Preloader className="color-multi" size="24px" text="Loading" /></div>
@@ -135,7 +139,7 @@ export default (props) => {
                         {departmentCrses.length == 0 ? 
                             <Block>
                                 <p>There are no courses for this department</p>
-                                <Button text="Add Department" outline color="green" link="#" />
+                                <Button text="Add Course" outline color="green" href="/new-course/" />
                             </Block>
                             :
                             <List inset noHairlines noChevron>
