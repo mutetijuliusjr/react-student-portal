@@ -110,7 +110,6 @@ export const departmentSlice = createSlice({
                         state[index].description = action.payload.department.description;
                     },
                     [deleteDepartmentAsync.fulfilled]:  (state, action) => {
-                        console.table(state)
                         return state.filter((department) => department.id != action.payload.id);
                     }
                 }
