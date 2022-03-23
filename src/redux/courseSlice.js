@@ -3,12 +3,15 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 export const getCoursesAsync = createAsyncThunk(
     'courses/getCoursesAsync',
     async () => {
-        const resp = await fetch('http://localhost:8000/api/courses');
-        if (resp.ok) {
+        try {
+            const resp = await fetch('http://localhost:8000/api/courses');
             const courses = await resp.json();
-            return { courses };
+            return { courses }; 
+        } 
+        catch (error) {
+            const courses = 'error';
+            return { courses }
         }
-        
     }
 );
 
@@ -21,17 +24,13 @@ export const addCourseAsync = createAsyncThunk(
             body: JSON.stringify({
                 name: payload.name,
                 description: payload.description,
-                department_id: payload.school_id
+                department_id: payload.department_id
             })
         });
 
         if (resp.ok) {
             const course = await resp.json();
             return { course };
-        }
-        else
-        {
-            throw new Error(resp)
         }
         
     }
@@ -107,7 +106,6 @@ export const courseSlice = createSlice({
                         state[index].description = action.payload.course.description;
                     },
                     [deleteCourseAsync.fulfilled]:  (state, action) => {
-                        console.table(state)
                         return state.filter((course) => course.id != action.payload.id);
                     }
                 }
