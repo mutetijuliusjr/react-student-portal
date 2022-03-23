@@ -38,11 +38,12 @@ export default (props) => {
 
     const dispatch = useDispatch()
     const departments = useSelector((state) => state.departments)
+    const schools = useSelector((state) => state.schools)
     const department = departments.find(dept=> dept.id == props.id)
 
     const [departmentName, setDepartmentName] = useState(department.name)
     const [departmentDesc, setDepartmentDesc] = useState(department.description)
-    //const [departmentSchl, setDepartmentSchl] = useState(department.school_id)
+    const [departmentSchl, setDepartmentSchl] = useState(department.school_id)
 
     const successToast = f7.toast.create({
         position: "center",
@@ -59,7 +60,7 @@ export default (props) => {
                 id: props.id,
                 name: departmentName,
                 description: departmentDesc,
-                school_id: department.school_id
+                school_id: departmentSchl
             })
         )
         f7.dialog.close()
@@ -98,17 +99,18 @@ export default (props) => {
                         onChange={(event) => setDepartmentDesc(event.target.value)}
                     >
                     </ListInput>
-                    <ListItem title="Fruit" smartSelect>
-                        <select name="fruits" defaultValue="apple">
-                        <option value="apple">Apple</option>
-                        <option value="pineapple">Pineapple</option>
-                        <option value="pear">Pear</option>
-                        <option value="orange">Orange</option>
-                        <option value="melon">Melon</option>
-                        <option value="peach">Peach</option>
-                        <option value="banana">Banana</option>
-                        </select>
-                    </ListItem>
+                    <ListInput
+                        label="School"
+                        type="select"
+                        value={departmentSchl}
+                        onChange={(event) => setDepartmentSchl(event.target.value)}
+                        >
+                        {schools.map(school=>
+                            <option key={school.id} value={school.id}>{school.name}</option>
+                            )
+                        }
+                        
+                    </ListInput>
                 </List>
                 <Button outline color="green" text="Save" type="submit" />
             </form>
