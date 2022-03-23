@@ -3,7 +3,8 @@ import {
     FaBuilding,
     FaExclamationTriangle,
     FaTrashAlt,
-    FaSearch
+    FaSearch,
+    FaGraduationCap
 } from 'react-icons/fa';
 import {
   f7,
@@ -24,19 +25,19 @@ import {
 } from 'framework7-react';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { getDepartmentsAsync, deleteDepartmentAsync } from '../../../redux/departmentSlice';
-import { getSchoolsAsync } from '../../../redux/schoolSlice';
+import { getCoursesAsync, deleteCourseAsync } from '../../../redux/courseSlice';
+import { getDepartmentsAsync } from '../../../redux/departmentSlice';
 
 export default () => {
 
     const dispatch = useDispatch()
+    const courses = useSelector((state) => state.courses)
     const departments = useSelector((state) => state.departments)
-    const schools = useSelector((state) => state.schools)
 
-    const schoolName = (id)=>{
-        if (schools != null) {
-            var schl = schools.find((schl) => schl.id == id)
-            return `School of ${schl.name}`
+    const departmentName = (id)=>{
+        if (departments != null) {
+            var schl = departments.find((schl) => schl.id == id)
+            return `Department of ${schl.name}`
         }
         else
         {return '...'}
@@ -44,26 +45,26 @@ export default () => {
 
     const deleteToast = f7.toast.create({
         closeTimeout: 5000,
-        text: 'Department Deleted',
+        text: 'Course Deleted',
         position: 'bottom',
     })
 
-    const deleteDepartment = (departmentId) => {
+    const deleteCourse = (courseId) => {
         deleteToast.open()
-        dispatch(deleteDepartmentAsync({id: departmentId}))
+        dispatch(deleteCourseAsync({id: courseId}))
     }
 
     useEffect(() => { 
+        dispatch(getCoursesAsync())
         dispatch(getDepartmentsAsync())
-        dispatch(getSchoolsAsync())
     }, [dispatch])
 
     return (
     
       
-        <Page name="departments">
-            <Navbar backLink="Back" sliding title="Departments">
-                {departments != null && departments != 'error' && departments.length != 0 && 
+        <Page name="courses">
+            <Navbar backLink="Back" sliding title="Courses">
+                {courses != null && courses != 'error' && courses.length != 0 && 
                     <>
                         <NavRight>
                             <Link
@@ -85,15 +86,15 @@ export default () => {
                 }
             </Navbar>
             
-            {departments != null && departments != 'error' && departments.length != 0 &&
-            <Fab position="right-bottom" slot="fixed" text="Create" color="green" href="/new-department/" />
+            {courses != null && courses != 'error' && courses.length != 0 &&
+            <Fab position="right-bottom" slot="fixed" text="Create" color="green" href="/new-course/" />
             }
             
             <List className="searchbar-not-found">
                 <ListItem title="Nothing found"></ListItem>
             </List>
 
-            {departments == null ? 
+            {courses == null ? 
                 <List mediaList className="skeleton-text skeleton-effect-fade">
                     <ListItem
                     title="Title"
@@ -158,7 +159,7 @@ export default () => {
                 </List>
                 :
                 <>
-                {departments == 'error' ?
+                {courses == 'error' ?
                 <PageContent className="display-flex justify-content-center text-align-center">
                     <div>
                         <h3>Error!</h3>
@@ -171,32 +172,32 @@ export default () => {
                 </PageContent>
                 :
                 <>
-                {departments.length == 0 ? 
+                {courses.length == 0 ? 
                     <PageContent className="display-flex flex-direction-column justify-content-center text-align-center">
                         <Icon size="48px">
                             <FaExclamationTriangle />
                         </Icon>
                         <p>Hmm...</p>
-                        <p>There are no departments listed.</p>
+                        <p>There are no courses listed.</p>
                         <p>Yet.</p>
                     </PageContent>
                     :
                     <List mediaList className="search-list searchbar-found">
-                        {departments.map((department)=>
+                        {courses.map((course)=>
                             <ListItem 
                             swipeout
-                            key={department.id}
-                            title={`Department of ${department.name}`}
-                            subtitle={schoolName(department.school_id)} 
-                            text={department.description}
-                            link={`/department/${department.id}`}
+                            key={course.id}
+                            title={course.name}
+                            subtitle={departmentName(course.department_id)} 
+                            text={course.description}
+                            link={`/course/${course.id}`}
                             >
                                 <SwipeoutActions right>
                                     <SwipeoutButton
                                     onClick={()=>{ f7.dialog.confirm(
-                                        "Do You Want To Delete This Department and It's Related Entities?",
-                                        'Delete Department',
-                                        ()=>{deleteDepartment(department.id)}
+                                        "Do You Want To Delete This Course and It's Related Entities?",
+                                        'Delete Course',
+                                        ()=>{deleteCourse(course.id)}
                                         )}}
                                     overswipe
                                     color="red"
@@ -207,8 +208,8 @@ export default () => {
                                         </Icon>
                                     </SwipeoutButton>
                                 </SwipeoutActions>
-                                <Icon slot="media" size="29px" color="orange">
-                                    <FaBuilding />
+                                <Icon slot="media" size="29px" color="red">
+                                    <FaGraduationCap />
                                 </Icon>
                             </ListItem> 
                         )}
