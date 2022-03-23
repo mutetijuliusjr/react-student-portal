@@ -18,12 +18,20 @@ import DepartmentPage from '../pages/admin/departments/department.jsx';
 import NewDepartmentPage from '../pages/admin/departments/new-department.jsx';
 import EditDepartmentPage from '../pages/admin/departments/edit-department.jsx';
 
-import CoursePage from '../pages/admin/course.jsx';
-import CoursesPage from '../pages/admin/courses.jsx';
-import SemesterPage from '../pages/admin/semester.jsx';
-import SemestersPage from '../pages/admin/semesters.jsx';
-import UnitPage from '../pages/admin/unit.jsx';
-import UnitsPage from '../pages/admin/units.jsx';
+import CoursesPage from '../pages/admin/courses/all-courses.jsx';
+import CoursePage from '../pages/admin/courses/course.jsx';
+import NewCoursePage from '../pages/admin/courses/new-course.jsx';
+import EditCoursePage from '../pages/admin/courses/edit-course.jsx';
+
+import SemestersPage from '../pages/admin/semesters/all-semesters.jsx';
+import SemesterPage from '../pages/admin/semesters/semester.jsx';
+import NewSemesterPage from '../pages/admin/semesters/new-semester.jsx';
+import EditSemesterPage from '../pages/admin/semesters/edit-semester.jsx';
+
+import UnitsPage from '../pages/admin/units/all-units.jsx';
+import UnitPage from '../pages/admin/units/unit.jsx';
+import NewUnitPage from '../pages/admin/units/new-unit.jsx';
+import EditUnitPage from '../pages/admin/units/edit-unit.jsx';
 
 import UsersPage from '../pages/admin/users.jsx';
 import UserPage from '../pages/admin/user.jsx';
@@ -73,14 +81,14 @@ var routes = [
     path: '/new-school/',
     component: NewSchoolPage,
     options: {
-      transition: 'f7-cover',
+      transition: 'f7-cover-v',
     },
   },
   {
     path: '/school/:id',
     component: SchoolPage,
     options: {
-      transition: 'f7-cover-v',
+      transition: 'f7-push',
     },
   },
   {
@@ -101,26 +109,19 @@ var routes = [
     path: '/department/:id',
     component: DepartmentPage,
     options: {
-      transition: 'f7-cover-v',
+      transition: 'f7-push',
     },
   },
   {
     path: '/new-department/',
     component: NewDepartmentPage,
     options: {
-      transition: 'f7-cover',
+      transition: 'f7-cover-v',
     },
   },
   {
     path: '/edit-department/:id',
     component: EditDepartmentPage,
-    options: {
-      transition: 'f7-cover-v',
-    },
-  },
-  {
-    path: '/course/',
-    component: CoursePage,
     options: {
       transition: 'f7-cover-v',
     },
@@ -133,10 +134,24 @@ var routes = [
     },
   },
   {
-    path: '/semester/',
-    component: SemesterPage,
+    path: '/course/:id',
+    component: CoursePage,
+    options: {
+      transition: 'f7-push',
+    },
+  },
+  {
+    path: '/new-course/',
+    component: NewCoursePage,
     options: {
       transition: 'f7-cover-v',
+    },
+  },
+  {
+    path: '/edit-course/:id',
+    component: EditCoursePage,
+    options: {
+      transition: 'f7-push',
     },
   },
   {
@@ -147,8 +162,22 @@ var routes = [
     },
   },
   {
-    path: '/unit/',
-    component: UnitPage,
+    path: '/semester/:id',
+    component: SemesterPage,
+    options: {
+      transition: 'f7-push',
+    },
+  },
+  {
+    path: '/edit-semester/:id',
+    component: EditSemesterPage,
+    options: {
+      transition: 'f7-cover-v',
+    },
+  },
+  {
+    path: '/new-semester/',
+    component: NewSemesterPage,
     options: {
       transition: 'f7-cover-v',
     },
@@ -158,6 +187,27 @@ var routes = [
     component: UnitsPage,
     options: {
       transition: 'f7-cover',
+    },
+  },
+  {
+    path: '/new-unit/',
+    component: NewUnitPage,
+    options: {
+      transition: 'f7-cover-v',
+    },
+  },
+  {
+    path: '/edit-unit/:id',
+    component: EditUnitPage,
+    options: {
+      transition: 'f7-cover',
+    },
+  },
+  {
+    path: '/unit/:id',
+    component: UnitPage,
+    options: {
+      transition: 'f7-push',
     },
   },
   {
