@@ -85,7 +85,7 @@ export default (props) => {
         <Popover className="popover-menu">
             <List noChevron noHairlines>
                 <ListItem link="#" popoverClose title="Edit School" onClick={()=>f7router.navigate(`/edit-school/${school.id}`)} />
-                <ListItem link="#" popoverClose title="Add Department" />
+                <ListItem link="#" popoverClose title="Add Department" onClick={()=>f7router.navigate("/new-department/")} />
                 <ListItem 
                 link="#" 
                 popoverClose
@@ -117,7 +117,7 @@ export default (props) => {
                         {schoolDepts.length == 0 ? 
                             <Block>
                                 <p>There are no departments for this school</p>
-                                <Button text="Add Department" outline color="green" link="#" />
+                                <Button text="Add Department" outline color="green" href="/new-department/" />
                             </Block>
                             :
                             <List inset noHairlines noChevron>
