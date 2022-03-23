@@ -10,32 +10,33 @@ import {
 } from 'framework7-react';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { addDepartmentAsync } from '../../../redux/departmentSlice';
+import { addCourseAsync } from '../../../redux/courseSlice';
 
 export default () => {
 
     const dispatch = useDispatch()
-    const schools = useSelector((state) => state.schools)
+    const departments = useSelector((state) => state.departments)
 
-    const [departmentName, setDepartmentName] = useState('')
-    const [departmentDesc, setDepartmentDesc] = useState('')
-    const [departmentSchl, setDepartmentSchl] = useState('')
+    const [courseName, setCourseName] = useState('')
+    const [courseDesc, setCourseDesc] = useState('')
+    const [courseDept, setCourseDept] = useState('')
 
     const successToast = f7.toast.create({
         position: "center",
         closeButton: "true",
-        text:'New department has been saved.',
+        text:'New course has been saved.',
         closeTimeout: 3000
     })
 
     const onSubmit = (event) => {
         event.preventDefault();
+        //console.log(`dept Id: ${courseDept}, name: ${courseName}, Desc: ${courseDesc}, `)
         f7.dialog.preloader('Loading', 'multi')
         dispatch(
-            addDepartmentAsync({
-                name: departmentName,
-                description: departmentDesc,
-                school_id: departmentSchl
+            addCourseAsync({
+                name: courseName,
+                description: courseDesc,
+                department_id: courseDept
             })
         )
         f7.dialog.close()
@@ -44,8 +45,8 @@ export default () => {
 
 
     return (
-        <Page name="new-department">
-            <Navbar backLink="Back" sliding  title="New Department" />
+        <Page name="new-course">
+            <Navbar backLink="Back" sliding  title="New Course" />
 
             <form onSubmit={onSubmit}>
                 <List noHairlinesMd>
@@ -54,12 +55,12 @@ export default () => {
                         label="Name"
                         floatingLabel
                         type="text"
-                        placeholder="Department name"
+                        placeholder="Course name"
                         clearButton
                         required
                         validateOnBlur
-                        value={departmentName}
-                        onChange={(event) => setDepartmentName(event.target.value)}
+                        value={courseName}
+                        onChange={(event) => setCourseName(event.target.value)}
                     >
                     </ListInput>
                     <ListInput
@@ -70,18 +71,18 @@ export default () => {
                         resizable
                         placeholder="Description"
                         clearButton
-                        value={departmentDesc}
-                        onChange={(event) => setDepartmentDesc(event.target.value)}
+                        value={courseDesc}
+                        onChange={(event) => setCourseDesc(event.target.value)}
                     >
                     </ListInput>
                     <ListInput
-                        label="School"
+                        label="Department"
                         type="select"
-                        value={departmentSchl}
-                        onChange={(event) => setDepartmentSchl(event.target.value)}
+                        value={courseDept}
+                        onChange={(event) => setCourseDept(event.target.value)}
                         >
-                        {schools.map(school=>
-                            <option key={school.id} value={school.id}>{school.name}</option>
+                        {departments.map(department=>
+                            <option key={department.id} value={department.id}>{department.name}</option>
                             )
                         }
                         
