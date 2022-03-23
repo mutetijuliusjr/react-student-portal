@@ -1,62 +1,51 @@
-import React, { useState, useEffect } from 'react';
-import {  
-    FaBuilding, 
-    FaTimes, 
-    FaTag,  
-    FaParagraph, 
-    FaExclamationTriangle,
-    FaEllipsisV 
-} from 'react-icons/fa';
+import React, { useState } from 'react';
+
 import {
   f7,
   Page,
-  Popup,
-  Popover,
   Navbar,
-  NavRight,
-  Button,
-  Icon,
-  List,
-  Link,
-  ListItem,
   ListInput,
-  SkeletonBlock,
-  Searchbar,
-  Subnavbar,
-  Row,
-  Range,
-  Col,
-  theme,
-  Views,
-  View,
-  PageContent,
+  Button,
+  List
 } from 'framework7-react';
+
 import { useSelector, useDispatch } from 'react-redux';
-import { addSchoolAsync } from '../../../redux/schoolSlice';
+import { addDepartmentAsync } from '../../../redux/departmentSlice';
 
 export default () => {
 
     const dispatch = useDispatch()
+    const schools = useSelector((state) => state.schools)
 
-    const [schoolName, setSchoolName] = useState('')
-    const [schoolDesc, setSchoolDesc] = useState('')
+    const [departmentName, setDepartmentName] = useState('')
+    const [departmentDesc, setDepartmentDesc] = useState('')
+    const [departmentSchl, setDepartmentSchl] = useState('')
+
+    const successToast = f7.toast.create({
+        position: "center",
+        closeButton: "true",
+        text:'New department has been saved.',
+        closeTimeout: 3000
+    })
 
     const onSubmit = (event) => {
         event.preventDefault();
         f7.dialog.preloader('Loading', 'multi')
         dispatch(
-            addSchoolAsync({
-                name: schoolName,
-                description: schoolDesc
+            addDepartmentAsync({
+                name: departmentName,
+                description: departmentDesc,
+                school_id: departmentSchl
             })
         )
         f7.dialog.close()
-        f7.dialog.alert('New School has been saved.', 'Saved!')
+        successToast.open()
     }
 
+
     return (
-        <Page name="new-school">
-            <Navbar backLink="Back" sliding  title="Add School" />
+        <Page name="new-department">
+            <Navbar backLink="Back" sliding  title="New Department" />
 
             <form onSubmit={onSubmit}>
                 <List noHairlinesMd>
@@ -65,12 +54,12 @@ export default () => {
                         label="Name"
                         floatingLabel
                         type="text"
-                        placeholder="School name"
+                        placeholder="Department name"
                         clearButton
                         required
                         validateOnBlur
-                        value={schoolName}
-                        onChange={(event) => setSchoolName(event.target.value)}
+                        value={departmentName}
+                        onChange={(event) => setDepartmentName(event.target.value)}
                     >
                     </ListInput>
                     <ListInput
@@ -81,9 +70,21 @@ export default () => {
                         resizable
                         placeholder="Description"
                         clearButton
-                        value={schoolDesc}
-                        onChange={(event) => setSchoolDesc(event.target.value)}
+                        value={departmentDesc}
+                        onChange={(event) => setDepartmentDesc(event.target.value)}
                     >
+                    </ListInput>
+                    <ListInput
+                        label="School"
+                        type="select"
+                        value={departmentSchl}
+                        onChange={(event) => setDepartmentSchl(event.target.value)}
+                        >
+                        {schools.map(school=>
+                            <option key={school.id} value={school.id}>{school.name}</option>
+                            )
+                        }
+                        
                     </ListInput>
                 </List>
                 <Button outline color="green" text="Save" type="submit" />
