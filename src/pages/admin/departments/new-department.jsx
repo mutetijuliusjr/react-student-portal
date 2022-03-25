@@ -5,6 +5,7 @@ import {
   Page,
   Navbar,
   ListInput,
+  ListItem,
   Button,
   List
 } from 'framework7-react';
@@ -30,16 +31,23 @@ export default () => {
 
     const onSubmit = (event) => {
         event.preventDefault();
-        f7.dialog.preloader('Loading', 'multi')
-        dispatch(
-            addDepartmentAsync({
-                name: departmentName,
-                description: departmentDesc,
-                school_id: departmentSchl
-            })
-        )
-        f7.dialog.close()
-        successToast.open()
+        if (departmentSchl == "") {
+            f7.dialog.alert("Please select a school", "Error")
+        }
+        else 
+        {
+            f7.dialog.preloader('Loading', 'multi')
+            dispatch(
+                addDepartmentAsync({
+                    name: departmentName,
+                    description: departmentDesc,
+                    school_id: departmentSchl
+                })
+            )
+            f7.dialog.close()
+            successToast.open()
+        }
+        
     }
 
 
@@ -74,18 +82,17 @@ export default () => {
                         onChange={(event) => setDepartmentDesc(event.target.value)}
                     >
                     </ListInput>
-                    <ListInput
-                        label="School"
-                        type="select"
+                    <ListItem title="School" smartSelect smartSelectParams={{ openIn: 'sheet' }}>
+                        <select 
+                        name="school_id" 
                         value={departmentSchl}
-                        onChange={(event) => setDepartmentSchl(event.target.value)}
-                        >
-                        {schools.map(school=>
+                        onChange={(event) => setDepartmentSchl(event.target.value)}>
+                            <option value="">Choose a school...</option>
+                            {schools.map(school=>
                             <option key={school.id} value={school.id}>{school.name}</option>
-                            )
-                        }
-                        
-                    </ListInput>
+                            )}
+                        </select>
+                    </ListItem>
                 </List>
                 <Button outline color="green" text="Save" type="submit" />
             </form>
