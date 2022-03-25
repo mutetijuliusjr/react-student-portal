@@ -87,7 +87,7 @@ export default () => {
                         value={courseDept}
                         onChange={(event) => setCourseDept(event.target.value)}
                         >
-                        <option value="">Choose a school...</option>
+                        <option value="">Choose a department...</option>
                         {departments.map(department=>
                             <option key={department.id} value={department.id}>{department.name}</option>
                             )
