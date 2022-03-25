@@ -30,17 +30,23 @@ export default () => {
 
     const onSubmit = (event) => {
         event.preventDefault();
-        //console.log(`dept Id: ${courseDept}, name: ${courseName}, Desc: ${courseDesc}, `)
-        f7.dialog.preloader('Loading', 'multi')
-        dispatch(
-            addCourseAsync({
-                name: courseName,
-                description: courseDesc,
-                department_id: courseDept
-            })
-        )
-        f7.dialog.close()
-        successToast.open()
+        if (courseDept == "") {
+            f7.dialog.alert("Please select a department", "Error")
+        }
+        else 
+        {
+            f7.dialog.preloader('Loading', 'multi')
+            dispatch(
+                addCourseAsync({
+                    name: courseName,
+                    description: courseDesc,
+                    department_id: courseDept
+                })
+            )
+            f7.dialog.close()
+            successToast.open()
+        }
+        
     }
 
 
@@ -81,6 +87,7 @@ export default () => {
                         value={courseDept}
                         onChange={(event) => setCourseDept(event.target.value)}
                         >
+                        <option value="">Choose a school...</option>
                         {departments.map(department=>
                             <option key={department.id} value={department.id}>{department.name}</option>
                             )
