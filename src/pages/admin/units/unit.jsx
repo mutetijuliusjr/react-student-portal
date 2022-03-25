@@ -24,7 +24,7 @@ import {
 } from 'framework7-react';
 
 import { useSelector, useDispatch } from 'react-redux';
-//import { getCoursesAsync } from '../../../redux/courseSlice';
+import { deleteUnitAsync } from '../../../redux/unitSlice';
 
 export default (props) => {
     const { f7router } = props
