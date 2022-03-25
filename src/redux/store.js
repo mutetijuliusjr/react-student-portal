@@ -4,6 +4,7 @@ import schoolReducer from './schoolSlice';
 import departmentReducer from './departmentSlice';
 import courseReducer from './courseSlice';
 import unitReducer from './unitSlice';
+import semesterReducer from './semesterSlice';
 
 export default configureStore({
 	reducer: {
@@ -11,5 +12,6 @@ export default configureStore({
 		departments: departmentReducer,
 		courses: courseReducer,
 		units: unitReducer,
+		semesters: semesterReducer,
 	},
 });
