@@ -3,7 +3,8 @@ import {
     FaBuilding,
     FaExclamationTriangle,
     FaTrashAlt,
-    FaSearch
+    FaSearch,
+    FaClipboard
 } from 'react-icons/fa';
 import {
   f7,
@@ -24,19 +25,19 @@ import {
 } from 'framework7-react';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { getDepartmentsAsync, deleteDepartmentAsync } from '../../../redux/departmentSlice';
-import { getSchoolsAsync } from '../../../redux/schoolSlice';
+import { getSemestersAsync, deleteSemesterAsync } from '../../../redux/semesterSlice';
+import { getCoursesAsync } from '../../../redux/courseSlice';
 
 export default () => {
 
     const dispatch = useDispatch()
-    const departments = useSelector((state) => state.departments)
-    const schools = useSelector((state) => state.schools)
+    const semesters = useSelector((state) => state.semesters)
+    const courses = useSelector((state) => state.courses)
 
-    const schoolName = (id)=>{
-        if (schools != null) {
-            var schl = schools.find((schl) => schl.id == id)
-            return `School of ${schl.name}`
+    const courseName = (id)=>{
+        if (courses != null) {
+            var course = courses.find((course) => course.id == id)
+            return course.name
         }
         else
         {return '...'}
@@ -44,26 +45,26 @@ export default () => {
 
     const deleteToast = f7.toast.create({
         closeTimeout: 5000,
-        text: 'Department Deleted',
+        text: 'Semester Deleted',
         position: 'bottom',
     })
 
-    const deleteDepartment = (departmentId) => {
+    const deleteSemester = (semesterId) => {
         deleteToast.open()
-        dispatch(deleteDepartmentAsync({id: departmentId}))
+        dispatch(deleteSemesterAsync({id: semesterId}))
     }
 
     useEffect(() => { 
-        dispatch(getDepartmentsAsync())
-        dispatch(getSchoolsAsync())
+        dispatch(getSemestersAsync())
+        dispatch(getCoursesAsync())
     }, [dispatch])
 
     return (
     
       
-        <Page name="departments">
-            <Navbar backLink="Back" sliding title="Departments">
-                {departments != null && departments != 'error' && departments.length != 0 && 
+        <Page name="semesters">
+            <Navbar backLink="Back" sliding title="Semesters">
+                {semesters != null && semesters != 'error' && semesters.length != 0 && 
                     <>
                         <NavRight>
                             <Link
@@ -85,15 +86,15 @@ export default () => {
                 }
             </Navbar>
             
-            {departments != null && departments != 'error' && departments.length != 0 &&
-            <Fab position="right-bottom" slot="fixed" text="Create" color="green" href="/new-department/" />
+            {semesters != null && courses != null && semesters != 'error' && semesters.length != 0 &&
+            <Fab position="right-bottom" slot="fixed" text="Create" color="green" href="/new-semester/" />
             }
             
             <List className="searchbar-not-found">
                 <ListItem title="Nothing found"></ListItem>
             </List>
 
-            {departments == null ? 
+            {semesters == null ? 
                 <List mediaList className="skeleton-text skeleton-effect-fade">
                     <ListItem
                     title="Title"
@@ -158,7 +159,7 @@ export default () => {
                 </List>
                 :
                 <>
-                {departments == 'error' ?
+                {semesters == 'error' ?
                 <PageContent className="display-flex justify-content-center text-align-center">
                     <div>
                         <h3>Error!</h3>
@@ -171,32 +172,34 @@ export default () => {
                 </PageContent>
                 :
                 <>
-                {departments.length == 0 ? 
+                {semesters.length == 0 ? 
                     <PageContent className="display-flex flex-direction-column justify-content-center text-align-center">
                         <Icon size="48px">
                             <FaExclamationTriangle />
                         </Icon>
                         <p>Hmm...</p>
-                        <p>There are no departments listed.</p>
+                        <p>There are no semesters listed.</p>
                         <p>Yet.</p>
                     </PageContent>
                     :
                     <List mediaList className="search-list searchbar-found">
-                        {departments.map((department)=>
+                        {semesters.map((semester)=>
                             <ListItem 
                             swipeout
-                            key={department.id}
-                            title={`Department of ${department.name}`}
-                            subtitle={schoolName(department.school_id)} 
-                            text={department.description}
-                            link={`/department/${department.id}`}
+                            key={semester.id}
+                            title={semester.name}
+                            subtitle={courseName(semester.course_id)} 
+                            text={semester.description}
+                            link={`/semester/${semester.id}`}
+                            after={semester.code}
+                            noChevron
                             >
                                 <SwipeoutActions right>
                                     <SwipeoutButton
                                     onClick={()=>{ f7.dialog.confirm(
-                                        "Do You Want To Delete This Department and It's Related Entities?",
-                                        'Delete Department',
-                                        ()=>{deleteDepartment(department.id)}
+                                        "Do You Want To Delete This Semester and It's Related Entities?",
+                                        'Delete Semester',
+                                        ()=>{deleteSemester(semester.id)}
                                         )}}
                                     overswipe
                                     color="red"
@@ -207,8 +210,8 @@ export default () => {
                                         </Icon>
                                     </SwipeoutButton>
                                 </SwipeoutActions>
-                                <Icon slot="media" size="29px" color="orange">
-                                    <FaBuilding />
+                                <Icon slot="media" size="29px" color="green">
+                                    <FaClipboard />
                                 </Icon>
                             </ListItem> 
                         )}
