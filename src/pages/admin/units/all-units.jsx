@@ -3,7 +3,8 @@ import {
     FaBuilding,
     FaExclamationTriangle,
     FaTrashAlt,
-    FaSearch
+    FaSearch,
+    FaBookOpen
 } from 'react-icons/fa';
 import {
   f7,
@@ -185,7 +186,7 @@ export default () => {
                             <ListItem 
                             swipeout
                             key={unit.id}
-                            title={`Unit of ${unit.name}`}
+                            title={unit.name}
                             subtitle={(unit.instructor_id)} 
                             text={unit.description}
                             link={`/unit/${unit.id}`}
@@ -206,8 +207,8 @@ export default () => {
                                         </Icon>
                                     </SwipeoutButton>
                                 </SwipeoutActions>
-                                <Icon slot="media" size="29px" color="orange">
-                                    <FaBuilding />
+                                <Icon slot="media" size="29px" color="blue" style={{ borderRadius: '50%' }}>
+                                    <FaBookOpen />
                                 </Icon>
                             </ListItem> 
                         )}
