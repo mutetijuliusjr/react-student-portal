@@ -32,18 +32,18 @@ import {
   PageContent,
 } from 'framework7-react';
 import { useSelector, useDispatch } from 'react-redux';
-import { editDepartmentAsync } from '../../../redux/departmentSlice';
+import { editUnitAsync } from '../../../redux/unitSlice';
 
 export default (props) => {
 
     const dispatch = useDispatch()
-    const departments = useSelector((state) => state.departments)
-    const schools = useSelector((state) => state.schools)
-    const department = departments.find(dept=> dept.id == props.id)
+    const units = useSelector((state) => state.units)
+    //const instructors = useSelector((state) => state.instructors)
+    const unit = units.find(dept=> dept.id == props.id)
 
-    const [departmentName, setDepartmentName] = useState(department.name)
-    const [departmentDesc, setDepartmentDesc] = useState(department.description)
-    const [departmentSchl, setDepartmentSchl] = useState(department.school_id)
+    const [unitName, setUnitName] = useState(unit.name)
+    const [unitDesc, setUnitDesc] = useState(unit.description)
+    const [unitTeacher, setUnitSchl] = useState(unit.instructor_id)
 
     const successToast = f7.toast.create({
         position: "center",
@@ -56,11 +56,11 @@ export default (props) => {
         event.preventDefault();
         f7.dialog.preloader('Loading', 'multi')
         dispatch(
-            editDepartmentAsync({
+            editUnitAsync({
                 id: props.id,
-                name: departmentName,
-                description: departmentDesc,
-                school_id: departmentSchl
+                name: unitName,
+                description: unitDesc,
+                instructor_id: unitTeacher
             })
         )
         f7.dialog.close()
@@ -69,8 +69,8 @@ export default (props) => {
 
 
     return (
-        <Page name="edit-department">
-            <Navbar backLink="Back" sliding  title="Edit Department" />
+        <Page name="edit-unit">
+            <Navbar backLink="Back" sliding  title="Edit Unit" />
 
             <form onSubmit={onSubmit}>
                 <List noHairlinesMd>
@@ -79,12 +79,12 @@ export default (props) => {
                         label="Name"
                         floatingLabel
                         type="text"
-                        placeholder="Department name"
+                        placeholder="Unit name"
                         clearButton
                         required
                         validateOnBlur
-                        value={departmentName}
-                        onChange={(event) => setDepartmentName(event.target.value)}
+                        value={unitName}
+                        onChange={(event) => setUnitName(event.target.value)}
                     >
                     </ListInput>
                     <ListInput
@@ -95,22 +95,22 @@ export default (props) => {
                         resizable
                         placeholder="Description"
                         clearButton
-                        value={departmentDesc}
-                        onChange={(event) => setDepartmentDesc(event.target.value)}
+                        value={unitDesc}
+                        onChange={(event) => setUnitDesc(event.target.value)}
                     >
                     </ListInput>
-                    <ListInput
+                    {/* <ListInput
                         label="School"
                         type="select"
-                        value={departmentSchl}
-                        onChange={(event) => setDepartmentSchl(event.target.value)}
+                        value={unitTeacher}
+                        onChange={(event) => setUnitSchl(event.target.value)}
                         >
-                        {schools.map(school=>
-                            <option key={school.id} value={school.id}>{school.name}</option>
+                        {instructors.map(instructor=>
+                            <option key={instructor.id} value={instructor.id}>{instructor.name}</option>
                             )
                         }
                         
-                    </ListInput>
+                    </ListInput> */}
                 </List>
                 <Button outline color="green" text="Save" type="submit" />
             </form>
