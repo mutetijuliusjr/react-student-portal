@@ -24,46 +24,45 @@ import {
 } from 'framework7-react';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { getDepartmentsAsync, deleteDepartmentAsync } from '../../../redux/departmentSlice';
-import { getSchoolsAsync } from '../../../redux/schoolSlice';
+import { getUnitsAsync, deleteUnitAsync } from '../../../redux/unitSlice';
+//import { getSchoolsAsync } from '../../../redux/instructorSlice';
 
 export default () => {
 
     const dispatch = useDispatch()
-    const departments = useSelector((state) => state.departments)
-    const schools = useSelector((state) => state.schools)
+    const units = useSelector((state) => state.units)
+    //const instructors = useSelector((state) => state.instructors)
 
-    const schoolName = (id)=>{
-        if (schools != null) {
-            var schl = schools.find((schl) => schl.id == id)
+    /* const instructorName = (id)=>{
+        if (instructors != null) {
+            var schl = instructors.find((schl) => schl.id == id)
             return `School of ${schl.name}`
         }
         else
         {return '...'}
-    }
+    } */
 
     const deleteToast = f7.toast.create({
         closeTimeout: 5000,
-        text: 'Department Deleted',
+        text: 'Unit Deleted',
         position: 'bottom',
     })
 
-    const deleteDepartment = (departmentId) => {
+    const deleteUnit = (unitId) => {
         deleteToast.open()
-        dispatch(deleteDepartmentAsync({id: departmentId}))
+        dispatch(deleteUnitAsync({id: unitId}))
     }
 
     useEffect(() => { 
-        dispatch(getDepartmentsAsync())
-        dispatch(getSchoolsAsync())
+        dispatch(getUnitsAsync())
     }, [dispatch])
 
     return (
     
       
-        <Page name="departments">
-            <Navbar backLink="Back" sliding title="Departments">
-                {departments != null && departments != 'error' && departments.length != 0 && 
+        <Page name="units">
+            <Navbar backLink="Back" sliding title="Units">
+                {units != null && units != 'error' && units.length != 0 && 
                     <>
                         <NavRight>
                             <Link
@@ -85,15 +84,15 @@ export default () => {
                 }
             </Navbar>
             
-            {departments != null && departments != 'error' && departments.length != 0 &&
-            <Fab position="right-bottom" slot="fixed" text="Create" color="green" href="/new-department/" />
+            {units != null && units != 'error' && units.length != 0 &&
+            <Fab position="right-bottom" slot="fixed" text="Create" color="green" href="/new-unit/" />
             }
             
             <List className="searchbar-not-found">
                 <ListItem title="Nothing found"></ListItem>
             </List>
 
-            {departments == null ? 
+            {units == null ? 
                 <List mediaList className="skeleton-text skeleton-effect-fade">
                     <ListItem
                     title="Title"
@@ -158,7 +157,7 @@ export default () => {
                 </List>
                 :
                 <>
-                {departments == 'error' ?
+                {units == 'error' ?
                 <PageContent className="display-flex justify-content-center text-align-center">
                     <div>
                         <h3>Error!</h3>
@@ -171,32 +170,32 @@ export default () => {
                 </PageContent>
                 :
                 <>
-                {departments.length == 0 ? 
+                {units.length == 0 ? 
                     <PageContent className="display-flex flex-direction-column justify-content-center text-align-center">
                         <Icon size="48px">
                             <FaExclamationTriangle />
                         </Icon>
                         <p>Hmm...</p>
-                        <p>There are no departments listed.</p>
+                        <p>There are no units listed.</p>
                         <p>Yet.</p>
                     </PageContent>
                     :
                     <List mediaList className="search-list searchbar-found">
-                        {departments.map((department)=>
+                        {units.map((unit)=>
                             <ListItem 
                             swipeout
-                            key={department.id}
-                            title={`Department of ${department.name}`}
-                            subtitle={schoolName(department.school_id)} 
-                            text={department.description}
-                            link={`/department/${department.id}`}
+                            key={unit.id}
+                            title={`Unit of ${unit.name}`}
+                            subtitle={(unit.instructor_id)} 
+                            text={unit.description}
+                            link={`/unit/${unit.id}`}
                             >
                                 <SwipeoutActions right>
                                     <SwipeoutButton
                                     onClick={()=>{ f7.dialog.confirm(
-                                        "Do You Want To Delete This Department and It's Related Entities?",
-                                        'Delete Department',
-                                        ()=>{deleteDepartment(department.id)}
+                                        "Do You Want To Delete This Unit and It's Related Entities?",
+                                        'Delete Unit',
+                                        ()=>{deleteUnit(unit.id)}
                                         )}}
                                     overswipe
                                     color="red"
