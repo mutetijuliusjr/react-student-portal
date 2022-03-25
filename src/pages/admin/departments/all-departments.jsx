@@ -85,7 +85,7 @@ export default () => {
                 }
             </Navbar>
             
-            {departments != null && departments != 'error' && departments.length != 0 &&
+            {departments != null && schools != null && departments != 'error' && departments.length != 0 &&
             <Fab position="right-bottom" slot="fixed" text="Create" color="green" href="/new-department/" />
             }
             
