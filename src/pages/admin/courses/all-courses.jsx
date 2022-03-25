@@ -86,7 +86,7 @@ export default () => {
                 }
             </Navbar>
             
-            {courses != null && courses != 'error' && courses.length != 0 &&
+            {courses != null && departments != null && courses != 'error' && courses.length != 0 &&
             <Fab position="right-bottom" slot="fixed" text="Create" color="green" href="/new-course/" />
             }
             
