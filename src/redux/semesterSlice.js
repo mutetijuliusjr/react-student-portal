@@ -15,6 +15,21 @@ export const getSemestersAsync = createAsyncThunk(
     }
 );
 
+export const getSemesterAsync = createAsyncThunk(
+    'semesters/getSemesterAsync',
+    async (payload) => {
+        try {
+            const resp = await fetch(`http://localhost:8000/api/semesters/${payload.id}`);
+            const semester = await resp.json();
+            return { semester }; 
+        } 
+        catch (error) {
+            const semester = 'error';
+            return { semester }
+        }
+    }
+);
+
 export const addSemesterAsync = createAsyncThunk(
     'semesters/addSemesterAsync',
     async (payload) => {
@@ -100,6 +115,9 @@ export const semesterSlice = createSlice({
     extraReducers: {
                     [getSemestersAsync.fulfilled]: (state, action) => {
                         return action.payload.semesters;
+                    },
+                    [getSemesterAsync.fulfilled]: (state, action) => {
+                        return action.payload.semesters.semester;
                     },
                     [addSemesterAsync.fulfilled]: (state, action) => {
                         state.push(action.payload.semester);
