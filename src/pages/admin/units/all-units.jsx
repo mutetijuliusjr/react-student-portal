@@ -4,7 +4,8 @@ import {
     FaExclamationTriangle,
     FaTrashAlt,
     FaSearch,
-    FaBookOpen
+    FaBookOpen,
+    FaRobot
 } from 'react-icons/fa';
 import {
   f7,
@@ -22,6 +23,7 @@ import {
   SkeletonBlock,
   Searchbar,
   theme,
+  Button,
 } from 'framework7-react';
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -172,13 +174,14 @@ export default () => {
                 :
                 <>
                 {units.length == 0 ? 
-                    <PageContent className="display-flex flex-direction-column justify-content-center text-align-center">
-                        <Icon size="48px">
-                            <FaExclamationTriangle />
-                        </Icon>
-                        <p>Hmm...</p>
-                        <p>There are no units listed.</p>
-                        <p>Yet.</p>
+                    <PageContent className="display-flex justify-content-center text-align-center">
+                        <div>
+                            <h3>Hmm...There are no units listed yet.</h3>
+                            <Icon size="100px" color="green" className="margin-bottom">
+                                <FaRobot />
+                            </Icon>
+                            <Button color="green" text="Add Unit" href="/new-unit/" fill round />
+                        </div>
                     </PageContent>
                     :
                     <List mediaList className="search-list searchbar-found">

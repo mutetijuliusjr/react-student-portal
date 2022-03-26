@@ -4,7 +4,8 @@ import {
     FaExclamationTriangle,
     FaTrashAlt,
     FaSearch,
-    FaGraduationCap
+    FaGraduationCap,
+    FaRobot
 } from 'react-icons/fa';
 import {
   f7,
@@ -22,6 +23,7 @@ import {
   SkeletonBlock,
   Searchbar,
   theme,
+  Button,
 } from 'framework7-react';
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -173,13 +175,14 @@ export default () => {
                 :
                 <>
                 {courses.length == 0 ? 
-                    <PageContent className="display-flex flex-direction-column justify-content-center text-align-center">
-                        <Icon size="48px">
-                            <FaExclamationTriangle />
-                        </Icon>
-                        <p>Hmm...</p>
-                        <p>There are no courses listed.</p>
-                        <p>Yet.</p>
+                    <PageContent className="display-flex justify-content-center text-align-center">
+                        <div>
+                            <h3>Hmm...There are no courses listed yet.</h3>
+                            <Icon size="100px" color="green" className="margin-bottom">
+                                <FaRobot />
+                            </Icon>
+                            <Button color="green" text="Add Course" href="/new-course/" fill round />
+                        </div>
                     </PageContent>
                     :
                     <List mediaList className="search-list searchbar-found">
