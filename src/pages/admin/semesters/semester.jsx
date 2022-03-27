@@ -122,7 +122,7 @@ export default (props) => {
                 :
                 <List inset noHairlines noChevron>
                     {semester.units.map((unit)=>
-                        <ListItem title={unit.name} key={unit.id} link={`/unit/${unit.id}`} >
+                        <ListItem title={unit.name} key={unit.id} link={`/units/${unit.id}`} >
                             <Icon color="blue" slot="media">
                                 <FaBookOpen />
                             </Icon>
