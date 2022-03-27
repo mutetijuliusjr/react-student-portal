@@ -99,35 +99,30 @@ const MyApp = () => {
 					{/* Tabbar for switching views-tabs */}
 					<Toolbar tabbar labels bottom>
 						
-						<Link tabLink="#view-home" tabLinkActive>
-							<Icon size='18px' tooltip="Home">
+						<Link tabLink="#view-home" tabLinkActive tooltip="Home" className="padding">
+							<Icon size='30px' tooltipTrigger>
 								<FaHome />
 							</Icon>
-							<span>Home</span>
 						</Link>
-						<Link tabLink="#view-admin" tooltip="Admin">
-							<Icon size='18px'>
+						<Link tabLink="#view-admin" tooltip="Admin" className="padding">
+							<Icon size='25px'>
 								<FaUserCircle />
 							</Icon>
-							<span>Admin</span>
 						</Link>
-						<Link tabLink="#view-student" tooltip="Student">
-							<Icon size='18px'>
+						<Link tabLink="#view-student" tooltip="Student" className="padding">
+							<Icon size='25px'>
 								<FaBook />
 							</Icon>
-							<span>Student</span>
 						</Link>
-						<Link tabLink="#view-teacher" tooltip="Teacher">
-							<Icon size='18px'>
+						<Link tabLink="#view-teacher" tooltip="Teacher" className="padding">
+							<Icon size='25px'>
 								<FaClipboard />
 							</Icon>
-							<span>Teacher</span>
 						</Link>
-						<Link tabLink="#view-settings" tooltip="Settings">
-							<Icon size='18px'>
+						<Link tabLink="#view-settings" tooltip="Settings" className="padding">
+							<Icon size='25px'>
 								<FaCogs />
 							</Icon>
-							<span>Settings</span>
 						</Link>
 					
 					</Toolbar>
