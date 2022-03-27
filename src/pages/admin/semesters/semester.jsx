@@ -48,7 +48,7 @@ export default (props) => {
             deleteToast.open()
         } ,3000)    
     }
-    console.log(semester.course == undefined)
+    
     useEffect(() => { 
         dispatch(getSemesterAsync({id: props.id}))
     }, [dispatch])
