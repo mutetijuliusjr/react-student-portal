@@ -90,7 +90,6 @@ export const semesterSlice = createSlice({
     reducers:   {
                     addSemester: (state, action) => 
                                 {
-                                    
                                     const newSemester = 
                                     {
                                         id: payload.id,
@@ -117,7 +116,9 @@ export const semesterSlice = createSlice({
                         return action.payload.semesters;
                     },
                     [getSemesterAsync.fulfilled]: (state, action) => {
-                        return action.payload.semesters.semester;
+                        const index = state.findIndex(semester => semester.id === action.payload.semester.semester.id)
+                        state[index].course = action.payload.semester.semester.course;
+                        state[index].units = action.payload.semester.semester.units;
                     },
                     [addSemesterAsync.fulfilled]: (state, action) => {
                         state.push(action.payload.semester);
