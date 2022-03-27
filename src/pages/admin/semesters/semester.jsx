@@ -1,18 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import {
-    FaEllipsisV,
-    FaGraduationCap,
-    FaLink,
-    FaBookOpen
+    FaEllipsisV, FaBookOpen
 } from 'react-icons/fa';
 
 import {
   Col,
   Page,
   Popover,
-  Preloader,
   Navbar,
-  Block,
   Button,
   Icon,
   NavRight,
@@ -23,19 +18,20 @@ import {
   f7,
   Row,
   Card,
+  Preloader,
+  Block,
 } from 'framework7-react';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { getSemesterAsync } from '../../../redux/semesterSlice';
-import { getUnitsAsync } from '../../../redux/unitSlice';
 
 export default (props) => {
     const { f7router } = props
 
     const dispatch = useDispatch()
-
-    const [loading, setLoading] = useState(true)
-
+    const semesters = useSelector((state) => state.semesters)
+    const semester = semesters.find(sem => sem.id == props.id) 
+       
     const deleteToast = f7.toast.create({
         closeTimeout: 5000,
         text: 'Semester Deleted',
@@ -52,13 +48,12 @@ export default (props) => {
             deleteToast.open()
         } ,3000)    
     }
-
-    
+    console.log(semester.course == undefined)
     useEffect(() => { 
         dispatch(getSemesterAsync({id: props.id}))
     }, [dispatch])
-
-  return (
+    
+    return (
     
     <Page name="semester">
         <Navbar title={`semester.name`} backLink="Back" sliding={false} >
@@ -94,22 +89,22 @@ export default (props) => {
         <Row noGap>
             <Col width="100" medium="50">
                 <BlockTitle>Name</BlockTitle>
-                <Card outline padding content={loading ? 'loading...':"semester.name"} />
+                <Card outline padding content={semester.course == undefined ? '...':semester.name} />
                 <BlockTitle>Code</BlockTitle>
-                <Card outline padding content={loading ? 'loading...':"semester.code"} />
+                <Card outline padding content={semester.course == undefined ? '...':semester.code} />
                 <BlockTitle>Course</BlockTitle>
                 <Card outline className="row padding" >
                     <Col width="70">
-                    {loading ? 
-                        'loading...'
+                    {semester.course == undefined ? 
+                        '...'
                         :
-                        <span>courseName</span>
+                        <span>{semester.course.name}</span>
                     }
                     </Col>
                     <Col width="30">
-                        {!loading && 
+                        {semester.course == undefined && 
                             <Button 
-                            href={`/course/semester.course_id`}
+                            href={`/course/${semester.course_id}`}
                             fill
                             color="blue"
                             text="Manage"
@@ -120,9 +115,22 @@ export default (props) => {
             </Col>
             <Col width="100" medium="50">
                 <BlockTitle>Units</BlockTitle>
+                {semester.course == undefined ? 
+                <Block className="display-flex flex-direction-column justify-content-center text-align-center">
+                    <div><Preloader className="color-multi" size="24px" text="Loading" /></div>
+                </Block>
+                :
                 <List inset noHairlines noChevron>
-                
+                    {semester.units.map((unit)=>
+                        <ListItem title={unit.name} key={unit.id} link={`/unit/${unit.id}`} >
+                            <Icon color="blue" slot="media">
+                                <FaBookOpen />
+                            </Icon>
+                        </ListItem>   
+                    )}
                 </List>
+                }
+                
             </Col>
         </Row>
 
