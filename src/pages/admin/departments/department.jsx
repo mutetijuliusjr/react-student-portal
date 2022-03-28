@@ -25,7 +25,7 @@ import {
 } from 'framework7-react';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { getCoursesAsync } from '../../../redux/courseSlice';
+import { getDepartmentsAsync } from '../../../redux/departmentSlice';
 
 export default (props) => {
     const { f7router } = props
@@ -33,24 +33,7 @@ export default (props) => {
     const dispatch = useDispatch()
     
     const departments = useSelector((state) => state.departments)
-    const department = departments.find(sch => sch.id == props.id) 
-    const schools = useSelector((state) => state.schools)
-    const courses = useSelector((state) => state.courses)
-    
-    const schoolName = ()=>{
-        if (schools != null) {
-            var schl = schools.find((schl) => schl.id == department.school_id)
-            return `School of ${schl.name}`
-        }
-        else
-        {return '...'}
-    }
-    
-    var departmentCrses = null
-    
-    if (courses != null) {
-        departmentCrses = courses.filter((schlCrse)=> schlCrse.department_id == department.id)   
-    }
+    const department = departments.find(sch => sch.id == props.id)
 
     const deleteToast = f7.toast.create({
         closeTimeout: 5000,
@@ -71,7 +54,7 @@ export default (props) => {
 
     
     useEffect(() => { 
-        dispatch(getCoursesAsync())
+        dispatch(getDepartmentsAsync())
     }, [dispatch])
 
   return (
@@ -116,7 +99,7 @@ export default (props) => {
                 <BlockTitle>School</BlockTitle>
                 <Card outline className="row padding" >
                     <Col width="70">
-                        <span>{schoolName()}</span>
+                        <span>School of {department.school.name}</span>
                     </Col>
                     <Col width="30">
                         <Button 
@@ -130,35 +113,26 @@ export default (props) => {
             </Col>
             <Col width="100" medium="50">
                 <BlockTitle>Courses</BlockTitle>
-                {courses == null ?
-                    <Block className="display-flex flex-direction-column justify-content-center text-align-center">
-                        <div><Preloader className="color-multi" size="24px" text="Loading" /></div>
+                {department.courses.length == 0 ? 
+                    <Block>
+                        <p>There are no courses for this department</p>
+                        <Button text="Add Course" outline color="green" href="/new-course/" />
                     </Block>
                     :
-                    <>
-                        {departmentCrses.length == 0 ? 
-                            <Block>
-                                <p>There are no courses for this department</p>
-                                <Button text="Add Course" outline color="green" href="/new-course/" />
-                            </Block>
-                            :
-                            <List inset noHairlines noChevron>
-                                {departmentCrses.map((course)=>
-                                    <ListItem 
-                                        key={course.id} 
-                                        title={course.name} 
-                                        link={`/course/${course.id}`} 
-                                    >
-                                        <Icon color="red" slot="media">
-                                            <FaGraduationCap />
-                                        </Icon>
-                                    </ListItem>
-                                )}
-                            </List>
-                        } 
-                    </>
-                    
-                }
+                    <List inset noHairlines noChevron>
+                        {department.courses.map((course)=>
+                            <ListItem 
+                                key={course.id} 
+                                title={course.name} 
+                                link={`/course/${course.id}`} 
+                            >
+                                <Icon color="red" slot="media">
+                                    <FaGraduationCap />
+                                </Icon>
+                            </ListItem>
+                        )}
+                    </List>
+                }                    
             </Col>
         </Row>
 
