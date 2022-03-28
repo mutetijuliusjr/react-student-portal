@@ -33,13 +33,17 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getSchoolsAsync, deleteSchoolAsync } from '../../../redux/schoolSlice';
 
 export default (props) => {
-    const { f7router } = props
-
+    let school = ''
     const dispatch = useDispatch()
-    
     const schools = useSelector((state) => state.schools)
-    const school = schools.find(sch => sch.id == props.id)
-   
+    const [loading] = useState(schools != null)
+    const { f7router } = props
+    console.log(loading)
+    if (schools != null) {
+        school = schools.find(sch => sch.id == props.id)
+        console.log(school)
+    }
+
     const deleteToast = f7.toast.create({
         closeTimeout: 5000,
         text: 'School Deleted',
@@ -57,7 +61,6 @@ export default (props) => {
         } ,3000)    
     }
 
-    
     useEffect(() => { 
         dispatch(getSchoolsAsync())
     }, [dispatch])
@@ -65,7 +68,7 @@ export default (props) => {
   return (
     
     <Page name="school">
-        <Navbar title={`School of ${school.name}`} backLink="Back" sliding={false} >
+        <Navbar title={!loading == false && `School of ${school.name}`} backLink="Back" sliding={false} >
             <NavRight>
                 <Link popoverOpen=".popover-menu">
                     <Icon>
@@ -75,6 +78,7 @@ export default (props) => {
             </NavRight>
         </Navbar>
         <Popover className="popover-menu">
+            {!loading && 
             <List noChevron noHairlines>
                 <ListItem link="#" popoverClose title="Edit School" onClick={()=>f7router.navigate(`/edit-school/${school.id}`)} />
                 <ListItem link="#" popoverClose title="Add Department" onClick={()=>f7router.navigate("/new-department/")} />
@@ -89,17 +93,23 @@ export default (props) => {
                     ()=>{deleteSchool()}
                     )}} />
             </List>
+            }
         </Popover>
 
         <Row noGap>
             <Col width="100" medium="50">
                 <BlockTitle>Name</BlockTitle>
-                <Card outline padding content={school.name} />
+                {!loading && <Card outline padding content={school.name} />}                
                 <BlockTitle>Description</BlockTitle>
-                <Card outline padding content={school.description} />
+                {!loading && <Card outline padding content={school.description} />}                
             </Col>
             <Col width="100" medium="50">
                 <BlockTitle>Departments</BlockTitle>
+                {loading ?
+                <Block className="display-flex flex-direction-column justify-content-center text-align-center">
+                    <div><Preloader className="color-multi" size="24px" text="Loading" /></div>
+                </Block>
+                :
                 <>
                     {school.departments.length == 0 ? 
                         <Block>
@@ -122,6 +132,8 @@ export default (props) => {
                         </List>
                     } 
                 </>
+                }
+                
             </Col>
         </Row>
 
