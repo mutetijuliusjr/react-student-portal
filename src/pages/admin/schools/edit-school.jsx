@@ -1,35 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import {  
-    FaBuilding, 
-    FaTimes, 
-    FaTag,  
-    FaParagraph, 
-    FaExclamationTriangle,
-    FaEllipsisV 
-} from 'react-icons/fa';
 import {
   f7,
   Page,
-  Popup,
-  Popover,
   Navbar,
-  NavRight,
   Button,
-  Icon,
   List,
-  Link,
-  ListItem,
   ListInput,
-  SkeletonBlock,
-  Searchbar,
-  Subnavbar,
-  Row,
-  Range,
-  Col,
-  theme,
-  Views,
-  View,
-  PageContent,
 } from 'framework7-react';
 import { useSelector, useDispatch } from 'react-redux';
 import { editSchoolAsync } from '../../../redux/schoolSlice';

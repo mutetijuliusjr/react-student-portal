@@ -30,8 +30,7 @@ import {
 } from 'framework7-react';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { editSchoolAsync, deleteSchoolAsync } from '../../../redux/schoolSlice';
-import { getDepartmentsAsync } from '../../../redux/departmentSlice';
+import { getSchoolsAsync, deleteSchoolAsync } from '../../../redux/schoolSlice';
 
 export default (props) => {
     const { f7router } = props
@@ -39,15 +38,8 @@ export default (props) => {
     const dispatch = useDispatch()
     
     const schools = useSelector((state) => state.schools)
-    const school = schools.find(sch => sch.id == props.id) 
-    const departments = useSelector((state) => state.departments)
-    
-    var schoolDepts = null
-    
-    if (departments != null) {
-        schoolDepts = departments.filter((schlDept)=> schlDept.school_id == school.id)   
-    }
-
+    const school = schools.find(sch => sch.id == props.id)
+   
     const deleteToast = f7.toast.create({
         closeTimeout: 5000,
         text: 'School Deleted',
@@ -67,7 +59,7 @@ export default (props) => {
 
     
     useEffect(() => { 
-        dispatch(getDepartmentsAsync())
+        dispatch(getSchoolsAsync())
     }, [dispatch])
 
   return (
@@ -108,35 +100,28 @@ export default (props) => {
             </Col>
             <Col width="100" medium="50">
                 <BlockTitle>Departments</BlockTitle>
-                {departments == null ?
-                    <Block className="display-flex flex-direction-column justify-content-center text-align-center">
-                        <div><Preloader className="color-multi" size="24px" text="Loading" /></div>
-                    </Block>
-                    :
-                    <>
-                        {schoolDepts.length == 0 ? 
-                            <Block>
-                                <p>There are no departments for this school</p>
-                                <Button text="Add Department" outline color="green" href="/new-department/" />
-                            </Block>
-                            :
-                            <List inset noHairlines noChevron>
-                                {schoolDepts.map((dept)=>
-                                    <ListItem 
-                                        key={dept.id} 
-                                        title={`Department of ${dept.name}`} 
-                                        link={`/department/${dept.id}`} 
-                                    >
-                                        <Icon color="orange" slot="media">
-                                            <FaBuilding />
-                                        </Icon>
-                                    </ListItem>
-                                )}
-                            </List>
-                        } 
-                    </>
-                    
-                }
+                <>
+                    {school.departments.length == 0 ? 
+                        <Block>
+                            <p>There are no departments for this school</p>
+                            <Button text="Add Department" outline color="green" href="/new-department/" />
+                        </Block>
+                        :
+                        <List inset noHairlines noChevron>
+                            {school.departments.map((dept)=>
+                                <ListItem 
+                                    key={dept.id} 
+                                    title={`Department of ${dept.name}`} 
+                                    link={`/department/${dept.id}`} 
+                                >
+                                    <Icon color="orange" slot="media">
+                                        <FaBuilding />
+                                    </Icon>
+                                </ListItem>
+                            )}
+                        </List>
+                    } 
+                </>
             </Col>
         </Row>
 
