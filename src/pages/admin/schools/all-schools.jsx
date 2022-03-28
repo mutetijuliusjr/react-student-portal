@@ -4,7 +4,8 @@ import {
     FaExclamationTriangle,
     FaTrashAlt,
     FaSearch,
-    FaRobot
+    FaRobot,
+    FaEdit
 } from 'react-icons/fa';
 import {
   f7,
@@ -191,7 +192,7 @@ export default (props) => {
                                     text="Edit"
                                     >
                                         <Icon>
-                                            <FaTrashAlt />
+                                            <FaEdit />
                                         </Icon>
                                     </SwipeoutButton>
                                 </SwipeoutActions>
