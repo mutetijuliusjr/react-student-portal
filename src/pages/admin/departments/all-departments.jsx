@@ -4,7 +4,8 @@ import {
     FaExclamationTriangle,
     FaTrashAlt,
     FaSearch,
-    FaRobot
+    FaRobot,
+    FaEdit
 } from 'react-icons/fa';
 import {
   f7,
@@ -23,13 +24,15 @@ import {
   Searchbar,
   theme,
   Button,
+  Block,
 } from 'framework7-react';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { getDepartmentsAsync, deleteDepartmentAsync } from '../../../redux/departmentSlice';
 import { getSchoolsAsync } from '../../../redux/schoolSlice';
 
-export default () => {
+export default (props) => {
+    const { f7router } = props
 
     const dispatch = useDispatch()
     const departments = useSelector((state) => state.departments)
@@ -184,16 +187,29 @@ export default () => {
                         </div>
                     </PageContent>
                     :
-                    <List mediaList className="search-list searchbar-found">
+                    <List mediaList noChevron className="search-list searchbar-found">
                         {departments.map((department)=>
                             <ListItem 
                             swipeout
                             key={department.id}
                             title={`Department of ${department.name}`}
-                            subtitle={schoolName(department.school_id)} 
+                            subtitle={`School of ${department.school.name}`} 
                             text={department.description}
                             link={`/department/${department.id}`}
+                            after={`${department.courses.length} Course(s)`}
                             >
+                                <SwipeoutActions left>
+                                    <SwipeoutButton
+                                    onClick={()=>{ f7router.navigate(`/edit-department/${department.id}`)}}
+                                    overswipe
+                                    color="blue"
+                                    text="Edit"
+                                    >
+                                        <Icon>
+                                            <FaEdit />
+                                        </Icon>
+                                    </SwipeoutButton>
+                                </SwipeoutActions>
                                 <SwipeoutActions right>
                                     <SwipeoutButton
                                     onClick={()=>{ f7.dialog.confirm(
@@ -210,9 +226,19 @@ export default () => {
                                         </Icon>
                                     </SwipeoutButton>
                                 </SwipeoutActions>
-                                <Icon slot="media" size="29px" color="orange">
-                                    <FaBuilding />
-                                </Icon>
+                                <Block
+                                    style={{ 
+                                        width: '40px',
+                                        height: '40px',
+                                        borderRadius: '50%',
+                                        margin: '0',
+                                        padding: '8px',
+                                     }}
+                                    bgColor='orange'
+                                    slot="media"
+                                >
+                                    <FaBuilding style={{fontSize: '24px'}} />
+                                </Block>
                             </ListItem> 
                         )}
                     </List>
