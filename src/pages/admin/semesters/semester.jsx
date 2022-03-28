@@ -23,7 +23,6 @@ import {
 } from 'framework7-react';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { getSemesterAsync } from '../../../redux/semesterSlice';
 
 export default (props) => {
     const { f7router } = props
