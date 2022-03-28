@@ -185,7 +185,7 @@ export default (props) => {
                             >
                                 <SwipeoutActions left>
                                     <SwipeoutButton
-                                    onClick={()=>{ f7router.navigate(`/school/${school.id}`)}}
+                                    onClick={()=>{ f7router.navigate(`/edit-school/${school.id}`)}}
                                     overswipe
                                     color="blue"
                                     text="Edit"
