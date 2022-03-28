@@ -36,16 +36,6 @@ export default (props) => {
 
     const dispatch = useDispatch()
     const departments = useSelector((state) => state.departments)
-    const schools = useSelector((state) => state.schools)
-
-    const schoolName = (id)=>{
-        if (schools != null) {
-            var schl = schools.find((schl) => schl.id == id)
-            return `School of ${schl.name}`
-        }
-        else
-        {return '...'}
-    }
 
     const deleteToast = f7.toast.create({
         closeTimeout: 5000,
@@ -60,7 +50,6 @@ export default (props) => {
 
     useEffect(() => { 
         dispatch(getDepartmentsAsync())
-        dispatch(getSchoolsAsync())
     }, [dispatch])
 
     return (
@@ -90,7 +79,7 @@ export default (props) => {
                 }
             </Navbar>
             
-            {departments != null && schools != null && departments != 'error' && departments.length != 0 &&
+            {departments != null && departments != 'error' && departments.length != 0 &&
             <Fab position="right-bottom" slot="fixed" text="Create" color="green" href="/new-department/" />
             }
             
