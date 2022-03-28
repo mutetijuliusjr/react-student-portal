@@ -23,13 +23,14 @@ import {
   Searchbar,
   theme,
   Button,
+  Block,
 } from 'framework7-react';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { getSchoolsAsync, deleteSchoolAsync } from '../../../redux/schoolSlice';
 
-export default () => {
-
+export default (props) => {
+    const { f7router } = props
     const dispatch = useDispatch()
     const schools = useSelector((state) => state.schools)
 
@@ -178,9 +179,22 @@ export default () => {
                             swipeout
                             key={school.id}
                             title={`School of ${school.name}`} 
-                            subtitle={school.description}
+                            subtitle={`${school.departments.length} Department(s)`}
+                            text={school.description}
                             link={`/school/${school.id}`}
                             >
+                                <SwipeoutActions left>
+                                    <SwipeoutButton
+                                    onClick={()=>{ f7router.navigate(`/school/${school.id}`)}}
+                                    overswipe
+                                    color="blue"
+                                    text="Edit"
+                                    >
+                                        <Icon>
+                                            <FaTrashAlt />
+                                        </Icon>
+                                    </SwipeoutButton>
+                                </SwipeoutActions>
                                 <SwipeoutActions right>
                                     <SwipeoutButton
                                     onClick={()=>{ f7.dialog.confirm(
@@ -197,9 +211,20 @@ export default () => {
                                         </Icon>
                                     </SwipeoutButton>
                                 </SwipeoutActions>
-                                <Icon slot="media" size="29px" color="purple">
-                                    <FaBuilding />
-                                </Icon>
+                                <Block
+                                    style={{ 
+                                        width: '40px',
+                                        height: '40px',
+                                        borderRadius: '50%',
+                                        margin: '0',
+                                        padding: '8px',
+                                     }}
+                                    bgColor='purple'
+                                    slot="media"
+                                >
+                                    <FaBuilding style={{fontSize: '24px'}} />
+                                </Block>
+                                
                             </ListItem> 
                         )}
                     </List>
