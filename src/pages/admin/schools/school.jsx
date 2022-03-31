@@ -33,15 +33,23 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getSchoolsAsync, deleteSchoolAsync } from '../../../redux/schoolSlice';
 
 export default (props) => {
-    let school = ''
-    const dispatch = useDispatch()
-    const schools = useSelector((state) => state.schools)
-    const [loading] = useState(schools != null)
     const { f7router } = props
-    console.log(loading)
-    if (schools != null) {
+    const dispatch = useDispatch()
+    
+    useEffect(() => { 
+        dispatch(getSchoolsAsync())
+    }, [dispatch])
+
+    const state = useSelector((state) => state.schools)
+    
+    const schools = state.data
+    const loading = state.loading
+    const error = state.error
+
+    let school
+
+    if (schools.length != 0) {
         school = schools.find(sch => sch.id == props.id)
-        console.log(school)
     }
 
     const deleteToast = f7.toast.create({
@@ -61,14 +69,14 @@ export default (props) => {
         } ,3000)    
     }
 
-    useEffect(() => { 
-        dispatch(getSchoolsAsync())
-    }, [dispatch])
 
   return (
     
-    <Page name="school">
-        <Navbar title={!loading == false && `School of ${school.name}`} backLink="Back" sliding={false} >
+    <Page name="school"> 
+        <Navbar 
+        title={!loading && schools.length != 0 && `School of ${school.name}`} 
+        backLink="Back" 
+        sliding={false} >
             <NavRight>
                 <Link popoverOpen=".popover-menu">
                     <Icon>
@@ -99,44 +107,67 @@ export default (props) => {
         <Row noGap>
             <Col width="100" medium="50">
                 <BlockTitle>Name</BlockTitle>
-                {!loading && <Card outline padding content={school.name} />}                
+                <Card 
+                outline 
+                padding 
+                content={schools.length != 0 && school.name}
+                 />                
                 <BlockTitle>Description</BlockTitle>
-                {!loading && <Card outline padding content={school.description} />}                
+                <Card 
+                outline 
+                padding 
+                content={schools.length != 0 && school.description}
+                 />                
             </Col>
+
             <Col width="100" medium="50">
                 <BlockTitle>Departments</BlockTitle>
-                {loading ?
+                {loading && schools.length == 0 ?
                 <Block className="display-flex flex-direction-column justify-content-center text-align-center">
                     <div><Preloader className="color-multi" size="24px" text="Loading" /></div>
                 </Block>
                 :
                 <>
-                    {school.departments.length == 0 ? 
-                        <Block>
-                            <p>There are no departments for this school</p>
-                            <Button text="Add Department" outline color="green" href="/new-department/" />
-                        </Block>
-                        :
-                        <List inset noHairlines noChevron>
-                            {school.departments.map((dept)=>
-                                <ListItem 
-                                    key={dept.id} 
-                                    title={`Department of ${dept.name}`} 
-                                    link={`/department/${dept.id}`} 
-                                >
-                                    <Icon color="orange" slot="media">
-                                        <FaBuilding />
-                                    </Icon>
-                                </ListItem>
-                            )}
-                        </List>
-                    } 
+                    {schools.length != 0 &&
+                        <>
+                            {school.departments.length == 0 ?
+                            <Block>
+                                <p>There are no departments for this school</p>
+                                <Button text="Add Department" outline color="green" href="/new-department/" />
+                            </Block>
+                            :
+                            <List inset noHairlines='true' noChevron>
+                                {school.departments.map((dept)=>
+                                    <ListItem 
+                                        key={dept.id} 
+                                        title={`Department of ${dept.name}`} 
+                                        link={`/department/${dept.id}`} 
+                                    >
+                                    <Block
+                                        style={{ 
+                                            width: '40px',
+                                            height: '40px',
+                                            borderRadius: '50%',
+                                            margin: '0',
+                                            padding: '8px',
+                                        }}
+                                        bgColor='orange'
+                                        slot="media"
+                                    >
+                                        <FaBuilding style={{fontSize: '24px'}} />
+                                    </Block>
+                                    </ListItem>
+                                )}
+                            </List>
+                            }
+                        </>
+                    }
                 </>
                 }
                 
             </Col>
         </Row>
-
+        
     </Page>  
   );
 };

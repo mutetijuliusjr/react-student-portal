@@ -37,7 +37,7 @@ const MyApp = () => {
   // Framework7 Parameters
   const f7params = {
     name: 'Student Portal',
-	theme: 'aurora',
+	theme: 'auto',
 	version: '0.0.0.1',
     routes: routes,
 

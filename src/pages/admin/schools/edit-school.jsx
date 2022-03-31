@@ -13,7 +13,7 @@ import { editSchoolAsync } from '../../../redux/schoolSlice';
 export default (props) => {
 
     const dispatch = useDispatch()
-    const schools = useSelector((state) => state.schools)
+    const schools = useSelector((state) => state.schools.data)
     const school = schools.find(sch => sch.id == props.id)
 
     const [schoolName, setSchoolName] = useState(school.name)

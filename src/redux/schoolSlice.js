@@ -78,13 +78,13 @@ export const schoolSlice = createSlice({
                                         description: payload.description
                                     };
                                     
-                                    return state.push(newSchool);
+                                    return state.data.push(newSchool);
                                 },
                     editSchool: (state, action) => 
                                 {
                                     const index = state.findIndex(school => school.id === action.payload.school.id);
-                                    state[index].name = action.payload.school.name;
-                                    state[index].description = action.payload.school.description;
+                                    state.data[index].name = action.payload.school.name;
+                                    state.data[index].description = action.payload.school.description;
 
                                 },
                     deleteSchool: (state, action) => 
@@ -94,27 +94,24 @@ export const schoolSlice = createSlice({
                 },
     extraReducers: {
                     [getSchoolsAsync.rejected]: (state, action) => {
-                        let loading = false;
-                        let error = true;
-                        return { ...state, loading , error };
+                        state.loading = false;
+                        state.error = true;
                     },
                     [getSchoolsAsync.pending]: (state, action) => {
-                        let loading = true;
-                        let error = false;
-                        return { ...state, loading, error };
+                        state.loading = true;
+                        state.error = false;
                     },
                     [getSchoolsAsync.fulfilled]: (state, action) => {
                         state.data = action.payload;
                         state.loading = false;
-                        //return { ...state, loading };
                     },
                     [addSchoolAsync.fulfilled]: (state, action) => {
-                        state.push(action.payload.school);
+                        state.data.push(action.payload.school);
                     },
                     [editSchoolAsync.fulfilled]: (state, action) => {
-                        const index = state.findIndex(school => school.id === action.payload.school.id);
-                        state[index].name = action.payload.school.name;
-                        state[index].description = action.payload.school.description;
+                        const index = state.data.findIndex(school => school.id === action.payload.school.id);
+                        state.data[index].name = action.payload.school.name;
+                        state.data[index].description = action.payload.school.description;
                     },
                     [deleteSchoolAsync.fulfilled]:  (state, action) => {
                         return state.filter((school) => school.id != action.payload.id);
