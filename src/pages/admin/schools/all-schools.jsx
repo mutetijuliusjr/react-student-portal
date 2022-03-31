@@ -34,15 +34,23 @@ export default (props) => {
     const { f7router } = props
     const dispatch = useDispatch()
     
-    const [schools, setSchools] = useState([])
-    const [loading, setLoading] = useState(false)
-    const [error, setError] = useState(false)
-    
     const state = useSelector((state) => state.schools)
+
+    const schools = state.data
+    const loading = state.loading
+    const error = state.error
     
-    /* console.log('loading: '+loading)
-    console.log('error: '+error) */
-    console.table(state.data.data)
+    const errorNotification = f7.notification.create({
+        icon: FaSearch,
+        title: 'Error',
+        subtitle: 'Can\'t connect to the server. We are working to fix the issue.',
+        text: 'Please, try again later',
+        closeButton: true,
+    });
+
+    if (error) {
+       errorNotification.open() 
+    }
 
     const deleteToast = f7.toast.create({
         closeTimeout: 5000,
@@ -66,7 +74,7 @@ export default (props) => {
         <Page name="schools">
              <Navbar backLink="Back" sliding title="Schools">
                     <NavRight>
-                    {loading && 
+                    {!loading && 
                         <Link
                         searchbarEnable=".searchbar-demo"
                         >
@@ -83,8 +91,8 @@ export default (props) => {
                         searchIn=".item-title"
                         disableButton={!theme.aurora}
                     ></Searchbar>
-                    
             </Navbar>
+            <Fab position="right-bottom" slot="fixed" text="Create" color="green" href="/new-school/" />
         </Page>
       
     
