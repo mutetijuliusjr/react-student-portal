@@ -14,6 +14,7 @@ import 'framework7/framework7-bundle.css';
 // Import Icons and App Custom Styles
 
 import '../css/app.css';
+import 'font-awesome/css/font-awesome.min.css';
 
 // Import App Component
 import App from '../components/app.jsx';

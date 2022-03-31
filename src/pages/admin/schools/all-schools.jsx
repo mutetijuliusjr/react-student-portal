@@ -41,8 +41,8 @@ export default (props) => {
     const error = state.error
     
     const errorNotification = f7.notification.create({
-        icon: FaSearch,
-        title: 'Error',
+        icon: '<i class="fa fa-exclamation-circle text-color-red"></i>',
+        title: 'Server Error',
         subtitle: 'Can\'t connect to the server. We are working to fix the issue.',
         text: 'Please, try again later',
         closeButton: true,
