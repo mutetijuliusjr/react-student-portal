@@ -1,18 +1,14 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
+const API ='http://localhost:8000/api/schools';
+
 export const getSchoolsAsync = createAsyncThunk(
     'schools/getSchoolsAsync',
     async () => {
-        try {
-            const resp = await fetch('http://localhost:8000/api/schools');
-            const schools = await resp.json();
-            return { schools }; 
-        } 
-        catch (error) {
-            const schools = 'error';
-            return { schools }
-        }
-    }
+        const resp = await fetch(API);
+        const data = await resp.json();
+        return { data };
+    } 
 );
 
 export const addSchoolAsync = createAsyncThunk(
@@ -66,7 +62,11 @@ export const deleteSchoolAsync = createAsyncThunk(
 
 export const schoolSlice = createSlice({
     name: 'schools',
-    initialState: null,
+    initialState: {
+        data: [],
+        loading: false,
+        error: false
+    },
     reducers:   {
                     addSchool: (state, action) => 
                                 {
@@ -93,8 +93,20 @@ export const schoolSlice = createSlice({
                                 }
                 },
     extraReducers: {
+                    [getSchoolsAsync.rejected]: (state, action) => {
+                        let loading = false;
+                        let error = true;
+                        return { ...state, loading , error };
+                    },
+                    [getSchoolsAsync.pending]: (state, action) => {
+                        let loading = true;
+                        let error = false;
+                        return { ...state, loading, error };
+                    },
                     [getSchoolsAsync.fulfilled]: (state, action) => {
-                        return action.payload.schools;
+                        let data = action.payload;
+                        let loading = false;
+                        return { ...state, data, loading };
                     },
                     [addSchoolAsync.fulfilled]: (state, action) => {
                         state.push(action.payload.school);
