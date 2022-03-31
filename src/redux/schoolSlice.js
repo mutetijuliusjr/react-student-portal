@@ -6,8 +6,8 @@ export const getSchoolsAsync = createAsyncThunk(
     'schools/getSchoolsAsync',
     async () => {
         const resp = await fetch(API);
-        const data = await resp.json();
-        return { data };
+        //const data = await resp.json();
+        return await resp.json();
     } 
 );
 
@@ -104,9 +104,9 @@ export const schoolSlice = createSlice({
                         return { ...state, loading, error };
                     },
                     [getSchoolsAsync.fulfilled]: (state, action) => {
-                        let data = action.payload;
-                        let loading = false;
-                        return { ...state, data, loading };
+                        state.data = action.payload;
+                        state.loading = false;
+                        //return { ...state, loading };
                     },
                     [addSchoolAsync.fulfilled]: (state, action) => {
                         state.push(action.payload.school);
