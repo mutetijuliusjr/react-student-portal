@@ -33,12 +33,17 @@ import { getSchoolsAsync, deleteSchoolAsync } from '../../../redux/schoolSlice';
 export default (props) => {
     const { f7router } = props
     const dispatch = useDispatch()
+    
+    const [schools, setSchools] = useState([])
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState(false)
+    
     const state = useSelector((state) => state.schools)
+    
+    /* console.log('loading: '+loading)
+    console.log('error: '+error) */
+    console.table(state.data.data)
 
-    const [schools] = useState(state.data)
-    const [loading] = useState(state.loading)
-    const [error] = useState(state.error)
-    console.log(schools)
     const deleteToast = f7.toast.create({
         closeTimeout: 5000,
         text: 'School Deleted',
@@ -49,6 +54,7 @@ export default (props) => {
         deleteToast.open()
         dispatch(deleteSchoolAsync({id: schoolId}))
     }
+    
 
     useEffect(() => { 
         dispatch(getSchoolsAsync())
@@ -60,6 +66,7 @@ export default (props) => {
         <Page name="schools">
              <Navbar backLink="Back" sliding title="Schools">
                     <NavRight>
+                    {loading && 
                         <Link
                         searchbarEnable=".searchbar-demo"
                         >
@@ -67,6 +74,7 @@ export default (props) => {
                                 <FaSearch />
                             </Icon>
                         </Link>
+                    }
                     </NavRight>
                     <Searchbar
                         className="searchbar-demo"
@@ -75,6 +83,7 @@ export default (props) => {
                         searchIn=".item-title"
                         disableButton={!theme.aurora}
                     ></Searchbar>
+                    
             </Navbar>
         </Page>
       
