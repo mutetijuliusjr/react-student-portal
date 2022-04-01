@@ -6,28 +6,53 @@ import {
   Button,
   List,
   ListInput,
+  Block,
 } from 'framework7-react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addSchoolAsync } from '../../../redux/schoolSlice';
 
 export default () => {
 
     const dispatch = useDispatch()
 
+    const state = useSelector(state => state.schools)
+    const loading = state.loading
+    const error = state.error
+    const updated = state.updated
+
     const [schoolName, setSchoolName] = useState('')
     const [schoolDesc, setSchoolDesc] = useState('')
 
+    const errorNotification = f7.notification.create({
+        icon: '<i class="fa fa-exclamation-circle text-color-red"></i>',
+        title: 'Error',
+        subtitle: 'Cannot complete request. Please check your inputs and try again.',
+        text: 'If error persists, try again later.',
+        closeButton: true,
+    })
+
+    const successToast = f7.toast.create({
+        icon: '<i class="fa fa-check-circle text-color-green"></i>',
+        text: 'School has been saved',
+        closeTimeout: 3000,
+      })
+
     const onSubmit = (event) => {
         event.preventDefault();
-        f7.dialog.preloader('Loading', 'multi')
         dispatch(
             addSchoolAsync({
                 name: schoolName,
                 description: schoolDesc
             })
         )
-        f7.dialog.close()
-        f7.dialog.alert('New School has been saved.', 'Saved!')
+    }
+
+    if (updated) {
+        successToast.open()
+    }
+    
+    if(error && !updated) {
+        errorNotification.open()
     }
 
     return (
@@ -44,7 +69,7 @@ export default () => {
                         placeholder="School name"
                         clearButton
                         required
-                        validateOnBlur
+                        validate
                         value={schoolName}
                         onChange={(event) => setSchoolName(event.target.value)}
                     >
@@ -62,7 +87,16 @@ export default () => {
                     >
                     </ListInput>
                 </List>
-                <Button outline color="green" text="Save" type="submit" />
+                <Block>
+                    <Button
+                    fill
+                    round
+                    color="green" 
+                    text='Save'
+                    loading={loading}
+                    preloader={loading}
+                    type="submit" />
+                </Block>
             </form>
 
         </Page>

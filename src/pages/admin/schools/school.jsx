@@ -33,30 +33,24 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getSchoolsAsync, deleteSchoolAsync } from '../../../redux/schoolSlice';
 
 export default (props) => {
-    const { f7router } = props
     const dispatch = useDispatch()
     
     useEffect(() => { 
         dispatch(getSchoolsAsync())
     }, [dispatch])
-
+    
+    const { f7router } = props
     const state = useSelector((state) => state.schools)
     
     const schools = state.data
     const loading = state.loading
-    const error = state.error
-
-    let school
-
-    if (schools.length != 0) {
-        school = schools.find(sch => sch.id == props.id)
-    }
-
+    const error = state.error 
     const deleteToast = f7.toast.create({
         closeTimeout: 5000,
         text: 'School Deleted',
         position: 'bottom',
     })
+    
     
     const deleteSchool = () => {
         f7router.back()
@@ -67,6 +61,12 @@ export default (props) => {
             f7.dialog.close()
             deleteToast.open()
         } ,3000)    
+    }
+    
+    let school
+
+    if (schools.length != 0) {
+        school = schools.find(sch => sch.id == props.id)
     }
 
 

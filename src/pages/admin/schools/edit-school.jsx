@@ -6,6 +6,7 @@ import {
   Button,
   List,
   ListInput,
+  Block,
 } from 'framework7-react';
 import { useSelector, useDispatch } from 'react-redux';
 import { editSchoolAsync } from '../../../redux/schoolSlice';
@@ -13,15 +14,37 @@ import { editSchoolAsync } from '../../../redux/schoolSlice';
 export default (props) => {
 
     const dispatch = useDispatch()
-    const schools = useSelector((state) => state.schools.data)
-    const school = schools.find(sch => sch.id == props.id)
-
+    const state = useSelector(state => state.schools)
+    const loading = state.loading
+    const error = state.error
+    const updated = state.updated
+    const school = state.data.find(sch => sch.id == props.id)
+    
+    let desc = ''
+   
+    if(school.description != null) {
+        desc = school.description
+    }
+    
     const [schoolName, setSchoolName] = useState(school.name)
-    const [schoolDesc, setSchoolDesc] = useState(school.description)
+    const [schoolDesc, setSchoolDesc] = useState(desc)
+
+    const errorNotification = f7.notification.create({
+        icon: '<i class="fa fa-exclamation-circle text-color-red"></i>',
+        title: 'Error',
+        subtitle: 'Cannot complete request. Please check your inputs and try again.',
+        text: 'If error persists, try again later.',
+        closeButton: true,
+    })
+
+    const successToast = f7.toast.create({
+        icon: '<i class="fa fa-check-circle text-color-green"></i>',
+        text: 'Update has been saved',
+        closeTimeout: 3000,
+      })
 
     const onSubmit = (event) => {
         event.preventDefault();
-        f7.dialog.preloader('Loading', 'multi')
         dispatch(
             editSchoolAsync({
                 id: props.id,
@@ -29,10 +52,15 @@ export default (props) => {
                 description: schoolDesc
             })
         )
-        f7.dialog.close()
-        f7.dialog.alert('New School has been saved.', 'Saved!')
     }
 
+    if (updated) {
+        successToast.open()
+    }
+
+    if(error && !updated) {
+        errorNotification.open()
+    }
 
     return (
         <Page name="edit-school">
@@ -66,7 +94,16 @@ export default (props) => {
                     >
                     </ListInput>
                 </List>
-                <Button outline color="green" text="Save" type="submit" />
+                <Block>
+                    <Button
+                    fill
+                    round
+                    color="green" 
+                    text='Update'
+                    loading={loading}
+                    preloader={loading}
+                    type="submit" />
+                </Block>
             </form>
 
         </Page>

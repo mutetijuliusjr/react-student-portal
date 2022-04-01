@@ -1,12 +1,11 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
-const API ='http://localhost:8000/api/schools';
+const API ='http://localhost:8000/api/schools/';
 
 export const getSchoolsAsync = createAsyncThunk(
     'schools/getSchoolsAsync',
     async () => {
         const resp = await fetch(API);
-        //const data = await resp.json();
         return await resp.json();
     } 
 );
@@ -14,7 +13,7 @@ export const getSchoolsAsync = createAsyncThunk(
 export const addSchoolAsync = createAsyncThunk(
     'schools/addSchoolAsync',
     async (payload) => {
-        const resp = await fetch('http://localhost:8000/api/schools',{
+        const resp = await fetch(API, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -24,8 +23,11 @@ export const addSchoolAsync = createAsyncThunk(
         });
 
         if (resp.ok) {
-            const school = await resp.json();
-            return { school };
+            const data = await resp.json();
+            const school = await fetch(API + data.id)
+            if(school.ok){
+                return await school.json();
+            } 
         }
         
     }
@@ -34,15 +36,14 @@ export const addSchoolAsync = createAsyncThunk(
 export const editSchoolAsync = createAsyncThunk(
     'schools/editSchoolAsync',
     async (payload) => {
-        const resp = await fetch(`http://localhost:8000/api/schools/${payload.id}`,{
+        const resp = await fetch(API + payload.id, {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)
         });
 
         if (resp.ok) {
-            const school = await resp.json();
-            return { school };
+            return await resp.json();
         }
     }
 ); 
@@ -50,7 +51,7 @@ export const editSchoolAsync = createAsyncThunk(
 export const deleteSchoolAsync = createAsyncThunk(
     'schools/deleteSchoolAsync',
     async (payload) => {
-        const resp = await fetch(`http://localhost:8000/api/schools/${payload.id}`,{
+        const resp = await fetch(API + payload.id,{
             method: 'DELETE'
         });
 
@@ -65,12 +66,12 @@ export const schoolSlice = createSlice({
     initialState: {
         data: [],
         loading: false,
-        error: false
+        error: false,
+        updated: false
     },
     reducers:   {
                     addSchool: (state, action) => 
                                 {
-                                    
                                     const newSchool = 
                                     {
                                         id: payload.id,
@@ -93,11 +94,11 @@ export const schoolSlice = createSlice({
                                 }
                 },
     extraReducers: {
-                    [getSchoolsAsync.rejected]: (state, action) => {
+                    [getSchoolsAsync.rejected]: (state) => {
                         state.loading = false;
                         state.error = true;
                     },
-                    [getSchoolsAsync.pending]: (state, action) => {
+                    [getSchoolsAsync.pending]: (state) => {
                         state.loading = true;
                         state.error = false;
                     },
@@ -105,16 +106,52 @@ export const schoolSlice = createSlice({
                         state.data = action.payload;
                         state.loading = false;
                     },
+                    [addSchoolAsync.rejected]: (state) => {
+                        state.loading = false;
+                        state.error = true;
+                        state.updated = false;
+                    },
+                    [addSchoolAsync.pending]: (state) => {
+                        state.loading = true;
+                        state.error = false;
+                        state.updated = false;
+                    },
                     [addSchoolAsync.fulfilled]: (state, action) => {
-                        state.data.push(action.payload.school);
+                        state.data.push(action.payload);
+                        state.loading = false;
+                        state.updated = true;
+                    },
+                    [editSchoolAsync.rejected]: (state) => {
+                        state.loading = false;
+                        state.error = true;
+                        state.updated = false;
+                    },
+                    [editSchoolAsync.pending]: (state) => {
+                        state.loading = true;
+                        state.error = false;
+                        state.updated = false;
                     },
                     [editSchoolAsync.fulfilled]: (state, action) => {
-                        const index = state.data.findIndex(school => school.id === action.payload.school.id);
-                        state.data[index].name = action.payload.school.name;
-                        state.data[index].description = action.payload.school.description;
+                        const index = state.data.findIndex(school => school.id === action.payload.id);
+                        state.data[index].name = action.payload.name;
+                        state.data[index].description = action.payload.description;
+                        state.loading = false;
+                        state.updated = true;
+                    },
+                    [deleteSchoolAsync.rejected]: (state) => {
+                        state.loading = false;
+                        state.error = true;
+                        state.updated = false;
+                    },
+                    [deleteSchoolAsync.pending]: (state) => {
+                        state.loading = true;
+                        state.error = false;
+                        state.updated = false;
                     },
                     [deleteSchoolAsync.fulfilled]:  (state, action) => {
-                        return state.filter((school) => school.id != action.payload.id);
+                        state.data = state.data.filter((school) => school.id != action.payload.id);
+                        state.loading = false;
+                        state.updated = true;
                     }
                 }
     

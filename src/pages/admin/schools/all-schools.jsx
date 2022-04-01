@@ -40,6 +40,15 @@ export default (props) => {
     const schools = state.data
     const loading = state.loading
     const error = state.error
+    const updated = state.updated
+
+    const errorNotification = f7.notification.create({
+        icon: '<i class="fa fa-exclamation-circle text-color-red"></i>',
+        title: 'Server Error',
+        subtitle: 'Cannot retrive schools list.',
+        text: 'Please try again later.',
+        closeButton: true,
+    })
 
     const deleteToast = f7.toast.create({
         closeTimeout: 5000,
@@ -48,7 +57,6 @@ export default (props) => {
     })
 
     const deleteSchool = (schoolId) => {
-        deleteToast.open()
         dispatch(deleteSchoolAsync({id: schoolId}))
     }
     
@@ -57,6 +65,14 @@ export default (props) => {
         dispatch(getSchoolsAsync())
     }, [dispatch])
 
+    if(error && schools.length == 0){
+        errorNotification.open()
+    }
+
+    if (updated) {
+        deleteToast.open()
+    }
+    
     return (
     
       
@@ -83,9 +99,10 @@ export default (props) => {
                 ></Searchbar>
                 }
             </Navbar>
+            
+            {!error && schools.length != 0 &&
             <Fab position="right-bottom" slot="fixed" text="Create" color="green" href="/new-school/" />
-
-            {console.log(schools.length)}
+            }
 
             <List className="searchbar-not-found">
                 <ListItem title="Nothing found"></ListItem>
@@ -156,35 +173,17 @@ export default (props) => {
             </List>
             }
 
-            {error && 
-            <PageContent className="display-flex justify-content-center text-align-center">
-                <div>
-                    <BlockTitle>Server Error!</BlockTitle>
-                    <Icon size="100px" color="red">
-                        <FaExclamationCircle />
-                    </Icon>
-                    <Block>
-                        <p>Can't connect to the server. We are working to fix the issue.</p>
-                        <p>Please, try again later.</p>
-                    </Block>
-                    
-                </div>
-            </PageContent>
-            }
-
-            {!loading && schools.length == 0 &&
+            {!loading && schools.length == 0 && !error &&
             <PageContent className="display-flex justify-content-center text-align-center">
                 <div>
                     <h3>Hmm...There are no schools listed yet.</h3>
                     <Icon size="100px" color="green" className="margin-bottom">
                         <FaRobot />
                     </Icon>
-                    <Button color="green" text="Add Department" href="/new-department/" fill round />
                 </div>
             </PageContent>
             }
 
-            {!loading && schools.length != 0 && !error &&
             <List mediaList className="search-list searchbar-found">
                 {schools.map((school)=>
                     <ListItem 
@@ -240,8 +239,6 @@ export default (props) => {
                     </ListItem> 
                 )}
             </List>
-            }
-
         </Page>
       
     
