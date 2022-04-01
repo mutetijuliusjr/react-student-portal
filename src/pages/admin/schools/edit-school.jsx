@@ -98,7 +98,7 @@ export default (props) => {
                     <Button
                     fill
                     round
-                    color="green" 
+                    color="blue" 
                     text='Update'
                     loading={loading}
                     preloader={loading}
