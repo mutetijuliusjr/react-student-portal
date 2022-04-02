@@ -1,7 +1,8 @@
 import React, { useEffect} from 'react';
 import {
     FaEllipsisV,
-    FaBuilding
+    FaBuilding,
+    FaGraduationCap
 } from 'react-icons/fa';
 
 import {
@@ -83,7 +84,7 @@ export default (props) => {
             {!loading && 
             <List noChevron noHairlines>
                 <ListItem link="#" popoverClose title="Edit Department" onClick={()=>f7router.navigate(`/edit-department/${department.id}`)} />
-                <ListItem link="#" popoverClose title="Add Department" onClick={()=>f7router.navigate(`/new-department/?department_id=${department.id}`)} />
+                <ListItem link="#" popoverClose title="Add Course" onClick={()=>f7router.navigate(`/new-course/?department_id=${department.id}`)} />
                 <ListItem 
                 link="#" 
                 popoverClose
@@ -119,31 +120,46 @@ export default (props) => {
                         </p> 
                         :
                         department.description}
-                 />                
+                 /> 
+                <BlockTitle>School</BlockTitle>
+                <Card outline className="row padding" >
+                    <Col width="70">
+                        <span>School of {department.school.name}</span>
+                    </Col>
+                    <Col width="30">
+                        <Button 
+                        href={`/school/${department.school.id}`}
+                        fill
+                        round
+                        color="blue"
+                        text="Manage" 
+                        />
+                    </Col>
+                </Card>               
             </Col>
 
             <Col width="100" medium="50">
-                <BlockTitle>Departments</BlockTitle>
+                <BlockTitle>Courses</BlockTitle>
                 {loading && departments.length == 0 ?
                 <Block className="display-flex flex-direction-column justify-content-center text-align-center">
                     <div><Preloader className="color-multi" size="24px" text="Loading" /></div>
                 </Block>
                 :
                 <>
-                    {departments.length != 0 &&
+                    {department.courses.length != 0 &&
                         <>
-                            {department.departments.length == 0 ?
+                            {department.courses.length == 0 ?
                             <Block>
                                 <p>There are no departments for this department</p>
-                                <Button text="Add Department" outline color="green" href={`/new-department/?department_id=${department.id}`} />
+                                <Button text="Add Course" outline color="green" href={`/new-course/?department_id=${department.id}`} />
                             </Block>
                             :
                             <List inset noHairlines='true' noChevron>
-                                {department.departments.map((dept)=>
+                                {department.courses.map((course)=>
                                     <ListItem 
-                                        key={dept.id} 
-                                        title={`Department of ${dept.name}`} 
-                                        link={`/department/${dept.id}`} 
+                                        key={course.id} 
+                                        title={course.name} 
+                                        link={`/course/${course.id}`} 
                                     >
                                     <Block
                                         style={{ 
@@ -153,10 +169,10 @@ export default (props) => {
                                             margin: '0',
                                             padding: '8px',
                                         }}
-                                        bgColor='orange'
+                                        bgColor='red'
                                         slot="media"
                                     >
-                                        <FaBuilding style={{fontSize: '24px'}} />
+                                        <FaGraduationCap color="white" style={{fontSize: '24px'}} />
                                     </Block>
                                     </ListItem>
                                 )}
