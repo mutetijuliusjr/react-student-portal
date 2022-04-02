@@ -81,7 +81,7 @@ export default (props) => {
         ptrMousewheel={true} 
         onPtrRefresh={(done) => { 
             dispatch(getSchoolsAsync())
-            done()       
+            done()  
         }}>
             <Navbar backLink="Back" sliding title="Schools">
                 <NavRight>
