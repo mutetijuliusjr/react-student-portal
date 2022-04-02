@@ -23,9 +23,7 @@ import {
   SkeletonBlock,
   Searchbar,
   theme,
-  Button,
   Block,
-  BlockTitle,
 } from 'framework7-react';
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -40,18 +38,19 @@ export default (props) => {
     const schools = state.data
     const loading = state.loading
     const error = state.error
-    const updated = state.updated
+    const deleted = state.deleted
 
     const errorNotification = f7.notification.create({
         icon: '<i class="fa fa-exclamation-circle text-color-red"></i>',
         title: 'Server Error',
-        subtitle: 'Cannot retrive schools list.',
+        subtitle: 'Cannot access server to complete action.',
         text: 'Please try again later.',
         closeButton: true,
     })
 
     const deleteToast = f7.toast.create({
         closeTimeout: 5000,
+        icon: '<i class="fa fa-trash text-color-red"></i>',
         text: 'School Deleted',
         position: 'bottom',
     })
@@ -69,7 +68,7 @@ export default (props) => {
         errorNotification.open()
     }
 
-    if (updated) {
+    if (deleted) {
         deleteToast.open()
     }
     
@@ -80,9 +79,9 @@ export default (props) => {
         name="schools" 
         ptr 
         ptrMousewheel={true} 
-        onPtrRefresh={(done)=>{ 
+        onPtrRefresh={(done) => { 
             dispatch(getSchoolsAsync())
-            done()
+            done()       
         }}>
             <Navbar backLink="Back" sliding title="Schools">
                 <NavRight>
