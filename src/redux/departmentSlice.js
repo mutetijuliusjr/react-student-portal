@@ -44,7 +44,11 @@ export const editDepartmentAsync = createAsyncThunk(
         });
 
         if (resp.ok) {
-            return await resp.json();
+            const data = await resp.json();
+            const department = await fetch(API + data.id)
+            if(department.ok){
+                return await department.json();
+            } 
         }
     }
 ); 
@@ -138,9 +142,7 @@ export const departmentSlice = createSlice({
                     },
                     [editDepartmentAsync.fulfilled]: (state, action) => {
                         const index = state.data.findIndex(department => department.id === action.payload.id);
-                        state.data[index].name = action.payload.name;
-                        state.data[index].description = action.payload.description;
-                        state.data[index].school_id = action.payload.school_id;
+                        state.data[index] = action.payload
                         state.loading = false;
                         state.updated = true;
                     },
