@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import {  
     FaBuilding,
-    FaExclamationTriangle,
     FaTrashAlt,
     FaSearch,
     FaRobot,
-    FaEdit
+    FaEdit,
+    FaExclamationCircle
 } from 'react-icons/fa';
 import {
   f7,
@@ -23,220 +23,229 @@ import {
   SkeletonBlock,
   Searchbar,
   theme,
-  Button,
   Block,
 } from 'framework7-react';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { getDepartmentsAsync, deleteDepartmentAsync } from '../../../redux/departmentSlice';
-import { getSchoolsAsync } from '../../../redux/schoolSlice';
 
 export default (props) => {
     const { f7router } = props
-
     const dispatch = useDispatch()
-    const departments = useSelector((state) => state.departments)
+    
+    const state = useSelector((state) => state.departments)
+
+    const departments = state.data
+    const loading = state.loading
+    const error = state.error
+    const deleted = state.deleted
+
+    const errorNotification = f7.notification.create({
+        icon: '<i class="fa fa-exclamation-circle text-color-red"></i>',
+        title: 'Server Error',
+        subtitle: 'Cannot access server to complete action.',
+        text: 'Please try again later.',
+        closeButton: true,
+    })
 
     const deleteToast = f7.toast.create({
         closeTimeout: 5000,
+        icon: '<i class="fa fa-trash text-color-red"></i>',
         text: 'Department Deleted',
         position: 'bottom',
     })
 
     const deleteDepartment = (departmentId) => {
-        deleteToast.open()
         dispatch(deleteDepartmentAsync({id: departmentId}))
     }
+    
 
     useEffect(() => { 
         dispatch(getDepartmentsAsync())
     }, [dispatch])
 
+    if(error && departments.length == 0){
+        errorNotification.open()
+    }
+
+    if (deleted) {
+        deleteToast.open()
+    }
+    
     return (
     
       
-        <Page name="departments">
+        <Page 
+        name="departments" 
+        ptr 
+        ptrMousewheel={true} 
+        onPtrRefresh={(done) => { 
+            dispatch(getDepartmentsAsync())
+            done()  
+        }}>
             <Navbar backLink="Back" sliding title="Departments">
-                {departments != null && departments != 'error' && departments.length != 0 && 
-                    <>
-                        <NavRight>
-                            <Link
-                            searchbarEnable=".searchbar-demo"
-                            >
-                                <Icon>
-                                    <FaSearch />
-                                </Icon>
-                            </Link>
-                        </NavRight>
-                        <Searchbar
-                            className="searchbar-demo"
-                            expandable
-                            searchContainer=".search-list"
-                            searchIn=".item-title"
-                            disableButton={!theme.aurora}
-                        ></Searchbar>
-                    </>
+                <NavRight>
+                    {departments.length != 0 && 
+                    <Link
+                    searchbarEnable=".searchbar-demo"
+                    >
+                        <Icon>
+                            <FaSearch />
+                        </Icon>
+                    </Link>
+                    }
+                </NavRight>
+                {!loading &&
+                <Searchbar
+                    className="searchbar-demo"
+                    expandable
+                    searchContainer=".search-list"
+                    searchIn=".item-title"
+                    disableButton={!theme.aurora}
+                ></Searchbar>
                 }
             </Navbar>
             
-            {departments != null && departments != 'error' && departments.length != 0 &&
+            {!error && departments.length != 0 &&
             <Fab position="right-bottom" slot="fixed" text="Create" color="green" href="/new-department/" />
             }
-            
+
             <List className="searchbar-not-found">
                 <ListItem title="Nothing found"></ListItem>
             </List>
 
-            {departments == null ? 
-                <List mediaList className="skeleton-text skeleton-effect-fade">
-                    <ListItem
-                    title="Title"
-                    subtitle="Subtitle"
-                    text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lobortis et massa ac interdum."
+            {loading && departments.length == 0 && 
+            <List mediaList className="skeleton-text">
+                <ListItem
+                title="Title"
+                subtitle="Subtitle"
+                text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lobortis et massa ac interdum."
+                >
+                <SkeletonBlock
+                    style={{ width: '40px', height: '40px', borderRadius: '50%' }}
+                    slot="media"
+                />
+                </ListItem>
+                <ListItem
+                title="Title"
+                subtitle="Subtitle"
+                text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lobortis et massa ac interdum."
+                >
+                <SkeletonBlock
+                    style={{ width: '40px', height: '40px', borderRadius: '50%' }}
+                    slot="media"
+                />
+                </ListItem>
+                <ListItem
+                title="Title"
+                subtitle="Subtitle"
+                text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lobortis et massa ac interdum."
+                >
+                <SkeletonBlock
+                    style={{ width: '40px', height: '40px', borderRadius: '50%' }}
+                    slot="media"
+                />
+                </ListItem>
+                <ListItem
+                title="Title"
+                subtitle="Subtitle"
+                text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lobortis et massa ac interdum."
+                >
+                <SkeletonBlock
+                    style={{ width: '40px', height: '40px', borderRadius: '50%' }}
+                    slot="media"
+                />
+                </ListItem>
+                <ListItem
+                title="Title"
+                subtitle="Subtitle"
+                text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lobortis et massa ac interdum."
+                >
+                <SkeletonBlock
+                    style={{ width: '40px', height: '40px', borderRadius: '50%' }}
+                    slot="media"
+                />
+                </ListItem>
+                <ListItem
+                title="Title"
+                subtitle="Subtitle"
+                text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lobortis et massa ac interdum."
+                >
+                <SkeletonBlock
+                    style={{ width: '40px', height: '40px', borderRadius: '50%' }}
+                    slot="media"
+                />
+                </ListItem>
+            </List>
+            }
+
+            {!loading && departments.length == 0 && !error &&
+            <PageContent className="display-flex justify-content-center text-align-center">
+                <div>
+                    <h3>Hmm...There are no departments listed yet.</h3>
+                    <Icon size="100px" color="green" className="margin-bottom">
+                        <FaRobot />
+                    </Icon>
+                </div>
+            </PageContent>
+            }
+
+            <List mediaList className="search-list searchbar-found">
+                {departments.map((department)=>
+                    <ListItem 
+                    swipeout
+                    key={department.id}
+                    title={`Department of ${department.name}`} 
+                    subtitle={`School of ${department.school.name}`}
+                    text={department.description}
+                    link={`/department/${department.id}`}
+                    after={`${department.courses.length} Course(s)`}
                     >
-                    <SkeletonBlock
-                        style={{ width: '40px', height: '40px', borderRadius: '50%' }}
-                        slot="media"
-                    />
-                    </ListItem>
-                    <ListItem
-                    title="Title"
-                    subtitle="Subtitle"
-                    text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lobortis et massa ac interdum."
-                    >
-                    <SkeletonBlock
-                        style={{ width: '40px', height: '40px', borderRadius: '50%' }}
-                        slot="media"
-                    />
-                    </ListItem>
-                    <ListItem
-                    title="Title"
-                    subtitle="Subtitle"
-                    text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lobortis et massa ac interdum."
-                    >
-                    <SkeletonBlock
-                        style={{ width: '40px', height: '40px', borderRadius: '50%' }}
-                        slot="media"
-                    />
-                    </ListItem>
-                    <ListItem
-                    title="Title"
-                    subtitle="Subtitle"
-                    text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lobortis et massa ac interdum."
-                    >
-                    <SkeletonBlock
-                        style={{ width: '40px', height: '40px', borderRadius: '50%' }}
-                        slot="media"
-                    />
-                    </ListItem>
-                    <ListItem
-                    title="Title"
-                    subtitle="Subtitle"
-                    text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lobortis et massa ac interdum."
-                    >
-                    <SkeletonBlock
-                        style={{ width: '40px', height: '40px', borderRadius: '50%' }}
-                        slot="media"
-                    />
-                    </ListItem>
-                    <ListItem
-                    title="Title"
-                    subtitle="Subtitle"
-                    text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lobortis et massa ac interdum."
-                    >
-                    <SkeletonBlock
-                        style={{ width: '40px', height: '40px', borderRadius: '50%' }}
-                        slot="media"
-                    />
-                    </ListItem>
-                </List>
-                :
-                <>
-                {departments == 'error' ?
-                <PageContent className="display-flex justify-content-center text-align-center">
-                    <div>
-                        <h3>Error!</h3>
-                        <Icon size="100px" color="red">
-                            <FaExclamationTriangle />
-                        </Icon>
-                        <p>Something happened.</p>
-                        <p>Try again later.</p>
-                    </div>
-                </PageContent>
-                :
-                <>
-                {departments.length == 0 ? 
-                    <PageContent className="display-flex justify-content-center text-align-center">
-                        <div>
-                            <h3>Hmm...There are no departments listed yet.</h3>
-                            <Icon size="100px" color="green" className="margin-bottom">
-                                <FaRobot />
-                            </Icon>
-                            <Button color="green" text="Add Department" href="/new-department/" fill round />
-                        </div>
-                    </PageContent>
-                    :
-                    <List mediaList noChevron className="search-list searchbar-found">
-                        {departments.map((department)=>
-                            <ListItem 
-                            swipeout
-                            key={department.id}
-                            title={`Department of ${department.name}`}
-                            subtitle={`School of ${department.school.name}`} 
-                            text={department.description}
-                            link={`/department/${department.id}`}
-                            after={`${department.courses.length} Course(s)`}
+                        <SwipeoutActions left>
+                            <SwipeoutButton
+                            onClick={()=>{ f7router.navigate(`/edit-department/${department.id}`)}}
+                            overswipe
+                            color="blue"
+                            text="Edit"
                             >
-                                <SwipeoutActions left>
-                                    <SwipeoutButton
-                                    onClick={()=>{ f7router.navigate(`/edit-department/${department.id}`)}}
-                                    overswipe
-                                    color="blue"
-                                    text="Edit"
-                                    >
-                                        <Icon>
-                                            <FaEdit />
-                                        </Icon>
-                                    </SwipeoutButton>
-                                </SwipeoutActions>
-                                <SwipeoutActions right>
-                                    <SwipeoutButton
-                                    onClick={()=>{ f7.dialog.confirm(
-                                        "Do You Want To Delete This Department and It's Related Entities?",
-                                        'Delete Department',
-                                        ()=>{deleteDepartment(department.id)}
-                                        )}}
-                                    overswipe
-                                    color="red"
-                                    text="Delete"
-                                    >
-                                        <Icon>
-                                            <FaTrashAlt />
-                                        </Icon>
-                                    </SwipeoutButton>
-                                </SwipeoutActions>
-                                <Block
-                                    style={{ 
-                                        width: '40px',
-                                        height: '40px',
-                                        borderRadius: '50%',
-                                        margin: '0',
-                                        padding: '8px',
-                                     }}
-                                    bgColor='orange'
-                                    slot="media"
-                                >
-                                    <FaBuilding style={{fontSize: '24px'}} />
-                                </Block>
-                            </ListItem> 
-                        )}
-                    </List>
-                    }
-                </>
-                }
-                </>
-                
-            }  
+                                <Icon>
+                                    <FaEdit />
+                                </Icon>
+                            </SwipeoutButton>
+                        </SwipeoutActions>
+                        <SwipeoutActions right>
+                            <SwipeoutButton
+                            onClick={()=>{ f7.dialog.confirm(
+                                "Do You Want To Delete This Department and It's Related Entities?",
+                                'Delete Department',
+                                ()=>{deleteDepartment(department.id)}
+                                )}}
+                            overswipe
+                            color="red"
+                            text="Delete"
+                            >
+                                <Icon>
+                                    <FaTrashAlt />
+                                </Icon>
+                            </SwipeoutButton>
+                        </SwipeoutActions>
+                        <Block
+                            style={{ 
+                                width: '40px',
+                                height: '40px',
+                                borderRadius: '50%',
+                                margin: '0',
+                                padding: '8px',
+                            }}
+                            bgColor='orange'
+                            slot="media"
+                        >
+                            <FaBuilding color="white" style={{fontSize: '24px'}} />
+                        </Block>
+                        
+                    </ListItem> 
+                )}
+            </List>
         </Page>
       
     
