@@ -67,7 +67,8 @@ export const schoolSlice = createSlice({
         data: [],
         loading: false,
         error: false,
-        updated: false
+        updated: false,
+        deleted: false,
     },
     reducers:   {
                     addSchool: (state, action) => 
@@ -141,17 +142,17 @@ export const schoolSlice = createSlice({
                     [deleteSchoolAsync.rejected]: (state) => {
                         state.loading = false;
                         state.error = true;
-                        state.updated = false;
+                        state.deleted = false;
                     },
                     [deleteSchoolAsync.pending]: (state) => {
                         state.loading = true;
                         state.error = false;
-                        state.updated = false;
+                        state.deleted = false;
                     },
                     [deleteSchoolAsync.fulfilled]:  (state, action) => {
                         state.data = state.data.filter((school) => school.id != action.payload.id);
                         state.loading = false;
-                        state.updated = true;
+                        state.deleted = true;
                     }
                 }
     
