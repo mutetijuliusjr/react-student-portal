@@ -20,8 +20,8 @@ export default (props) => {
         dispatch(getSchoolsAsync())
     }, [dispatch])
     
-    const state = useSelector(state => state.schools)
-    const schools = state.data
+    const state = useSelector(state => state.department)
+    const schools =  useSelector(state => state.schools.data)
     const loading = state.loading
     const error = state.error
     const updated = state.updated
