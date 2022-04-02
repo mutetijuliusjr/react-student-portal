@@ -1,42 +1,61 @@
-import React, { useState } from 'react';
-
+import React, { useState, useEffect } from 'react';
 import {
   f7,
   Page,
   Navbar,
-  ListInput,
-  ListItem,
   Button,
-  List
+  List,
+  ListInput,
+  Block,
 } from 'framework7-react';
-
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addDepartmentAsync } from '../../../redux/departmentSlice';
+import { getSchoolsAsync } from '../../../redux/schoolSlice';
 
-export default () => {
+export default (props) => {
 
     const dispatch = useDispatch()
-    const schools = useSelector((state) => state.schools)
+    
+    useEffect(() => {
+        dispatch(getSchoolsAsync())
+    }, [dispatch])
+    
+    const state = useSelector(state => state.schools)
+    const schools = state.data
+    const loading = state.loading
+    const error = state.error
+    const updated = state.updated
+
+    let schoolId
 
     const [departmentName, setDepartmentName] = useState('')
     const [departmentDesc, setDepartmentDesc] = useState('')
     const [departmentSchl, setDepartmentSchl] = useState('')
 
-    const successToast = f7.toast.create({
-        position: "center",
-        closeButton: "true",
-        text:'New department has been saved.',
-        closeTimeout: 3000
+    if (props.f7route.query.school_id == undefined && schools.length != 0) {
+        schoolId = schools[0].id
+    }
+    else {
+        schoolId = props.f7route.query.school_id
+    }
+
+    const errorNotification = f7.notification.create({
+        icon: '<i class="fa fa-exclamation-circle text-color-red"></i>',
+        title: 'Error',
+        subtitle: 'Cannot complete request. Please check your inputs and try again.',
+        text: 'If error persists, try again later.',
+        closeButton: true,
     })
+
+    const successToast = f7.toast.create({
+        icon: '<i class="fa fa-check-circle text-color-green"></i>',
+        text: 'Department has been saved',
+        closeTimeout: 3000,
+      })
 
     const onSubmit = (event) => {
         event.preventDefault();
-        if (departmentSchl == "") {
-            f7.dialog.alert("Please select a school", "Error")
-        }
-        else 
-        {
-            f7.dialog.preloader('Loading', 'multi')
+        if (props.f7route.query.school_id == undefined) {
             dispatch(
                 addDepartmentAsync({
                     name: departmentName,
@@ -44,16 +63,29 @@ export default () => {
                     school_id: departmentSchl
                 })
             )
-            f7.dialog.close()
-            successToast.open()
         }
-        
+        else {
+            dispatch(
+                addDepartmentAsync({
+                    name: departmentName,
+                    description: departmentDesc,
+                    school_id: schoolId
+                })
+            )
+        }
     }
-
+        
+    if (updated) {
+        successToast.open()
+    }
+    
+    if(error && !updated) {
+        errorNotification.open()
+    }
 
     return (
         <Page name="new-department">
-            <Navbar backLink="Back" sliding  title="New Department" />
+            <Navbar backLink="Back" sliding  title="Add Department" />
 
             <form onSubmit={onSubmit}>
                 <List noHairlinesMd>
@@ -65,7 +97,7 @@ export default () => {
                         placeholder="Department name"
                         clearButton
                         required
-                        validateOnBlur
+                        validate
                         value={departmentName}
                         onChange={(event) => setDepartmentName(event.target.value)}
                     >
@@ -82,19 +114,33 @@ export default () => {
                         onChange={(event) => setDepartmentDesc(event.target.value)}
                     >
                     </ListInput>
-                    <ListItem title="School" smartSelect smartSelectParams={{ openIn: 'sheet' }}>
-                        <select 
-                        name="school_id" 
+                    {props.f7route.query.school_id == undefined && schools.length != 0 && 
+                    <ListInput
+                        outline
+                        label="School"
+                        type="select"
                         value={departmentSchl}
-                        onChange={(event) => setDepartmentSchl(event.target.value)}>
-                            <option value="">Choose a school...</option>
-                            {schools.map(school=>
-                            <option key={school.id} value={school.id}>{school.name}</option>
-                            )}
-                        </select>
-                    </ListItem>
+                        onChange={(event) => setDepartmentSchl(event.target.value)}
+                        placeholder="Please choose..."
+                    >
+                        {schools.map((school)=>
+                        <option key={school.id} value={school.id}>{school.name}</option>
+                        )}
+                    </ListInput>
+                    }
                 </List>
-                <Button outline color="green" text="Save" type="submit" />
+                <Block>
+                {!loading &&
+                    <Button
+                    fill
+                    round
+                    color="green" 
+                    text='Save'
+                    loading={loading}
+                    preloader={loading}
+                    type="submit" />
+                }
+                </Block>
             </form>
 
         </Page>
