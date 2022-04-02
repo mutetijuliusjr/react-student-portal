@@ -105,6 +105,7 @@ export const departmentSlice = createSlice({
                     [getDepartmentsAsync.pending]: (state) => {
                         state.loading = true;
                         state.error = false;
+                        state.deleted = false;
                     },
                     [getDepartmentsAsync.fulfilled]: (state, action) => {
                         state.data = action.payload;
