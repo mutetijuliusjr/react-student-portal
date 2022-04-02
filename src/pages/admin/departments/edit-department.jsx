@@ -1,60 +1,59 @@
-import React, { useState, useEffect } from 'react';
-import {  
-    FaBuilding, 
-    FaTimes, 
-    FaTag,  
-    FaParagraph, 
-    FaExclamationTriangle,
-    FaEllipsisV 
-} from 'react-icons/fa';
+import React, { useState} from 'react';
 import {
   f7,
   Page,
-  Popup,
-  Popover,
   Navbar,
-  NavRight,
   Button,
-  Icon,
   List,
-  Link,
-  ListItem,
   ListInput,
-  SkeletonBlock,
-  Searchbar,
-  Subnavbar,
-  Row,
-  Range,
-  Col,
-  theme,
-  Views,
-  View,
-  PageContent,
+  Block,
 } from 'framework7-react';
 import { useSelector, useDispatch } from 'react-redux';
 import { editDepartmentAsync } from '../../../redux/departmentSlice';
+import { getSchoolsAsync } from '../../../redux/schoolSlice';
+
 
 export default (props) => {
 
     const dispatch = useDispatch()
-    const departments = useSelector((state) => state.departments)
-    const schools = useSelector((state) => state.schools)
-    const department = departments.find(dept=> dept.id == props.id)
 
+    useEffect(() => {
+        dispatch(getSchoolsAsync())
+    }, [dispatch])
+
+    const state = useSelector(state => state.departments)
+    const schools =  useSelector(state => state.schools.data)
+    const loading = state.loading
+    const error = state.error
+    const updated = state.updated
+    const department = state.data.find(sch => sch.id == props.id)
+    
+    let desc = ''
+   
+    if(department.description != null) {
+        desc = department.description
+    }
+    
     const [departmentName, setDepartmentName] = useState(department.name)
-    const [departmentDesc, setDepartmentDesc] = useState(department.description)
+    const [departmentDesc, setDepartmentDesc] = useState(desc)
     const [departmentSchl, setDepartmentSchl] = useState(department.school_id)
 
-    const successToast = f7.toast.create({
-        position: "center",
-        closeButton: "true",
-        text:'Edit has been saved.',
-        closeTimeout: 3000
+    const errorNotification = f7.notification.create({
+        icon: '<i class="fa fa-exclamation-circle text-color-red"></i>',
+        title: 'Error',
+        subtitle: 'Cannot complete request. Please check your inputs and try again.',
+        text: 'If error persists, try again later.',
+        closeButton: true,
     })
+
+    const successToast = f7.toast.create({
+        icon: '<i class="fa fa-check-circle text-color-green"></i>',
+        text: 'Update has been saved',
+        closeTimeout: 3000,
+      })
 
     const onSubmit = (event) => {
         event.preventDefault();
-        f7.dialog.preloader('Loading', 'multi')
         dispatch(
             editDepartmentAsync({
                 id: props.id,
@@ -63,10 +62,15 @@ export default (props) => {
                 school_id: departmentSchl
             })
         )
-        f7.dialog.close()
+    }
+
+    if (updated) {
         successToast.open()
     }
 
+    if(error && !updated) {
+        errorNotification.open()
+    }
 
     return (
         <Page name="edit-department">
@@ -99,20 +103,31 @@ export default (props) => {
                         onChange={(event) => setDepartmentDesc(event.target.value)}
                     >
                     </ListInput>
+                    {schools.length != 0 &&
                     <ListInput
+                        outline
                         label="School"
                         type="select"
                         value={departmentSchl}
                         onChange={(event) => setDepartmentSchl(event.target.value)}
-                        >
-                        {schools.map(school=>
-                            <option key={school.id} value={school.id}>{school.name}</option>
-                            )
-                        }
-                        
+                        placeholder="Please choose..."
+                    >
+                        {schools.map((school)=>
+                        <option key={school.id} value={school.id}>{school.name}</option>
+                        )}
                     </ListInput>
+                    }
                 </List>
-                <Button outline color="green" text="Save" type="submit" />
+                <Block>
+                    <Button
+                    fill
+                    round
+                    color="blue" 
+                    text='Update'
+                    loading={loading}
+                    preloader={loading}
+                    type="submit" />
+                </Block>
             </form>
 
         </Page>
