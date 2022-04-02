@@ -140,7 +140,7 @@ export default (props) => {
 
             <Col width="100" medium="50">
                 <BlockTitle>Courses</BlockTitle>
-                {loading && departments.length == 0 ?
+                {loading && department.courses.length == 0 ?
                 <Block className="display-flex flex-direction-column justify-content-center text-align-center">
                     <div><Preloader className="color-multi" size="24px" text="Loading" /></div>
                 </Block>
