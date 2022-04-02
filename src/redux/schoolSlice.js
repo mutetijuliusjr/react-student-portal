@@ -102,6 +102,7 @@ export const schoolSlice = createSlice({
                     [getSchoolsAsync.pending]: (state) => {
                         state.loading = true;
                         state.error = false;
+                        state.deleted = false;
                     },
                     [getSchoolsAsync.fulfilled]: (state, action) => {
                         state.data = action.payload;
