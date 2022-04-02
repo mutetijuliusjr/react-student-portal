@@ -89,7 +89,7 @@ export default (props) => {
             {!loading && 
             <List noChevron noHairlines>
                 <ListItem link="#" popoverClose title="Edit School" onClick={()=>f7router.navigate(`/edit-school/${school.id}`)} />
-                <ListItem link="#" popoverClose title="Add Department" onClick={()=>f7router.navigate("/new-department/")} />
+                <ListItem link="#" popoverClose title="Add Department" onClick={()=>f7router.navigate(`/new-department/?school_id=${school.id}`)} />
                 <ListItem 
                 link="#" 
                 popoverClose
@@ -110,13 +110,21 @@ export default (props) => {
                 <Card 
                 outline 
                 padding 
-                content={schools.length != 0 && school.name}
+                content={schools.length == 0 ?<p className="skeleton-text">skeleton text</p> :school.name}
                  />                
                 <BlockTitle>Description</BlockTitle>
                 <Card 
                 outline 
                 padding 
-                content={schools.length != 0 && school.description}
+                content={schools.length == 0 ?
+                        <p className="skeleton-text">
+                            Card with header and footer. 
+                            Card headers are used to display card titles 
+                            and footers for additional information or 
+                            just for custom actions.
+                        </p> 
+                        :
+                        school.description}
                  />                
             </Col>
 
@@ -133,7 +141,7 @@ export default (props) => {
                             {school.departments.length == 0 ?
                             <Block>
                                 <p>There are no departments for this school</p>
-                                <Button text="Add Department" outline color="green" href="/new-department/" />
+                                <Button text="Add Department" outline color="green" href={`/new-department/?school_id=${school.id}`} />
                             </Block>
                             :
                             <List inset noHairlines='true' noChevron>
