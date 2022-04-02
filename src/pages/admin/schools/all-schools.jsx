@@ -76,7 +76,14 @@ export default (props) => {
     return (
     
       
-        <Page name="schools">
+        <Page 
+        name="schools" 
+        ptr 
+        ptrMousewheel={true} 
+        onPtrRefresh={(done)=>{ 
+            dispatch(getSchoolsAsync())
+            done()
+        }}>
             <Navbar backLink="Back" sliding title="Schools">
                 <NavRight>
                     {schools.length != 0 && 
