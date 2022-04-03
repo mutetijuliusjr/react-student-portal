@@ -5,7 +5,6 @@ import {
     FaSearch,
     FaRobot,
     FaEdit,
-    FaExclamationCircle
 } from 'react-icons/fa';
 import {
   f7,
@@ -20,10 +19,10 @@ import {
   ListItem,
   SwipeoutActions,
   SwipeoutButton,
-  SkeletonBlock,
   Searchbar,
   theme,
   Block,
+  Preloader,
 } from 'framework7-react';
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -115,68 +114,11 @@ export default (props) => {
             </List>
 
             {loading && departments.length == 0 && 
-            <List mediaList className="skeleton-text">
-                <ListItem
-                title="Title"
-                subtitle="Subtitle"
-                text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lobortis et massa ac interdum."
-                >
-                <SkeletonBlock
-                    style={{ width: '40px', height: '40px', borderRadius: '50%' }}
-                    slot="media"
-                />
-                </ListItem>
-                <ListItem
-                title="Title"
-                subtitle="Subtitle"
-                text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lobortis et massa ac interdum."
-                >
-                <SkeletonBlock
-                    style={{ width: '40px', height: '40px', borderRadius: '50%' }}
-                    slot="media"
-                />
-                </ListItem>
-                <ListItem
-                title="Title"
-                subtitle="Subtitle"
-                text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lobortis et massa ac interdum."
-                >
-                <SkeletonBlock
-                    style={{ width: '40px', height: '40px', borderRadius: '50%' }}
-                    slot="media"
-                />
-                </ListItem>
-                <ListItem
-                title="Title"
-                subtitle="Subtitle"
-                text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lobortis et massa ac interdum."
-                >
-                <SkeletonBlock
-                    style={{ width: '40px', height: '40px', borderRadius: '50%' }}
-                    slot="media"
-                />
-                </ListItem>
-                <ListItem
-                title="Title"
-                subtitle="Subtitle"
-                text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lobortis et massa ac interdum."
-                >
-                <SkeletonBlock
-                    style={{ width: '40px', height: '40px', borderRadius: '50%' }}
-                    slot="media"
-                />
-                </ListItem>
-                <ListItem
-                title="Title"
-                subtitle="Subtitle"
-                text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lobortis et massa ac interdum."
-                >
-                <SkeletonBlock
-                    style={{ width: '40px', height: '40px', borderRadius: '50%' }}
-                    slot="media"
-                />
-                </ListItem>
-            </List>
+            <PageContent className="display-flex flex-direction-column justify-content-center text-align-center">
+                <div>
+                    <Preloader className="color-multi" size="40px" color="multi" />
+                </div>
+            </PageContent>
             }
 
             {!loading && departments.length == 0 && !error &&
