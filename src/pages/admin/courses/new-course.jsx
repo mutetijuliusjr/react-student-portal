@@ -60,8 +60,8 @@ export default (props) => {
 
     const onSubmit = (event) => {
         event.preventDefault();
-        if (props.f7route.query.department_id === undefined) {
-            if (courseDept != '') {
+        if (departmentId == undefined) {
+            if (courseDept !== '') {
                 addCourseAsync({
                     name: courseName,
                     description: courseDesc,
@@ -73,7 +73,9 @@ export default (props) => {
                 chooseDeptToast.open()
             }
         }
-        else {
+
+        if (departmentId != undefined)
+        {
             dispatch(
                 addCourseAsync({
                     name: courseName,
