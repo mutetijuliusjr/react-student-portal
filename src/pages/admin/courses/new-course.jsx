@@ -21,7 +21,7 @@ export default (props) => {
     }, [dispatch])
     
     const state = useSelector(state => state.courses)
-    const departments =  useSelector(state => state.departments.data)
+    const departments =  useSelector(state => state.departments)
     const loading = state.loading
     const error = state.error
     const updated = state.updated
@@ -32,10 +32,7 @@ export default (props) => {
     const [courseDesc, setCourseDesc] = useState('')
     const [courseDept, setCourseDept] = useState('')
 
-    if (props.f7route.query.department_id == undefined && departments.length != 0) {
-        departmentId = departments[0].id
-    }
-    else {
+    if (props.f7route.query.department_id !== undefined) {
         departmentId = props.f7route.query.department_id
     }
 
@@ -64,22 +61,27 @@ export default (props) => {
     const onSubmit = (event) => {
         event.preventDefault();
         if (props.f7route.query.department_id === undefined) {
-            if (courseDept !== '') {
+            if (courseDept != '') {
                 addCourseAsync({
                     name: courseName,
                     description: courseDesc,
                     department_id: courseDept
                 }) 
             } 
-            chooseDeptToast.open()
+            
+            if (courseDept == '') {
+                chooseDeptToast.open()
+            }
         }
-        dispatch(
-            addCourseAsync({
-                name: courseName,
-                description: courseDesc,
-                department_id: departmentId
-            })
-        ) 
+        else {
+            dispatch(
+                addCourseAsync({
+                    name: courseName,
+                    description: courseDesc,
+                    department_id: departmentId
+                })
+            )
+        } 
     }
         
     if (updated) {
@@ -121,7 +123,7 @@ export default (props) => {
                         onChange={(event) => setCourseDesc(event.target.value)}
                     >
                     </ListInput>
-                    {props.f7route.query.department_id == undefined && departments.length != 0 && 
+                    {props.f7route.query.department_id == undefined && departments.data.length != 0 && 
                     <ListInput
                         outline
                         label="Department"
@@ -130,13 +132,14 @@ export default (props) => {
                         onChange={(event) => setCourseDept(event.target.value)}
                     >
                         <option>Please choose...</option>
-                        {departments.map((department)=>
+                        {departments.data.map((department)=>
                         <option key={department.id} value={department.id}>{department.name}</option>
                         )}
                     </ListInput>
                     }
                 </List>
                 <Block>
+                    {!departments.loading && 
                     <Button
                     fill
                     round
@@ -145,6 +148,7 @@ export default (props) => {
                     loading={loading}
                     preloader={loading}
                     type="submit" />
+                    }
                 </Block>
             </form>
 
