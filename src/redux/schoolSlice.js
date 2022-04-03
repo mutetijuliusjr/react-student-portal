@@ -139,6 +139,7 @@ export const schoolSlice = createSlice({
                         state.data[index].description = action.payload.description;
                         state.loading = false;
                         state.updated = true;
+                        console.log()
                     },
                     [deleteSchoolAsync.rejected]: (state) => {
                         state.loading = false;
