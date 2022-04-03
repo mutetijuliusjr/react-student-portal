@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect} from 'react';
 import {
     FaEllipsisV,
     FaGraduationCap,
-    FaLink
+    FaBookOpen
 } from 'react-icons/fa';
 
 import {
@@ -25,39 +25,27 @@ import {
 } from 'framework7-react';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { deleteCourseAsync } from '../../../redux/courseSlice';
-import { getUnitsAsync } from '../../../redux/unitSlice';
+import { getCoursesAsync, deleteCourseAsync } from '../../../redux/courseSlice';
 
 export default (props) => {
-    const { f7router } = props
-
     const dispatch = useDispatch()
     
-    const courses = useSelector((state) => state.courses)
-    const course = courses.find(sch => sch.id == props.id) 
-    const departments = useSelector((state) => state.departments)
-    const units = useSelector((state) => state.units)
+    useEffect(() => { 
+        dispatch(getCoursesAsync())
+    }, [dispatch])
     
-    const departmentName = ()=>{
-        if (departments != null) {
-            var dept = departments.find((dept) => dept.id == course.department_id)
-            return `Department of ${dept.name}`
-        }
-        else
-        {return '...'}
-    }
+    const { f7router } = props
+    const state = useSelector((state) => state.courses)
     
-    var courseUnits = null
-    
-    if (units != null) {
-        courseUnits = units.filter((courseUnit)=> courseUnit.course_id == course.id)   
-    }
-
+    const courses = state.data
+    const loading = state.loading
+    const error = state.error 
     const deleteToast = f7.toast.create({
         closeTimeout: 5000,
         text: 'Course Deleted',
         position: 'bottom',
     })
+    
     
     const deleteCourse = () => {
         f7router.back()
@@ -69,16 +57,21 @@ export default (props) => {
             deleteToast.open()
         } ,3000)    
     }
-
     
-    useEffect(() => { 
-        dispatch(getUnitsAsync())
-    }, [dispatch])
+    let course
+
+    if (courses.length != 0) {
+        course = courses.find(sch => sch.id == props.id)
+    }
+
 
   return (
     
-    <Page name="course">
-        <Navbar title={course.name} backLink="Back" sliding={false} >
+    <Page name="course"> 
+        <Navbar 
+        title={!loading && courses.length != 0 && `Course of ${course.name}`} 
+        backLink="Back" 
+        sliding={false} >
             <NavRight>
                 <Link popoverOpen=".popover-menu">
                     <Icon>
@@ -88,9 +81,10 @@ export default (props) => {
             </NavRight>
         </Navbar>
         <Popover className="popover-menu">
+            {!loading && 
             <List noChevron noHairlines>
                 <ListItem link="#" popoverClose title="Edit Course" onClick={()=>f7router.navigate(`/edit-course/${course.id}`)} />
-                <ListItem link="#" popoverClose title="Add Unit" />
+                <ListItem link="#" popoverClose title="Add Course" onClick={()=>f7router.navigate(`/new-course/?course_id=${course.id}`)} />
                 <ListItem 
                 link="#" 
                 popoverClose
@@ -102,63 +96,92 @@ export default (props) => {
                     ()=>{deleteCourse()}
                     )}} />
             </List>
+            }
         </Popover>
 
         <Row noGap>
             <Col width="100" medium="50">
                 <BlockTitle>Name</BlockTitle>
-                <Card outline padding content={course.name} />
+                <Card 
+                outline 
+                padding 
+                content={courses.length == 0 ?<p className="skeleton-text">skeleton text</p> :course.name}
+                 />                
                 <BlockTitle>Description</BlockTitle>
-                <Card outline padding content={course.description} />
+                <Card 
+                outline 
+                padding 
+                content={courses.length == 0 ?
+                        <p className="skeleton-text">
+                            Card with header and footer. 
+                            Card headers are used to display card titles 
+                            and footers for additional information or 
+                            just for custom actions.
+                        </p> 
+                        :
+                        course.description}
+                 /> 
                 <BlockTitle>Department</BlockTitle>
                 <Card outline className="row padding" >
                     <Col width="70">
-                        <span>{departmentName()}</span>
+                        <span>Department of {course.department.name}</span>
                     </Col>
                     <Col width="30">
                         <Button 
-                        href={`/department/${course.department_id}`}
+                        href={`/department/${course.department.id}`}
                         fill
+                        round
                         color="blue"
                         text="Manage" 
                         />
                     </Col>
-                </Card>
+                </Card>               
             </Col>
+
             <Col width="100" medium="50">
-                <BlockTitle>Courses</BlockTitle>
-                {units == null ?
-                    <Block className="display-flex flex-direction-column justify-content-center text-align-center">
-                        <div><Preloader className="color-multi" size="24px" text="Loading" /></div>
-                    </Block>
-                    :
-                    <>
-                        {courseUnits.length == 0 ? 
-                            <Block>
-                                <p>There are no units for this course</p>
-                                <Button text="Add Unit" outline color="green" link="#" />
-                            </Block>
-                            :
-                            <List inset noHairlines noChevron>
-                                {courseUnits.map((unit)=>
-                                    <ListItem 
-                                        key={unit.id} 
-                                        title={unit.name} 
-                                        link={`/unit/${unit.id}`} 
-                                    >
-                                        <Icon color="red" slot="media">
-                                            <FaGraduationCap />
-                                        </Icon>
-                                    </ListItem>
-                                )}
-                            </List>
-                        } 
-                    </>
-                    
+                <BlockTitle>Semesters</BlockTitle>
+                {loading ?
+                <Block className="display-flex flex-direction-column justify-content-center text-align-center">
+                    <div><Preloader className="color-multi" size="24px" text="Loading" /></div>
+                </Block>
+                :
+                <> 
+                {course.semesters.length == 0 ?
+                <Block>
+                    <p>There are no semesters for this course</p>
+                    <Button text="Add Semester" outline color="green" href={`/new-semester/?course_id=${course.id}`} />
+                </Block>
+                :
+                <List inset noHairlines='true' noChevron>
+                    {course.semesters.map((semester)=>
+                        <ListItem 
+                            key={semester.id} 
+                            title={semester.name} 
+                            link={`/semester/${semester.id}`} 
+                        >
+                        <Block
+                            style={{ 
+                                width: '40px',
+                                height: '40px',
+                                borderRadius: '50%',
+                                margin: '0',
+                                padding: '8px',
+                            }}
+                            bgColor='green'
+                            slot="media"
+                        >
+                            <FaBookOpen color="white" style={{fontSize: '24px'}} />
+                        </Block>
+                        </ListItem>
+                    )}
+                </List>
                 }
+                </>
+                }
+                
             </Col>
         </Row>
-
+        
     </Page>  
   );
 };

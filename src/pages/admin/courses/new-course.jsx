@@ -1,58 +1,98 @@
-import React, { useState } from 'react';
-
+import React, { useState, useEffect } from 'react';
 import {
   f7,
   Page,
   Navbar,
-  ListInput,
   Button,
-  List
+  List,
+  ListInput,
+  Block,
 } from 'framework7-react';
-
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addCourseAsync } from '../../../redux/courseSlice';
+import { getDepartmentsAsync } from '../../../redux/departmentSlice';
 
-export default () => {
+export default (props) => {
 
     const dispatch = useDispatch()
-    const departments = useSelector((state) => state.departments)
+    
+    useEffect(() => {
+        dispatch(getDepartmentsAsync())
+    }, [dispatch])
+    
+    const state = useSelector(state => state.courses)
+    const departments =  useSelector(state => state.departments.data)
+    const loading = state.loading
+    const error = state.error
+    const updated = state.updated
+
+    let departmentId
 
     const [courseName, setCourseName] = useState('')
     const [courseDesc, setCourseDesc] = useState('')
     const [courseDept, setCourseDept] = useState('')
 
-    const successToast = f7.toast.create({
-        position: "center",
-        closeButton: "true",
-        text:'New course has been saved.',
-        closeTimeout: 3000
+    if (props.f7route.query.department_id == undefined && departments.length != 0) {
+        departmentId = departments[0].id
+    }
+    else {
+        departmentId = props.f7route.query.department_id
+    }
+
+    const errorNotification = f7.notification.create({
+        icon: '<i class="fa fa-exclamation-circle text-color-red"></i>',
+        title: 'Error',
+        subtitle: 'Cannot complete request. Please check your inputs and try again.',
+        text: 'If error persists, try again later.',
+        closeButton: true,
     })
+
+    const chooseDeptToast = f7.toast.create({
+        icon: '<i class="fa fa-exclamation-circle text-color-green"></i>',
+        title: 'Notice',
+        text: 'Please choose a department.',
+        closeTimeout: 3000,
+        position: 'center'
+    })
+
+    const successToast = f7.toast.create({
+        icon: '<i class="fa fa-check-circle text-color-green"></i>',
+        text: 'Course has been saved',
+        closeTimeout: 3000,
+      })
 
     const onSubmit = (event) => {
         event.preventDefault();
-        if (courseDept == "") {
-            f7.dialog.alert("Please select a department", "Error")
-        }
-        else 
-        {
-            f7.dialog.preloader('Loading', 'multi')
-            dispatch(
+        if (props.f7route.query.department_id === undefined) {
+            if (courseDept !== '') {
                 addCourseAsync({
                     name: courseName,
                     description: courseDesc,
                     department_id: courseDept
-                })
-            )
-            f7.dialog.close()
-            successToast.open()
+                }) 
+            } 
+            chooseDeptToast.open()
         }
-        
+        dispatch(
+            addCourseAsync({
+                name: courseName,
+                description: courseDesc,
+                department_id: departmentId
+            })
+        ) 
     }
-
+        
+    if (updated) {
+        successToast.open()
+    }
+    
+    if(error && !updated) {
+        errorNotification.open()
+    }
 
     return (
         <Page name="new-course">
-            <Navbar backLink="Back" sliding  title="New Course" />
+            <Navbar backLink="Back" sliding  title="Add Course" />
 
             <form onSubmit={onSubmit}>
                 <List noHairlinesMd>
@@ -64,7 +104,7 @@ export default () => {
                         placeholder="Course name"
                         clearButton
                         required
-                        validateOnBlur
+                        validate
                         value={courseName}
                         onChange={(event) => setCourseName(event.target.value)}
                     >
@@ -81,21 +121,31 @@ export default () => {
                         onChange={(event) => setCourseDesc(event.target.value)}
                     >
                     </ListInput>
+                    {props.f7route.query.department_id == undefined && departments.length != 0 && 
                     <ListInput
+                        outline
                         label="Department"
                         type="select"
                         value={courseDept}
                         onChange={(event) => setCourseDept(event.target.value)}
-                        >
-                        <option value="">Choose a department...</option>
-                        {departments.map(department=>
-                            <option key={department.id} value={department.id}>{department.name}</option>
-                            )
-                        }
-                        
+                    >
+                        <option>Please choose...</option>
+                        {departments.map((department)=>
+                        <option key={department.id} value={department.id}>{department.name}</option>
+                        )}
                     </ListInput>
+                    }
                 </List>
-                <Button outline color="green" text="Save" type="submit" />
+                <Block>
+                    <Button
+                    fill
+                    round
+                    color="green" 
+                    text='Save'
+                    loading={loading}
+                    preloader={loading}
+                    type="submit" />
+                </Block>
             </form>
 
         </Page>
