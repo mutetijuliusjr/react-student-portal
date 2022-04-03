@@ -1,7 +1,6 @@
 import React, { useEffect} from 'react';
 import {
     FaEllipsisV,
-    FaBuilding,
     FaGraduationCap
 } from 'react-icons/fa';
 
@@ -140,46 +139,42 @@ export default (props) => {
 
             <Col width="100" medium="50">
                 <BlockTitle>Courses</BlockTitle>
-                {loading && department.courses.length == 0 ?
+                {loading ?
                 <Block className="display-flex flex-direction-column justify-content-center text-align-center">
                     <div><Preloader className="color-multi" size="24px" text="Loading" /></div>
                 </Block>
                 :
-                <>
-                    {department.courses.length != 0 &&
-                        <>
-                            {department.courses.length == 0 ?
-                            <Block>
-                                <p>There are no departments for this department</p>
-                                <Button text="Add Course" outline color="green" href={`/new-course/?department_id=${department.id}`} />
-                            </Block>
-                            :
-                            <List inset noHairlines='true' noChevron>
-                                {department.courses.map((course)=>
-                                    <ListItem 
-                                        key={course.id} 
-                                        title={course.name} 
-                                        link={`/course/${course.id}`} 
-                                    >
-                                    <Block
-                                        style={{ 
-                                            width: '40px',
-                                            height: '40px',
-                                            borderRadius: '50%',
-                                            margin: '0',
-                                            padding: '8px',
-                                        }}
-                                        bgColor='red'
-                                        slot="media"
-                                    >
-                                        <FaGraduationCap color="white" style={{fontSize: '24px'}} />
-                                    </Block>
-                                    </ListItem>
-                                )}
-                            </List>
-                            }
-                        </>
-                    }
+                <> 
+                {department.courses.length == 0 ?
+                <Block>
+                    <p>There are no departments for this department</p>
+                    <Button text="Add Course" outline color="green" href={`/new-course/?department_id=${department.id}`} />
+                </Block>
+                :
+                <List inset noHairlines='true' noChevron>
+                    {department.courses.map((course)=>
+                        <ListItem 
+                            key={course.id} 
+                            title={course.name} 
+                            link={`/course/${course.id}`} 
+                        >
+                        <Block
+                            style={{ 
+                                width: '40px',
+                                height: '40px',
+                                borderRadius: '50%',
+                                margin: '0',
+                                padding: '8px',
+                            }}
+                            bgColor='red'
+                            slot="media"
+                        >
+                            <FaGraduationCap color="white" style={{fontSize: '24px'}} />
+                        </Block>
+                        </ListItem>
+                    )}
+                </List>
+                }
                 </>
                 }
                 
