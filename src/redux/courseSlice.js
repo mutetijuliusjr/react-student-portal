@@ -13,7 +13,6 @@ export const getCoursesAsync = createAsyncThunk(
 export const addCourseAsync = createAsyncThunk(
     'courses/addCourseAsync',
     async (payload) => {
-        console.table(payload);
         const resp = await fetch(API, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
