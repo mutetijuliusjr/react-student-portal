@@ -68,6 +68,9 @@ var routes = [
   {
     path: '/admin/',
     component: AdminHomePage,
+    options: {
+      clearPreviousHistory: true,
+    }
   },
   {
     path: '/schools/',

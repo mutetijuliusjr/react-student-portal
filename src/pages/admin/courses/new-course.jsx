@@ -53,7 +53,7 @@ export default (props) => {
     })
 
     const successToast = f7.toast.create({
-        icon: '<i class="fa fa-check-circle text-color-green"></i>',
+        icon: '<i class="fa fa-check-circle text-color-green style="font-size: 30px""></i>',
         text: 'Course has been saved',
         closeTimeout: 3000,
       })

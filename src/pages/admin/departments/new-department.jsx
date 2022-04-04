@@ -21,7 +21,7 @@ export default (props) => {
     }, [dispatch])
     
     const state = useSelector(state => state.departments)
-    const schools =  useSelector(state => state.schools.data)
+    const schools =  useSelector(state => state.schools)
     const loading = state.loading
     const error = state.error
     const updated = state.updated
@@ -32,10 +32,7 @@ export default (props) => {
     const [departmentDesc, setDepartmentDesc] = useState('')
     const [departmentSchl, setDepartmentSchl] = useState('')
 
-    if (props.f7route.query.school_id == undefined && schools.length != 0) {
-        schoolId = schools[0].id
-    }
-    else {
+    if (props.f7route.query.school_id !== undefined) {
         schoolId = props.f7route.query.school_id
     }
 
@@ -47,24 +44,39 @@ export default (props) => {
         closeButton: true,
     })
 
+    const chooseSchlToast = f7.toast.create({
+        icon: '<i class="fa fa-exclamation-circle text-color-green" style="font-size: 30px"></i>',
+        title: 'Notice',
+        text: 'Please choose a school.',
+        closeTimeout: 3000,
+        position: 'center'
+    })
+
     const successToast = f7.toast.create({
-        icon: '<i class="fa fa-check-circle text-color-green"></i>',
+        icon: '<i class="fa fa-check-circle text-color-green style="font-size: 30px""></i>',
         text: 'Department has been saved',
         closeTimeout: 3000,
       })
 
     const onSubmit = (event) => {
         event.preventDefault();
-        if (props.f7route.query.school_id == undefined) {
-            dispatch(
-                addDepartmentAsync({
-                    name: departmentName,
-                    description: departmentDesc,
-                    school_id: departmentSchl
-                })
-            )
+        if (schoolId == undefined) {
+            if (departmentSchl !== '') {
+                dispatch(
+                    addDepartmentAsync({
+                        name: departmentName,
+                        description: departmentDesc,
+                        school_id: departmentSchl
+                    })
+                )
+            }
+
+            if (departmentSchl == '') {
+                chooseSchlToast.open()
+            }
         }
-        else {
+        
+        if (schoolId != undefined) {
             dispatch(
                 addDepartmentAsync({
                     name: departmentName,
@@ -114,7 +126,7 @@ export default (props) => {
                         onChange={(event) => setDepartmentDesc(event.target.value)}
                     >
                     </ListInput>
-                    {props.f7route.query.school_id == undefined && schools.length != 0 && 
+                    {props.f7route.query.school_id == undefined && schools.data.length != 0 && 
                     <ListInput
                         outline
                         label="School"
@@ -123,14 +135,14 @@ export default (props) => {
                         onChange={(event) => setDepartmentSchl(event.target.value)}
                         placeholder="Please choose..."
                     >
-                        {schools.map((school)=>
+                        {schools.data.map((school)=>
                         <option key={school.id} value={school.id}>{school.name}</option>
                         )}
                     </ListInput>
                     }
                 </List>
                 <Block>
-                {!loading &&
+                {!schools.loading &&
                     <Button
                     fill
                     round

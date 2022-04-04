@@ -95,6 +95,7 @@ export default (props) => {
                     'Delete Course',
                     ()=>{deleteCourse()}
                     )}} />
+                <ListItem link="#" popoverClose title="Back To Home" onClick={()=>f7router.navigate("/admin/")} />
             </List>
             }
         </Popover>
