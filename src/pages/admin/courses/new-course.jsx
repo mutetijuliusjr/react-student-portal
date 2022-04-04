@@ -45,7 +45,7 @@ export default (props) => {
     })
 
     const chooseDeptToast = f7.toast.create({
-        icon: '<i class="fa fa-exclamation-circle text-color-green"></i>',
+        icon: '<i class="fa fa-exclamation-circle text-color-green" style="font-size: 30px"></i>',
         title: 'Notice',
         text: 'Please choose a department.',
         closeTimeout: 3000,
@@ -62,11 +62,13 @@ export default (props) => {
         event.preventDefault();
         if (departmentId == undefined) {
             if (courseDept !== '') {
-                addCourseAsync({
-                    name: courseName,
-                    description: courseDesc,
-                    department_id: courseDept
-                }) 
+                dispatch(
+                    addCourseAsync({
+                        name: courseName,
+                        description: courseDesc,
+                        department_id: courseDept
+                    })
+                )
             } 
             
             if (courseDept == '') {
@@ -82,7 +84,7 @@ export default (props) => {
                     description: courseDesc,
                     department_id: departmentId
                 })
-            )
+            ) 
         } 
     }
         
