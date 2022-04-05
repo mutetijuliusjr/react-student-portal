@@ -107,7 +107,7 @@ export default (props) => {
                 }
             </Navbar>
             
-            {!error && schools.length != 0 &&
+            {!error &&
             <Fab position="right-bottom" slot="fixed" text="Create" color="green" href="/new-school/" />
             }
 
