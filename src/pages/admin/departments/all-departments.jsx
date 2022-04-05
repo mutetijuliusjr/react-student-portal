@@ -105,7 +105,7 @@ export default (props) => {
                 }
             </Navbar>
             
-            {!error && departments.length != 0 &&
+            {!error &&
             <Fab position="right-bottom" slot="fixed" text="Create" color="green" href="/new-department/" />
             }
 
