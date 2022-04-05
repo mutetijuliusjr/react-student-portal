@@ -138,7 +138,6 @@ export default (props) => {
                     swipeout
                     key={unit.id}
                     title={unit.name}
-                    subtitle={`${unit.semesters.length} semesters`}
                     text={unit.description}
                     link={`/unit/${unit.id}`}
                     >
