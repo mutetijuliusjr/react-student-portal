@@ -1,7 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect} from 'react';
 import {
     FaEllipsisV,
     FaGraduationCap,
+    FaBriefcase,
+    FaClipboard
 } from 'react-icons/fa';
 
 import {
@@ -24,39 +26,26 @@ import {
 } from 'framework7-react';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { deleteUnitAsync } from '../../../redux/unitSlice';
+import { getUnitsAsync, deleteUnitAsync } from '../../../redux/unitSlice';
 
 export default (props) => {
-    const { f7router } = props
-
     const dispatch = useDispatch()
     
-    const units = useSelector((state) => state.units)
-    const unit = units.find(sch => sch.id == props.id) 
-    /* 
-    const schools = useSelector((state) => state.schools)
-    const courses = useSelector((state) => state.courses)
+    useEffect(() => { 
+        dispatch(getUnitsAsync())
+    }, [dispatch])
     
-    const schoolName = ()=>{
-        if (schools != null) {
-            var schl = schools.find((schl) => schl.id == unit.school_id)
-            return `School of ${schl.name}`
-        }
-        else
-        {return '...'}
-    }
+    const { f7router } = props
+    const state = useSelector((state) => state.units)
     
-    var unitCrses = null
-    
-    if (courses != null) {
-        unitCrses = courses.filter((schlCrse)=> schlCrse.unit_id == unit.id)   
-    } */
-
+    const units = state.data
+    const loading = state.loading
     const deleteToast = f7.toast.create({
         closeTimeout: 5000,
         text: 'Unit Deleted',
         position: 'bottom',
     })
+    
     
     const deleteUnit = () => {
         f7router.back()
@@ -68,16 +57,21 @@ export default (props) => {
             deleteToast.open()
         } ,3000)    
     }
-
     
-   /*  useEffect(() => { 
-        dispatch(getCoursesAsync())
-    }, [dispatch])
- */
+    let unit
+
+    if (units.length != 0) {
+        unit = units.find(sch => sch.id == props.id)
+    }
+
+
   return (
     
-    <Page name="unit">
-        <Navbar title={unit.name} backLink="Back" sliding={false} >
+    <Page name="unit"> 
+        <Navbar 
+        title={!loading && units.length != 0 && unit.name}
+        backLink="Back" 
+        sliding={false} >
             <NavRight>
                 <Link popoverOpen=".popover-menu">
                     <Icon>
@@ -87,9 +81,10 @@ export default (props) => {
             </NavRight>
         </Navbar>
         <Popover className="popover-menu">
+            {!loading && 
             <List noChevron noHairlines>
                 <ListItem link="#" popoverClose title="Edit Unit" onClick={()=>f7router.navigate(`/edit-unit/${unit.id}`)} />
-                <ListItem link="#" popoverClose title="Add Teacher" />
+                <ListItem link="#" popoverClose title="Add Teacher"  />
                 <ListItem 
                 link="#" 
                 popoverClose
@@ -100,64 +95,119 @@ export default (props) => {
                     'Delete Unit',
                     ()=>{deleteUnit()}
                     )}} />
+                <ListItem link="#" popoverClose title="Back To Home" onClick={()=>f7router.navigate("/admin/")} />
             </List>
+            }
         </Popover>
 
         <Row noGap>
             <Col width="100" medium="50">
                 <BlockTitle>Name</BlockTitle>
-                <Card outline padding content={unit.name} />
+                <Card 
+                outline 
+                padding 
+                content={units.length == 0 ?<p className="skeleton-text">skeleton text</p> :unit.name}
+                 />                
                 <BlockTitle>Description</BlockTitle>
-                <Card outline padding content={unit.description} />
-                {/* <BlockTitle>School</BlockTitle>
-                <Card outline className="row padding" >
-                    <Col width="70">
-                        <span>{schoolName()}</span>
-                    </Col>
-                    <Col width="30">
-                        <Button 
-                        href={`/school/${unit.school_id}`}
-                        fill
-                        color="blue"
-                        text="Manage" 
-                        />
-                    </Col>
-                </Card> */}
+                <Card 
+                outline 
+                padding 
+                content={units.length == 0 ?
+                        <p className="skeleton-text">
+                            Card with header and footer. 
+                            Card headers are used to display card titles 
+                            and footers for additional information or 
+                            just for custom actions.
+                        </p> 
+                        :
+                        unit.description}
+                 />               
+                              
             </Col>
+
             <Col width="100" medium="50">
-               {/*  <BlockTitle>Units</BlockTitle>
-                {courses == null ?
+                <BlockTitle>Teachers</BlockTitle>
+                    {loading ?
                     <Block className="display-flex flex-direction-column justify-content-center text-align-center">
                         <div><Preloader className="color-multi" size="24px" text="Loading" /></div>
                     </Block>
                     :
-                    <>
-                        {unitCrses.length == 0 ? 
-                            <Block>
-                                <p>There are no courses for this unit</p>
-                                <Button text="Add Unit" outline color="green" link="#" />
+                    <> 
+                    {unit.instructors.length == 0 ?
+                    <Block>
+                        <p>There are no teachers for this unit</p>
+                        <Button text="Add Teacher" outline color="green" href='#' />
+                    </Block>
+                    :
+                    <List inset noHairlines='true' noChevron>
+                        {unit.instructors.map((instructor)=>
+                            <ListItem 
+                                key={instructor.id} 
+                                title={`${instructor.user.profile.first_name} ${instructor.user.profile.last_name} ${instructor.user.profile.surname}`} 
+                                link={`/instructor/${instructor.id}`} 
+                            >
+                            <Block
+                                style={{ 
+                                    width: '40px',
+                                    height: '40px',
+                                    borderRadius: '50%',
+                                    margin: '0',
+                                    padding: '8px',
+                                }}
+                                bgColor='brown'
+                                slot="media"
+                            >
+                                <FaBriefcase color="white" style={{fontSize: '24px'}} />
                             </Block>
-                            :
-                            <List inset noHairlines noChevron>
-                                {unitCrses.map((course)=>
-                                    <ListItem 
-                                        key={course.id} 
-                                        title={course.name} 
-                                        link={`/course/${course.id}`} 
-                                    >
-                                        <Icon color="red" slot="media">
-                                            <FaGraduationCap />
-                                        </Icon>
-                                    </ListItem>
-                                )}
-                            </List>
-                        } 
+                            </ListItem>
+                        )}
+                    </List>
+                    }
                     </>
-                    
-                } */}
-            </Col> 
+                }
+                <BlockTitle>Semesters</BlockTitle>
+                {loading ?
+                <Block className="display-flex flex-direction-column justify-content-center text-align-center">
+                    <div><Preloader className="color-multi" size="24px" text="Loading" /></div>
+                </Block>
+                :
+                <> 
+                {unit.semesters.length == 0 ?
+                <Block>
+                    <p>There are no units for this unit</p>
+                    <Button text="Add Course" outline color="green" href={`/new-course/?unit_id=${unit.id}`} />
+                </Block>
+                :
+                <List inset noHairlines='true' noChevron>
+                    {unit.semesters.map((semester)=>
+                        <ListItem 
+                            key={semester.id} 
+                            title={semester.name} 
+                            link={`/semester/${semester.id}`} 
+                        >
+                        <Block
+                            style={{ 
+                                width: '40px',
+                                height: '40px',
+                                borderRadius: '50%',
+                                margin: '0',
+                                padding: '8px',
+                            }}
+                            bgColor='gree'
+                            slot="media"
+                        >
+                            <FaClipboard color="white" style={{fontSize: '24px'}} />
+                        </Block>
+                        </ListItem>
+                    )}
+                </List>
+                }
+                </>
+                }
+                
+            </Col>
         </Row>
-
+        
     </Page>  
   );
 };
