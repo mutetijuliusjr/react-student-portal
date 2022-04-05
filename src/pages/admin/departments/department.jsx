@@ -38,7 +38,6 @@ export default (props) => {
     
     const departments = state.data
     const loading = state.loading
-    const error = state.error 
     const deleteToast = f7.toast.create({
         closeTimeout: 5000,
         text: 'Department Deleted',
