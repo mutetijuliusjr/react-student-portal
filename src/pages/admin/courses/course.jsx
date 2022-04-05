@@ -69,7 +69,7 @@ export default (props) => {
     
     <Page name="course"> 
         <Navbar 
-        title={!loading && courses.length != 0 && `Course of ${course.name}`} 
+        title={!loading && courses.length != 0 && course.name} 
         backLink="Back" 
         sliding={false} >
             <NavRight>
