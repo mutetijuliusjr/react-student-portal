@@ -32,9 +32,15 @@ import UnitPage from '../pages/admin/units/unit.jsx';
 import NewUnitPage from '../pages/admin/units/new-unit.jsx';
 import EditUnitPage from '../pages/admin/units/edit-unit.jsx';
 
-import UsersPage from '../pages/admin/users.jsx';
-import UserPage from '../pages/admin/user.jsx';
-import RolesPage from '../pages/admin/roles.jsx';
+import UsersPage from '../pages/admin/users/all-users.jsx';
+import UserPage from '../pages/admin/users/user.jsx';
+import NewUserPage from '../pages/admin/users/new-user.jsx';
+import EditUserPage from '../pages/admin/users/edit-user.jsx';
+
+import RolesPage from '../pages/admin/roles/all-roles.jsx';
+import RolePage from '../pages/admin/roles/role.jsx';
+import NewRolePage from '../pages/admin/roles/new-role.jsx';
+import EditRolePage from '../pages/admin/roles/edit-role.jsx';
 
 import TestPage from '../pages/test.jsx';
 
@@ -71,6 +77,34 @@ var routes = [
     options: {
       clearPreviousHistory: true,
     }
+  },
+  {
+    path: '/roles/',
+    component: RolesPage,
+    options: {
+      transition: 'f7-cover',
+    },
+  },
+  {
+    path: '/new-role/',
+    component: NewRolePage,
+    options: {
+      transition: 'f7-cover-v',
+    },
+  },
+  {
+    path: '/role/:id',
+    component: RolePage,
+    options: {
+      transition: 'f7-push',
+    },
+  },
+  {
+    path: '/edit-role/:id',
+    component: EditRolePage,
+    options: {
+      transition: 'f7-cover-v',
+    },
   },
   {
     path: '/schools/',
@@ -213,15 +247,29 @@ var routes = [
     },
   },
   {
-    path: '/user/',
+    path: '/user/:id',
     component: UserPage,
     options: {
       transition: 'f7-cover-v',
     },
   },
   {
+    path: '/edit-user/:id',
+    component: EditUserPage,
+    options: {
+      transition: 'f7-cover',
+    },
+  },
+  {
     path: '/users/',
     component: UsersPage,
+    options: {
+      transition: 'f7-cover',
+    },
+  },
+  {
+    path: '/new-user/',
+    component: NewUserPage,
     options: {
       transition: 'f7-cover',
     },
