@@ -58,7 +58,7 @@ export default (props) => {
     }
     
     let role
-console.log(role)
+    
     if (roles.length != 0) {
         role = roles.find(sch => sch.id == props.id)
     }
