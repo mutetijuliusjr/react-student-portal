@@ -156,7 +156,7 @@ export default () => {
                                 <option 
                                 key={role.id} 
                                 value={role.id}
-                                onSelect={(event) => setUserRoles(event.target.value)}
+                                onSelect={(event) => setUserRoles([...userRoles, event.target.value])}
                                 >
                                 {role.name}
                                 </option>
