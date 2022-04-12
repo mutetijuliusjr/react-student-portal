@@ -147,24 +147,24 @@ export default () => {
 
                 <BlockTitle>Roles</BlockTitle>
                 <List noHairlinesMd>
-                    <ListItem title="User Role" />                    
-                    <ListItem title="Please choose..." smartSelect smartSelectParams={{ openIn: 'popover' }}>
-                        <select multiple >
-                            {roles.data.length != 0 && 
-                                <>                            
-                                {roles.data.map((role)=>
-                                <option 
-                                key={role.id} 
-                                value={role.id}
-                                onSelect={(event) => setUserRoles([...userRoles, event.target.value])}
-                                >
-                                {role.name}
-                                </option>
-                                )}
-                                </>
-                            }
+                    <ListItem title="User Role" /> 
+                    <ListItem
+                        title="Please choose..."
+                        smartSelect
+                        smartSelectParams={{
+                        openIn: 'sheet',
+                        on:{
+                            
+                        }
+                        }}
+                    >
+                        <select name="roles" multiple>
+                            {roles.data.map((role)=>
+                            <option key={role.id} value={role.id}>{role.name}</option>
+                            )}
                         </select>
-                    </ListItem>
+                    </ListItem>                   
+                    
                 </List>
                 
                 {console.log(userRoles)}
