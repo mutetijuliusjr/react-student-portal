@@ -101,15 +101,16 @@ export default (props) => {
 
         <div className="display-flex flex-direction-column justify-content-center text-align-center">
             <img 
-            data-src={"/images/profile.jpg"} 
+            data-src={""} 
             className="lazy"
             style={{
-                backgroundImage: url("/images/profile.jpg"),
-                width: '100px',
-                height: '100px',
+                backgroundImage: "url(images/profile.jpg)",
+                width: '110px',
+                height: '110px',
                 display: 'block',
                 marginLeft: 'auto',
                 marginRight: 'auto',
+                borderRadius: '50%'
             }} 
             />
             <BlockTitle medium>John Doe</BlockTitle>
