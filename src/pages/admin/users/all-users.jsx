@@ -24,6 +24,7 @@ import {
   theme,
   Block,
   Preloader,
+  Chip,
 } from 'framework7-react';
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -100,7 +101,7 @@ export default (props) => {
                     className="searchbar-demo"
                     expandable
                     searchContainer=".search-list"
-                    searchIn=".item-title"
+                    searchIn=".item-title, .item-subtitle, .item-text"
                     disableButton={!theme.aurora}
                 ></Searchbar>
                 }
@@ -133,14 +134,14 @@ export default (props) => {
             </PageContent>
             }
 
-            <List mediaList className="search-list searchbar-found">
+            <List mediaList inset className="search-list searchbar-found">
                 {users.map((user)=>
                     <ListItem 
                     swipeout
                     key={user.id}
-                    title={user.email}
-                    subtitle={`${user.profile.first_name} ${user.profile.last_name} ${user.profile.surname}`}
-                    text={user.profile.phone}
+                    title={`${user.profile.first_name} ${user.profile.last_name} ${user.profile.surname}`}
+                    subtitle={user.email}
+                    text={ user.roles.map((role)=><Chip key={role.id} text={role.name} outline />)}
                     link={`/user/${user.id}`}
                     >
                         <SwipeoutActions left>
@@ -188,6 +189,7 @@ export default (props) => {
                     </ListItem> 
                 )}
             </List>
+            
         </Page>
       
     
