@@ -1,7 +1,8 @@
 import React, { useEffect} from 'react';
 import {
     FaEllipsisV,
-    FaGraduationCap
+    FaGraduationCap,
+    FaUser
 } from 'react-icons/fa';
 
 import {
@@ -21,6 +22,7 @@ import {
   f7,
   Row,
   Card,
+  Chip,
 } from 'framework7-react';
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -67,7 +69,7 @@ export default (props) => {
     
     <Page name="user"> 
         <Navbar 
-        title={!loading && users.length != 0 && `${user.email}`} 
+        transparent
         backLink="Back" 
         sliding={false} >
             <NavRight>
@@ -96,6 +98,27 @@ export default (props) => {
             </List>
             }
         </Popover>
+
+        <div className="display-flex flex-direction-column justify-content-center text-align-center">
+            <img 
+            data-src={"/images/profile.jpg"} 
+            className="lazy"
+            style={{
+                backgroundImage: url("/images/profile.jpg"),
+                width: '100px',
+                height: '100px',
+                display: 'block',
+                marginLeft: 'auto',
+                marginRight: 'auto',
+            }} 
+            />
+            <BlockTitle medium>John Doe</BlockTitle>
+            <Block>
+                <Chip text="Role" outline borderColor="purple" />
+                <Chip text="Role" outline borderColor="purple" />
+                <Chip text="Role" outline borderColor="purple" />
+            </Block>
+        </div>
 
        
         
