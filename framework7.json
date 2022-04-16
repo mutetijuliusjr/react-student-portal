@@ -1,19 +1,19 @@
 {
-  "cwd": "C:\\Users\\JULIUS\\Desktop\\react-student-portal-admin",
+  "cwd": "C:\\Users\\JULIUS\\Documents\\react-sp",
   "type": [
     "pwa"
   ],
-  "name": "Student Portal - Admin",
+  "name": "Student Portal",
   "framework": "react",
   "template": "tabs",
   "bundler": "vite",
   "cssPreProcessor": false,
   "theming": {
     "customColor": true,
-    "color": "#002348",
+    "color": "#e40000",
     "darkTheme": true,
-    "iconFonts": false,
-    "fillBars": true
+    "iconFonts": true,
+    "fillBars": false
   },
   "customBuild": false
 }
