@@ -5,7 +5,7 @@ import {
     FaSearch,
     FaRobot,
     FaEdit,
-    FaUserCircle,
+    FaUser,
 } from 'react-icons/fa';
 import {
   f7,
@@ -182,7 +182,7 @@ export default (props) => {
                             bgColor='teal'
                             slot="media"
                         >
-                            <FaUserCircle color="white" style={{fontSize: '24px'}} />
+                            <FaUser color="white" style={{fontSize: '24px'}} />
                         </Block>
                         
                     </ListItem> 
