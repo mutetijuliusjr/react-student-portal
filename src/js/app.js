@@ -18,7 +18,7 @@ import 'font-awesome/css/font-awesome.min.css';
 
 // Import App Component
 import App from '../components/app.jsx';
-import Splash from '../components/splash.jsx';
+//import Splash from '../components/splash.jsx';
 
 // Init F7 React Plugin
 Framework7.use(Framework7React)
