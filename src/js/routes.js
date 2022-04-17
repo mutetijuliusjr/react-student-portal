@@ -42,7 +42,11 @@ import RolePage from '../pages/admin/roles/role.jsx';
 import NewRolePage from '../pages/admin/roles/new-role.jsx';
 import EditRolePage from '../pages/admin/roles/edit-role.jsx';
 
-import TestPage from '../pages/test.jsx';
+import MessagesPage from '../pages/admin/users/messages.jsx';
+import NotificationsPage from '../pages/admin/users/notifications.jsx';
+import ProfilePage from '../pages/admin/users/profile.jsx';
+import StudentPage from '../pages/admin/users/student.jsx';
+import TeacherPage from '../pages/admin/users/teacher.jsx';
 
 import DynamicRoutePage from '../pages/dynamic-route.jsx';
 import RequestAndLoad from '../pages/request-and-load.jsx';
@@ -60,10 +64,6 @@ var routes = [
   {
     path: '/form/',
     component: FormPage,
-  },
-  {
-    path: '/test/',
-    component: TestPage,
   },
   /*
   {
@@ -249,6 +249,13 @@ var routes = [
   {
     path: '/user/:id',
     component: UserPage,
+    master: true,
+    detailRoutes: [
+      {
+        path: '/user/:id/profile/',
+        component: ProfilePage,
+      },
+    ],
     options: {
       transition: 'f7-cover-v',
     },
