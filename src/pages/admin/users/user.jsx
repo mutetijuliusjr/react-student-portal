@@ -42,8 +42,22 @@ export default (props) => {
     const { f7router } = props
     const state = useSelector((state) => state.users)
 
-    const [selected, setSelected] = useState('home');
-    const [selectedMedia, setSelectedMedia] = useState('home');
+    f7.views.create('.view-main', {
+        masterDetailBreakpoint: 800,
+        routes: [
+          {
+            path: '/',
+            url: './pages/master.html',
+            master: true,
+            detailRoutes: [
+              {
+                path: '/detail/:id/',
+                url: './pages/detail.html',
+              },
+            ]
+          },
+        ]
+      });
 
     const users = state.data
     const loading = state.loading
@@ -139,7 +153,7 @@ export default (props) => {
             <BlockTitle>More...</BlockTitle>
         </div>
         <List className="menu-list" mediaList inset noHairlines>
-            <ListItem title="Pofile" link="#">
+            <ListItem title="Pofile" link={`/user/${user.id}/profile/`}>
                 <Icon slot="media" size="30px" colorTheme>
                     <FaUserCircle />
                 </Icon>
