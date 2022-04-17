@@ -6,13 +6,10 @@ import {
 } from 'react-icons/fa';
 
 import {
-  Col,
   Page,
   Popover,
-  Preloader,
   Navbar,
   Block,
-  Button,
   Icon,
   NavRight,
   Link,
@@ -20,9 +17,10 @@ import {
   ListItem,
   BlockTitle,
   f7,
-  Row,
-  Card,
   Chip,
+  Toolbar,
+  Tabs,
+  Tab,
 } from 'framework7-react';
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -99,30 +97,45 @@ export default (props) => {
             }
         </Popover>
 
-        <div className="display-flex flex-direction-column justify-content-center text-align-center">
-            <img 
-            data-src={""} 
-            className="lazy"
-            style={{
-                backgroundImage: "url(images/profile.jpg)",
+        <div 
+            className="display-flex flex-direction-column justify-content-center text-align-center">
+            <div style={{
                 width: '110px',
                 height: '110px',
                 display: 'block',
                 marginLeft: 'auto',
                 marginRight: 'auto',
-                borderRadius: '50%'
-            }} 
-            />
+                borderRadius: '50%',
+                backgroundImage: "url(images/profile.jpg)",
+            }}>
+                <img 
+                data-src={"images/profile.jpg"} 
+                className="lazy lazy-fade-in"
+                style={{
+                    width: '110px',
+                    height: '110px',
+                    display: 'block',
+                    marginLeft: 'auto',
+                    marginRight: 'auto',
+                    borderRadius: '50%',
+                }} 
+                />
+            </div>
             <BlockTitle medium>John Doe</BlockTitle>
             <Block>
                 <Chip text="Role" outline borderColor="purple" />
                 <Chip text="Role" outline borderColor="purple" />
                 <Chip text="Role" outline borderColor="purple" />
             </Block>
+            <BlockTitle>More...</BlockTitle>
         </div>
-
-       
-        
+        <List inset noHairlines>
+            <ListItem title="Pofile" link="#"></ListItem>
+            <ListItem title="Messages" link="#"></ListItem>
+            <ListItem title="Notifications" link="#"></ListItem>
+            <ListItem title="Teacher" link="#"></ListItem>
+            <ListItem title="Student" link="#"></ListItem>
+        </List>
     </Page>  
   );
 };
