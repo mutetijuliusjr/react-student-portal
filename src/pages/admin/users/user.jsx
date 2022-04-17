@@ -1,8 +1,14 @@
-import React, { useEffect} from 'react';
+import React, { useState, useEffect} from 'react';
 import {
     FaEllipsisV,
     FaGraduationCap,
-    FaUser
+    FaUser,
+    FaHome,
+    FaCog,
+    FaUserCircle,
+    FaEnvelopeOpenText,
+    FaExclamationCircle,
+    FaBriefcase
 } from 'react-icons/fa';
 
 import {
@@ -35,7 +41,10 @@ export default (props) => {
     
     const { f7router } = props
     const state = useSelector((state) => state.users)
-    
+
+    const [selected, setSelected] = useState('home');
+    const [selectedMedia, setSelectedMedia] = useState('home');
+
     const users = state.data
     const loading = state.loading
     const deleteToast = f7.toast.create({
@@ -129,12 +138,32 @@ export default (props) => {
             </Block>
             <BlockTitle>More...</BlockTitle>
         </div>
-        <List inset noHairlines>
-            <ListItem title="Pofile" link="#"></ListItem>
-            <ListItem title="Messages" link="#"></ListItem>
-            <ListItem title="Notifications" link="#"></ListItem>
-            <ListItem title="Teacher" link="#"></ListItem>
-            <ListItem title="Student" link="#"></ListItem>
+        <List className="menu-list" mediaList inset noHairlines>
+            <ListItem title="Pofile" link="#">
+                <Icon slot="media" size="30px" colorTheme>
+                    <FaUserCircle />
+                </Icon>
+            </ListItem>
+            <ListItem title="Messages" link="#">
+                <Icon slot="media" size="30px" colorTheme>
+                    <FaEnvelopeOpenText />
+                </Icon>
+            </ListItem>
+            <ListItem title="Notifications" link="#">
+                <Icon slot="media" size="30px" colorTheme>
+                    <FaExclamationCircle />
+                </Icon>
+            </ListItem>
+            <ListItem title="Teacher" link="#">
+                <Icon slot="media" size="30px" colorTheme>
+                    <FaBriefcase />
+                </Icon>
+            </ListItem>
+            <ListItem title="Student" link="#">
+                <Icon slot="media" size="30px" colorTheme>
+                    <FaGraduationCap />
+                </Icon>
+            </ListItem>
         </List>
     </Page>  
   );
