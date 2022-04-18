@@ -247,18 +247,12 @@ var routes = [
     },
   },
   {
-    path: '/user/:id',
+    path: '/users/:id',
     component: UserPage,
-    master: true,
-    detailRoutes: [
-      {
-        path: '/user/:id/profile/',
-        component: ProfilePage,
-      },
-    ],
-    options: {
-      transition: 'f7-cover-v',
-    },
+  },
+  {
+    path: '/user/:id/profile/',
+    component: ProfilePage,
   },
   {
     path: '/edit-user/:id',
@@ -270,9 +264,7 @@ var routes = [
   {
     path: '/users/',
     component: UsersPage,
-    options: {
-      transition: 'f7-cover',
-    },
+    master: true,
   },
   {
     path: '/new-user/',
