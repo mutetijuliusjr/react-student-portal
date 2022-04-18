@@ -141,8 +141,9 @@ export default (props) => {
                     key={user.id}
                     title={`${user.profile.first_name} ${user.profile.last_name} ${user.profile.surname}`}
                     subtitle={user.email}
+                    reloadDetail={true}
                     text={ user.roles.map((role)=><Chip key={role.id} text={role.name} outline />)}
-                    link={`/user/${user.id}`}
+                    link={`/users/${user.id}`}
                     >
                         <SwipeoutActions left>
                             <SwipeoutButton
