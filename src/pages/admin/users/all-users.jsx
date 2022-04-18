@@ -134,7 +134,7 @@ export default (props) => {
             </PageContent>
             }
 
-            <List mediaList inset className="search-list searchbar-found lazy lazy-fade-in">
+            <List mediaList className="search-list searchbar-found lazy lazy-fade-in">
                 {users.map((user)=>
                     <ListItem 
                     swipeout
