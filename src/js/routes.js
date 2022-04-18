@@ -251,7 +251,7 @@ var routes = [
     component: UserPage,
   },
   {
-    path: '/user/:id/profile/',
+    path: '/users/:id/profile/',
     component: ProfilePage,
   },
   {
@@ -265,6 +265,9 @@ var routes = [
     path: '/users/',
     component: UsersPage,
     master: true,
+    options: {
+      transition: 'f7-cover',
+    },
   },
   {
     path: '/new-user/',
