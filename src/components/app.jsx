@@ -56,7 +56,7 @@ const MyApp = () => {
 
   return (
 		<Provider store={store}>
-			<App { ...f7params } themeDark>
+			<App { ...f7params } themeDark >
 
 				{/* Left panel with cover effect*/}
 				<Panel left cover>
@@ -130,7 +130,7 @@ const MyApp = () => {
 					{/* Your main view/tab, should have "view-main" class. It also has "tabActive" prop */}
 					<Tabs animated swipeable>
 						<View id="view-home" masterDetailBreakpoint={768} main tab tabActive url="/" />
-						<View id="view-admin" masterDetailBreakpoint={768} name="admin" tab url="/admin/" />
+						<View id="view-admin" masterDetailBreakpoint={768} name="admin" tab url="/admin/" bgColor="gray" />
 						<View id="view-student" masterDetailBreakpoint={768} name="student" tab url="/student/" />
 						<View id="view-teacher" masterDetailBreakpoint={768} name="teacher" tab url="/teacher/" />
 						<View id="view-settings" masterDetailBreakpoint={768} name="settings" tab url="/settings/" />
