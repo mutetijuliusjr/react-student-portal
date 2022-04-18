@@ -135,8 +135,8 @@ export default (props, { f7route }) => {
             </Block>
             <BlockTitle>More...</BlockTitle>
         </div>
-        <List className="menu-list" mediaList inset noHairlines>
-            <ListItem title="Pofile" link={`/user/${user.id}/profile/`}>
+        <List className="menu-list elevation-24" mediaList inset noHairlines>
+            <ListItem title="Pofile" link={`/users/${user.id}/profile/`}>
                 <Icon slot="media" size="30px" colorTheme>
                     <FaUserCircle />
                 </Icon>
