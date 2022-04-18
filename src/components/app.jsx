@@ -95,7 +95,7 @@ const MyApp = () => {
 
 
 				{/* Views/Tabs container */}
-				<Views tabs className="safe-areas">
+				<Views tabs className="safe-areas" >
 					{/* Tabbar for switching views-tabs */}
 					<Toolbar tabbar labels bottom>
 						
@@ -128,23 +128,14 @@ const MyApp = () => {
 					</Toolbar>
 
 					{/* Your main view/tab, should have "view-main" class. It also has "tabActive" prop */}
-					<Tabs animated>
-						<View id="view-home" main tab tabActive url="/" />
-						<View id="view-admin" name="settings" tab url="/admin/" />
-						<View id="view-student" name="settings" tab url="/test/" />
-						<View id="view-teacher" name="settings" tab url="/teacher/" />
-						<View id="view-settings" name="settings" tab url="/settings/" />
+					<Tabs animated swipeable>
+						<View id="view-home" masterDetailBreakpoint={768} main tab tabActive url="/" />
+						<View id="view-admin" masterDetailBreakpoint={768} name="admin" tab url="/admin/" />
+						<View id="view-student" masterDetailBreakpoint={768} name="student" tab url="/student/" />
+						<View id="view-teacher" masterDetailBreakpoint={768} name="teacher" tab url="/teacher/" />
+						<View id="view-settings" masterDetailBreakpoint={768} name="settings" tab url="/settings/" />
 					</Tabs>
 				</Views>
-
-				
-				<View id="splashScreen">
-					<Page>
-						<Block>
-							<p>Splash Screen!</p>
-						</Block>
-					</Page>
-				</View>
 
 				{/* Popup */}
 				<Popup id="my-popup">
