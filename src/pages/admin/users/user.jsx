@@ -32,7 +32,7 @@ import {
 import { useSelector, useDispatch } from 'react-redux';
 import { getUsersAsync, deleteUserAsync } from '../../../redux/userSlice';
 
-export default (props) => {
+export default (props, { f7route }) => {
     const dispatch = useDispatch()
     
     useEffect(() => { 
@@ -41,23 +41,6 @@ export default (props) => {
     
     const { f7router } = props
     const state = useSelector((state) => state.users)
-
-    f7.views.create('.view-main', {
-        masterDetailBreakpoint: 800,
-        routes: [
-          {
-            path: '/',
-            url: './pages/master.html',
-            master: true,
-            detailRoutes: [
-              {
-                path: '/detail/:id/',
-                url: './pages/detail.html',
-              },
-            ]
-          },
-        ]
-      });
 
     const users = state.data
     const loading = state.loading
